@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <style>
+      .nav-link {
+        cursor:pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <div class="nav-link" id="home-link">Home</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" id="supplier-list-link">Suppliers</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" id="add-supplier-link">Add Supplier</div>
+        </li>
+        <li class="nav-item">
+          <div class="nav-link" id="edit-supplier-link">Edit Supplier</div>
+        </li>
+      </ul>
+      <br/>
+      <div id="app"></div>
+      <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-primary d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark d-none" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    <script>
+    
+      var supplierList;
+      var supplierColumnList;
+    
+      function loadSupplierListView() {
+        showSpinner(true);
+        loadView_({func: "loadSupplierListView", callback: setDataForSupplierSearch});
+      }
+      
+      function setDataForSupplierSearch() {
+        google.script.run.withSuccessHandler(dataReturned => {
+          supplierList = dataReturned.slice();
+          setSupplierColumnList();
+        }).getSupplierDataForSearch();
+      }
+      
+      function setSupplierColumnList() {
+        google.script.run.withSuccessHandler(columns => {
+            supplierColumnList = columns.slice();
+            search();
+            showSpinner(false);
+        }).getSupplierColumns();
+      }
+      
+      function search() {
+        let searchInput = document.getElementById("supplier-list-search").value.toString().toLowerCase().trim();
+        let searchWords = searchInput.split(/\s+/);
+        let results = supplierList.filter(supplier => {
+          return searchWords.every(word => {
+            return supplierColumnList.some((columnName, columnIndex) => {
+              return supplier[columnIndex].toString().toLowerCase().indexOf(word) !== -1;
+            });
+          });
+        });
+        
+        let supplierListTable = document.getElementById("supplier-list-table");
+        let template = document.getElementById("supplier-list-row-template").content;
+        
+        supplierListTable.innerHTML = "";
+        results.forEach(result => {
+          let tr = template.cloneNode(true);
+          supplierColumnList.forEach( (column,index) => {
+            tr.querySelector("."+column).textContent = result[index].toString();
+          })
+          supplierListTable.appendChild(tr);
+        });
+      }
+      
+      function loadAddSupplierView() {
+        loadView_({func: "loadAddSupplierView"});
+      }
+      
+      function loadEditSupplierView() {
+        loadView_({func: "loadEditSupplierView"});
+      }
+      
+      function loadView_(options) {
+        const id = typeof options.id === "undefined" ? "app": options.id;
+        const callback = typeof options.callback === "undefined" ? function(){}: options.callback;
+        google.script.run.withSuccessHandler(function(html) {
+          document.getElementById(id).innerHTML = html;
+          callback();
+        })[options.func]();
+      }
+      
+      function inputEventHandler(event) {
+        if(event.target.matches("#supplier-list-search")) {
+          search(); 
+        }
+      }
+      
+      function showSpinner(flag) {
+        let spinner = document.querySelectorAll(".spinner-grow");
+        if(flag) {
+          for (var i = 0; i < spinner.length; i++) {
+            spinner[i].classList.remove('d-none')
+          }
+        } else {
+          for (var i = 0; i < spinner.length; i++) {
+            spinner[i].classList.add('d-none')
+          }
+        }
+      }
+      
+      document.getElementById("supplier-list-link").addEventListener("click", loadSupplierListView);
+      document.getElementById("add-supplier-link").addEventListener("click", loadAddSupplierView);
+      document.getElementById("edit-supplier-link").addEventListener("click", loadEditSupplierView);
+      document.getElementById("app").addEventListener("input", inputEventHandler);
+    
+    </script>
+  </body>
+</html>
+
