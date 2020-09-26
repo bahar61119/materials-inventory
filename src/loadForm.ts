@@ -1,5 +1,5 @@
 function loadApplication() {
-  const htmlService = HtmlService.createTemplateFromFile("main");
+  const htmlService = HtmlService.createTemplateFromFile("src/main");
   const html = htmlService.evaluate();
   html.setWidth(2048).setHeight(1024)
   const ui = SpreadsheetApp.getUi();

@@ -1,0 +1,27 @@
+{
+    "extends": "./node_modules/gts/tsconfig-google.json",
+    "compilerOptions": {
+      "allowSyntheticDefaultImports": true,
+      "alwaysStrict": true,
+      "lib": ["ESNext"],
+      "moduleResolution": "Classic",
+      "newLine": "lf",
+      "noImplicitAny": true,
+      "noImplicitThis": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "strictBindCallApply": true,
+      "strictFunctionTypes": true,
+      "strictNullChecks": true,
+      "strictPropertyInitialization": true,
+      "suppressExcessPropertyErrors": true,
+      "suppressImplicitAnyIndexErrors": true,
+      "target": "ESNext",
+      "importHelpers": true 
+    },
+    "include": [
+      "src/**/*.ts",
+      "test/**/*.ts"
+    ],
+    "exclude": ["node_modules", "**/*.spec.ts"]
+  }

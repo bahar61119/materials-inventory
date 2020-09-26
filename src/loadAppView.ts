@@ -4,13 +4,13 @@ function loadAppView_(contentHtmlFile) {
 }
 
 function loadSupplierListView() {
-  return loadAppView_("supplierList");
+  return loadAppView_("src/supplierList");
 }
 
 function loadAddSupplierView() {
-  return loadAppView_("addSupplier");
+  return loadAppView_("src/addSupplier");
 }
 
 function loadEditSupplierView() {
-  return loadAppView_("editSupplier");
+  return loadAppView_("src/editSupplier");
 }

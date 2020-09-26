@@ -1,5 +1,5 @@
 function doGet() {
-  return HtmlService.createTemplateFromFile("main")
+  return HtmlService.createTemplateFromFile("src/main")
     .evaluate()
     .setTitle("Material Inventory");
 } 
