@@ -1,8 +1,8 @@
 function getSupplierDataSheetInfo(): SheetInfo {
   return { 
     sheetName: "Supplier Data",
-    startRow: 6,
-    startColumn: 2,
+    startRow: 2,
+    startColumn: 1,
     totalColumn: 8
   };
 }

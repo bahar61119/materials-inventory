@@ -1,4 +1,4 @@
-interface Supplier {
+interface SupplierInterface {
     supplierId: string;
     supplierName: string;
     supplierType: string;

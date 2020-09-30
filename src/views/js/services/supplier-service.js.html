@@ -36,11 +36,14 @@
             let template = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE).content;
 
             supplierListTable.innerHTML = "";
+            console.log(results);
             results.forEach(result => {
                 let tr = template.cloneNode(true);
-                SupplierService.#supplierColumnList.forEach( (column,index) => {
-                tr.querySelector("."+column).textContent = result[index].toString();
-                })
+                SupplierService.#supplierColumnList.forEach( 
+                    (column,index) => {
+                        tr.querySelector(`.${column}`).textContent = result[index].toString();
+                    }
+                )
                 supplierListTable.appendChild(tr);
             });
         }
