@@ -1,0 +1,48 @@
+<script>
+    class SupplierService {
+        static #supplierList = [];
+        static #supplierColumnList = [];
+
+        static setDataForSupplierSearch() {
+            API.getSupplierDataForSearch(
+                dataReturned => {
+                    SupplierService.#supplierList = dataReturned.slice();
+                    SupplierService.setSupplierColumnList();
+                },
+                error => {
+                    console.error(error);
+                    $(".alert").show();
+                }
+            );
+        }
+
+        static setSupplierColumnList() {
+            API.getSupplierColumns(
+                columns => {
+                    SupplierService.#supplierColumnList = columns.slice();
+                    SupplierService.searchSupplier();
+                },
+                error => {
+                    console.error(error);
+                    $(".alert").show();
+                }
+            );
+        }
+
+        static searchSupplier() {
+            let searchInput = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_SEARCH).value;
+            let results = DataManipulation.filterData(searchInput, SupplierService.#supplierList);
+            let supplierListTable = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_TABLE);
+            let template = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE).content;
+
+            supplierListTable.innerHTML = "";
+            results.forEach(result => {
+                let tr = template.cloneNode(true);
+                SupplierService.#supplierColumnList.forEach( (column,index) => {
+                tr.querySelector("."+column).textContent = result[index].toString();
+                })
+                supplierListTable.appendChild(tr);
+            });
+        }
+    }
+</script>

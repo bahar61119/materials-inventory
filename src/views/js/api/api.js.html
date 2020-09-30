@@ -1,0 +1,67 @@
+<script>
+    class API {
+        static call(options) {
+            Spinner.show();
+            google.script.run
+                .withSuccessHandler(data => {
+                    Spinner.hide();
+                    options.success(data);
+                })
+                .withFailureHandler(error => {
+                    Spinner.hide();
+                    options.failure(error);
+                })
+                [options.api]();
+        }
+
+        static get NAME() {
+            return {
+                loadSupplierListView: "loadSupplierListView",
+                loadAddSupplierView: "loadAddSupplierView",
+                loadEditSupplierView: "loadEditSupplierView",
+                getSupplierDataForSearch: "getSupplierDataForSearch",
+                getSupplierColumns: "getSupplierColumns"
+            }
+        }
+
+        static loadSupplierListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadSupplierListView)
+                .setSuccess(successHandler)
+                .setFailure(failureHandler)
+            );
+        }
+
+        static loadAddSupplierView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadAddSupplierView)
+                .setSuccess(successHandler)
+                .setFailure(failureHandler)
+            );
+        }
+
+        static loadEditSupplierView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadEditSupplierView)
+                .setSuccess(successHandler)
+                .setFailure(failureHandler)
+            );
+        }
+
+        static getSupplierDataForSearch(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.getSupplierDataForSearch)
+                .setSuccess(successHandler)
+                .setFailure(failureHandler)
+            );
+        }
+
+        static getSupplierColumns(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.getSupplierColumns)
+                .setSuccess(successHandler)
+                .setFailure(failureHandler)
+            );
+        }
+    }
+</script>

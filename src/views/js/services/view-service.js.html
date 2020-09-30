@@ -1,0 +1,51 @@
+<script>
+    class ViewService {
+        static #setHtml(html, id = "app") {
+            document.getElementById(id).innerHTML = html;
+        }
+
+        static #errorHandler(error) {
+            console.error(error);
+            Alert.show("Error occurred while loading supplier list");
+        }
+
+        static #clear() {
+            ViewService.#setHtml("");
+            Alert.hide();
+            Spinner.hide();
+        }
+
+        static loadSupplierListView() {
+            ViewService.#clear();
+            API.loadSupplierListView(
+                html => {
+                        ViewService.#setHtml(html);
+                        SupplierService.setDataForSupplierSearch();
+                },
+                ViewService.#errorHandler
+            );
+        }
+
+        static loadAddSupplierView() {
+            ViewService.#clear();
+            API.loadAddSupplierView(
+                ViewService.#setHtml,
+                ViewService.#errorHandler
+            );
+        }
+
+        static loadEditSupplierView() {
+            ViewService.#clear();
+            API.loadEditSupplierView(
+                ViewService.#setHtml,
+                ViewService.#errorHandler
+            );
+        }
+
+        static inputEventHandler(event) {
+            if(event.target.matches("#supplier-list-search")) {
+                SupplierService.searchSupplier(); 
+            }
+        }
+    }
+</script>

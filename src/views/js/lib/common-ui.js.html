@@ -1,0 +1,37 @@
+<script>
+    class Spinner {
+        static view(flag) {
+            if(flag) {
+                $(".spinner-grow").removeClass('d-none')
+            } else {
+                $(".spinner-grow").addClass('d-none')
+            }
+        } 
+
+        static show() {
+            Spinner.view(true);
+        }
+
+        static hide() {
+            Spinner.view(false);
+        }
+    }
+
+    class Alert {
+        static #setAlert() {
+            let alert = document.getElementById(ElementId.Component.ALERT);
+            let template = document.getElementById(ElementId.Component.ALERT_TEMPLATE).content;
+            alert.innerHTML = "";
+            alert.appendChild(template.cloneNode(true));
+        }
+
+        static show(message = "") {
+            Alert.#setAlert();
+            $(`#${ElementId.Component.ALERT_MESSAGE}`).text(message);
+        }
+
+        static hide() {
+            $(`#${ElementId.Component.ALERT}`).empty();
+        }
+    }
+</script>

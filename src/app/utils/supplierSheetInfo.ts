@@ -1,4 +1,4 @@
-function getSupplierDataSheetInfo() {
+function getSupplierDataSheetInfo(): SheetInfo {
   return { 
     sheetName: "Supplier Data",
     startRow: 6,
@@ -19,3 +19,8 @@ function getSupplierColumns() {
     "supplierAddress"
   ];
 }
+
+export {
+  getSupplierDataSheetInfo,
+  getSupplierColumns
+};

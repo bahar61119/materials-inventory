@@ -1,0 +1,32 @@
+<script>
+    class APIOptions {
+        api;
+        success;
+        failure;
+
+        constructor(api) {
+            this.api = api;
+            this.success = () => {};
+            this.failure = () => {};
+        }
+
+        static of(api) {
+            return new APIOptions(api);
+        }
+
+        setApi(api) {
+            this.api = api;
+            return this;
+        }
+
+        setSuccess(success) {
+            this.success = success;
+            return this;
+        }
+
+        setFailure(failure) {
+            this.failure = failure;
+            return this;
+        }
+    }
+</script>
