@@ -20,11 +20,11 @@ class SupplierService {
 
   }
 
-  private static getSupplier(suppliersRawData: Array<any>) {
+  static getSupplier(suppliersRawData: Array<any>) {
     let supplier = new Supplier();
     let supplierKeys = Object.keys(supplier);
-    suppliersRawData.forEach( (element, index) => {
-      supplier[supplierKeys[index]] = element;
+    suppliersRawData.forEach( (element: any, index) => {
+      supplier[supplierKeys[index]] = String(element);
     });
     return supplier;
   }
