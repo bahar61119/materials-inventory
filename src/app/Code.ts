@@ -1,7 +1,7 @@
-import { FileNames } from "./enums/fileNamesEnum";
+import { ViewFileNames } from "./enums/fileNamesEnum";
 
 function doGet() {
-  return HtmlService.createTemplateFromFile(FileNames.INDEX)
+  return HtmlService.createTemplateFromFile(ViewFileNames.INDEX)
     .evaluate()
     .setTitle("Material Inventory");
 } 

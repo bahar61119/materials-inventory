@@ -19,8 +19,7 @@
                 loadSupplierListView: "loadSupplierListView",
                 loadAddSupplierView: "loadAddSupplierView",
                 loadEditSupplierView: "loadEditSupplierView",
-                getSupplierDataForSearch: "getSupplierDataForSearch",
-                getSupplierColumns: "getSupplierColumns"
+                getSupplierList: "getSupplierList"
             }
         }
 
@@ -48,17 +47,9 @@
             );
         }
 
-        static getSupplierDataForSearch(successHandler = ()=>{}, failureHandler = ()=>{}) {
+        static getSupplierList(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
-                APIOptions.of(API.NAME.getSupplierDataForSearch)
-                .setSuccess(successHandler)
-                .setFailure(failureHandler)
-            );
-        }
-
-        static getSupplierColumns(successHandler = ()=>{}, failureHandler = ()=>{}) {
-            API.call(
-                APIOptions.of(API.NAME.getSupplierColumns)
+                APIOptions.of(API.NAME.getSupplierList)
                 .setSuccess(successHandler)
                 .setFailure(failureHandler)
             );

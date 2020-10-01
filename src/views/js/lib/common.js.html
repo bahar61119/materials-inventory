@@ -3,11 +3,11 @@
         static filterData(searchText, dataList) {
             searchText = searchText.toString().toLowerCase().trim();
             let searchWords = searchText.split(/\s+/);
-            let fieldsLen = dataList.length > 0? dataList[0].length: 0; 
+            const fieldList = (dataList && dataList.length>0)? Object.keys(dataList[0]): [];
             return dataList.filter(data => {
                 return searchWords.every(word => {
-                    return Array.from(Array(fieldsLen).keys()).some((columnName, index) => {
-                        return data[index].toString().toLowerCase().indexOf(word) !== -1;
+                    return fieldList.some(field => {
+                        return data[field].toString().toLowerCase().indexOf(word) !== -1;
                     });
                 });
             });

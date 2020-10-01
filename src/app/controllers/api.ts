@@ -2,6 +2,6 @@ import {
     SupplierService
   } from "../services/supplierService";
   
-export function getSupplierDataForSearch() {
+export function getSupplierList() {
     return SupplierService.getSupplierList();
 }

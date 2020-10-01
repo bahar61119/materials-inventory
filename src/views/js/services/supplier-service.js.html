@@ -1,30 +1,16 @@
 <script>
     class SupplierService {
         static #supplierList = [];
-        static #supplierColumnList = [];
 
         static setDataForSupplierSearch() {
-            API.getSupplierDataForSearch(
+            API.getSupplierList(
                 dataReturned => {
                     SupplierService.#supplierList = dataReturned.slice();
-                    SupplierService.setSupplierColumnList();
-                },
-                error => {
-                    console.error(error);
-                    $(".alert").show();
-                }
-            );
-        }
-
-        static setSupplierColumnList() {
-            API.getSupplierColumns(
-                columns => {
-                    SupplierService.#supplierColumnList = columns.slice();
                     SupplierService.searchSupplier();
                 },
                 error => {
                     console.error(error);
-                    $(".alert").show();
+                    Alert.show();
                 }
             );
         }
@@ -33,19 +19,20 @@
             let searchInput = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_SEARCH).value;
             let results = DataManipulation.filterData(searchInput, SupplierService.#supplierList);
             let supplierListTable = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_TABLE);
-            let template = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE).content;
 
             supplierListTable.innerHTML = "";
-            console.log(results);
             results.forEach(result => {
-                let tr = template.cloneNode(true);
-                SupplierService.#supplierColumnList.forEach( 
-                    (column,index) => {
-                        tr.querySelector(`.${column}`).textContent = result[index].toString();
-                    }
-                )
+                let tr = SupplierService.getTemplate(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE);
+                Object.keys(result).forEach(column => {
+                    tr.querySelector(`.${column}`).textContent = result[column].toString();
+                })
                 supplierListTable.appendChild(tr);
             });
+        }
+
+        static getTemplate(templateId) {
+            let template = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE).content;
+            return template.cloneNode(true);
         }
     }
 </script>

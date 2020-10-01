@@ -1,32 +1,38 @@
 import {
-  getSupplierDataSheetInfo
-} from "../utils/supplierSheetInfo";
+  SupplierMetadata
+} from "../utils/supplierMetadata";
 
 import { Supplier } from "../models/supplierModel";
 
 class SupplierService {
-  static getSupplierList() {
-    const supplierDataSheetInfo = getSupplierDataSheetInfo();
-    const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
-    const supplierDataSheet = spreadSheet.getSheetByName(supplierDataSheetInfo.sheetName);
-    const suppliersRawDataList: Array<any> = supplierDataSheet === null? []: supplierDataSheet.getRange(
-      supplierDataSheetInfo.startRow,
-      supplierDataSheetInfo.startColumn,
-      supplierDataSheet.getLastRow()-supplierDataSheetInfo.startRow,
-      supplierDataSheetInfo.totalColumn
-    ).getValues();
-    SupplierService.getSupplier([]);
-    return suppliersRawDataList;
-
+  static getSupplierList(): Array<Supplier> {
+    const suppliersRawDataList = SupplierService.getSupplierRawDataList();
+    let supplierList = new Array<Supplier>();
+    suppliersRawDataList.forEach(supplierRawData => {
+      supplierList.push(SupplierService.getSupplier(supplierRawData));
+    })
+    return supplierList;
   }
 
-  static getSupplier(suppliersRawData: Array<any>) {
+  static getSupplier(suppliersRawData: Array<any>): Supplier {
     let supplier = new Supplier();
     let supplierKeys = Object.keys(supplier);
-    suppliersRawData.forEach( (element: any, index) => {
-      supplier[supplierKeys[index]] = String(element);
+    supplierKeys.forEach( (key: any, index: number) => {
+      supplier[key] = String(suppliersRawData[index]);
     });
     return supplier;
+  }
+
+  private static getSupplierRawDataList(): Array<any> {
+    const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
+    const supplierDataSheet = spreadSheet.getSheetByName(SupplierMetadata.sheetName);
+    const suppliersRawDataList: Array<any> = supplierDataSheet === null? []: supplierDataSheet.getRange(
+      SupplierMetadata.startRow,
+      SupplierMetadata.startColumn,
+      supplierDataSheet.getLastRow()-SupplierMetadata.startRow,
+      SupplierMetadata.totalColumn
+    ).getValues();
+    return suppliersRawDataList;
   }
 }
 

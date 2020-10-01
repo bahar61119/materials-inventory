@@ -1,4 +1,4 @@
-enum FileNames {
+enum ViewFileNames {
     INDEX = "src/views/html/index",
     SUPPLIER_LIST = "src/views/html/supplier-list",
     ADD_SUPPLIER = "src/views/html/add-supplier",
@@ -6,5 +6,5 @@ enum FileNames {
 }
 
 export {
-    FileNames
+    ViewFileNames
 }

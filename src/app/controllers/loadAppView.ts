@@ -1,4 +1,4 @@
-import { FileNames } from "../enums/fileNamesEnum";
+import { ViewFileNames } from "../enums/fileNamesEnum";
 
 function loadAppView_(contentHtmlFile: string) {
   const htmlService = HtmlService.createTemplateFromFile(contentHtmlFile);
@@ -6,15 +6,15 @@ function loadAppView_(contentHtmlFile: string) {
 }
 
 function loadSupplierListView() {
-  return loadAppView_(FileNames.SUPPLIER_LIST);
+  return loadAppView_(ViewFileNames.SUPPLIER_LIST);
 }
 
 function loadAddSupplierView() {
-  return loadAppView_(FileNames.ADD_SUPPLIER);
+  return loadAppView_(ViewFileNames.ADD_SUPPLIER);
 }
 
 function loadEditSupplierView() {
-  return loadAppView_(FileNames.EDIT_SUPPLIER);
+  return loadAppView_(ViewFileNames.EDIT_SUPPLIER);
 }
 
 export {
