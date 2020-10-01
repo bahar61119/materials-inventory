@@ -13,3 +13,5 @@
 node_modules/**
 test/**
 site/**
+jest.config.js
+coverage/**

@@ -8,7 +8,10 @@
         "url": "https://github.com/bahar61119/materials-inventory"
     },
     "scripts": {
-        "test": "jest"
+        "test": "jest --coverage",
+        "test:watch": "npm t -- --watch",
+        "clasp:push": "clasp push",
+        "clasp:push:watch": "clasp push --watch"
     },
     "importSort": {
         ".ts": {
@@ -26,6 +29,7 @@
     ],
     "dependencies": {},
     "devDependencies": {
+        "@google/clasp": "^2.3.0",
         "@types/google-apps-script": "^1.0.16",
         "@types/jest": "^26.0.14",
         "gts": "^2.0.2",
