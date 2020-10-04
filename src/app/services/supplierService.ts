@@ -1,8 +1,8 @@
-import {
-  SupplierMetadata
-} from "../utils/sheetMetadata";
-
+import { SheetMetadata } from "../utils/sheetMetadata";
 import { Supplier } from "../models/supplierModel";
+import { SheetName } from "../constants/sheetNames";
+import { ErrorMessage } from '../constants/errorMessages';
+import { DB } from '../db/db';
 
 class SupplierService {
   static getSupplierList(): Array<Supplier> {
@@ -24,15 +24,13 @@ class SupplierService {
   }
 
   private static getSupplierRawDataList(): Array<any> {
-    const spreadSheet = SpreadsheetApp.getActiveSpreadsheet();
-    const supplierDataSheet = spreadSheet.getSheetByName(SupplierMetadata.sheetName);
-    const suppliersRawDataList: Array<any> = supplierDataSheet === null? []: supplierDataSheet.getRange(
-      SupplierMetadata.startRow,
-      SupplierMetadata.startColumn,
-      supplierDataSheet.getLastRow()-SupplierMetadata.startRow,
-      SupplierMetadata.totalColumn
-    ).getValues();
-    return suppliersRawDataList;
+    try {
+      let sheetMetaData = SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8);
+      return DB.getSheetData(sheetMetaData);
+    } catch(error) {
+      console.error(error);
+      throw new Error(ErrorMessage.internalError);
+    }
   }
 }
 

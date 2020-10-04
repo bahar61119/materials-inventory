@@ -1,5 +1,5 @@
 import { SheetMetaDataInterface } from "../types/sheetMetadataInterface";
-import { ErrorMessage } from "../constants/errorMessagesEnum";
+import { ErrorMessage } from "../constants/errorMessages";
 
 export class DB {
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {

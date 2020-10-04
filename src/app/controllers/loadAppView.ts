@@ -1,4 +1,4 @@
-import { ViewFileNames } from "../constants/fileNamesEnum";
+import { ViewFileNames } from "../constants/fileNames";
 
 function loadAppView_(contentHtmlFile: string) {
   const htmlService = HtmlService.createTemplateFromFile(contentHtmlFile);

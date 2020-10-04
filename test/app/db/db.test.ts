@@ -1,9 +1,8 @@
 import { DB } from "../../../src/app/db/db";
 import { SheetMetadata } from "../../../src/app/utils/sheetMetadata";
-import { ErrorMessage } from "../../../src/app/constants/errorMessagesEnum";
+import { ErrorMessage } from "../../../src/app/constants/errorMessages";
 
 describe("DB Tests", () =>{
-    console.error = console.log;
     test("when sheet not found", ()=>{
         let getSheet = jest.fn().mockReturnValue(null);
         DB.getSheet = getSheet;

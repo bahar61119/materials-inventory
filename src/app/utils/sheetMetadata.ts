@@ -1,10 +1,3 @@
-export enum SupplierMetadata {
-    sheetName = "Supplier Data",
-    startRow = 2,
-    startColumn = 1,
-    totalColumn = 8,
-}
-
 import { SheetMetaDataInterface } from '../types/sheetMetadataInterface';
 export class SheetMetadata implements SheetMetaDataInterface {
     sheetName: string;

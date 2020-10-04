@@ -1,4 +1,4 @@
-import { ViewFileNames } from "./constants/fileNamesEnum";
+import { ViewFileNames } from "./constants/fileNames";
 
 function doGet(event: GoogleAppsScript.Events.DoGet) {
   console.log("Opening from doGet ...");
