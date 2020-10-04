@@ -1,4 +1,4 @@
-import { ViewFileNames } from "../enums/fileNamesEnum";
+import { ViewFileNames } from "../constants/fileNamesEnum";
 
 function loadApplication() {
   const htmlService = HtmlService.createTemplateFromFile(ViewFileNames.INDEX);

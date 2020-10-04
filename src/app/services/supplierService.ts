@@ -1,6 +1,6 @@
 import {
   SupplierMetadata
-} from "../utils/supplierMetadata";
+} from "../utils/sheetMetadata";
 
 import { Supplier } from "../models/supplierModel";
 

@@ -1,12 +1,16 @@
-import { ViewFileNames } from "./enums/fileNamesEnum";
+import { ViewFileNames } from "./constants/fileNamesEnum";
 
-function doGet() {
+function doGet(event: GoogleAppsScript.Events.DoGet) {
+  console.log("Opening from doGet ...");
+  console.log(event);
   return HtmlService.createTemplateFromFile(ViewFileNames.INDEX)
     .evaluate()
     .setTitle("Material Inventory");
 } 
 
-function onOpen() {
+function onOpen(event: GoogleAppsScript.Events.DocsOnOpen) {
+  console.log("Opening from doOpen ...");
+  console.log(event);
   createMenu_();
 }
 
