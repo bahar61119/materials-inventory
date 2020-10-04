@@ -4,9 +4,6 @@ import { ErrorMessage } from "../constants/errorMessages";
 export class DB {
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {
         const supplierDataSheet = DB.getSheet(metaData.sheetName);
-        if(supplierDataSheet === null) {
-            throw new Error(ErrorMessage.sheetNotFound(metaData.sheetName))
-        }
         const suppliersRawDataList: Array<any> = supplierDataSheet.getRange(
             metaData.startRow,
             metaData.startColumn,
@@ -16,7 +13,11 @@ export class DB {
         return suppliersRawDataList;
     }
 
-    static getSheet(sheetName: string) {
-        return SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+    static getSheet(sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {
+        const supplierDataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
+        if(supplierDataSheet === null) {
+            throw new Error(ErrorMessage.sheetNotFound(sheetName))
+        }
+        return supplierDataSheet;
     }
 }

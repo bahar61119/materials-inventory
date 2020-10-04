@@ -4,7 +4,9 @@ import { ErrorMessage } from "../../../src/app/constants/errorMessages";
 
 describe("DB Tests", () =>{
     test("when sheet not found", ()=>{
-        let getSheet = jest.fn().mockReturnValue(null);
+        let getSheet = jest.fn().mockImplementation(()=>{
+            throw new Error(ErrorMessage.sheetNotFound("Sheet Data"));
+        });
         DB.getSheet = getSheet;
         const metadata = SheetMetadata.of("Sheet Data").withTotalColumn(8);
         expect(()=> {
