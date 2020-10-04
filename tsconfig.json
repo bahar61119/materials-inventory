@@ -3,7 +3,7 @@
     "compilerOptions": {
       "allowSyntheticDefaultImports": true,
       "alwaysStrict": true,
-      "lib": ["ESNext"],
+      "lib": ["ES2019"],
       "moduleResolution": "Classic",
       "newLine": "lf",
       "noImplicitAny": true,
@@ -16,7 +16,7 @@
       "strictPropertyInitialization": true,
       "suppressExcessPropertyErrors": true,
       "suppressImplicitAnyIndexErrors": true,
-      "target": "ESNext",
+      "target": "ES2019",
       "importHelpers": true 
     },
     "include": [

@@ -5,3 +5,7 @@ import {
 export function getSupplierList() {
     return SupplierService.getSupplierList();
 }
+
+export function deleteSupplier(supplierId: string) {
+    return SupplierService.deleteSupplier(supplierId);
+}

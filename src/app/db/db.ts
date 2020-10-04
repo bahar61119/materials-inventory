@@ -1,5 +1,6 @@
 import { SheetMetaDataInterface } from "../types/sheetMetadataInterface";
-import { ErrorMessage } from "../constants/errorMessages";
+import { SheetErrorMessage } from "../constants/errorMessages";
+import { DBError } from '../errors/dbError';
 
 export class DB {
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {
@@ -13,10 +14,15 @@ export class DB {
         return suppliersRawDataList;
     }
 
+    static deleteRow(metaData: SheetMetaDataInterface): void {
+        const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        supplierDataSheet.deleteRow(metaData.startRow);
+    }
+
     static getSheet(sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {
         const supplierDataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
         if(supplierDataSheet === null) {
-            throw new Error(ErrorMessage.sheetNotFound(sheetName))
+            throw new DBError(SheetErrorMessage.sheetNotFound(sheetName))
         }
         return supplierDataSheet;
     }
