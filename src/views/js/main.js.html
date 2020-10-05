@@ -5,5 +5,6 @@
         $(`#${ElementId.Navbar.EDIT_SUPPLIER_LINK}`).bind("click", ViewService.loadEditSupplierView);
         $(`#${ElementId.Main.APP}`).bind("input", EventHandlerService.inputEventHandler);
         $(`#${ElementId.Main.APP}`).bind("click", EventHandlerService.clickEventHandler);
+        $(`#confirmation-modal-button`).bind("click", ConfirmationModal.confirm);
     });
   </script>

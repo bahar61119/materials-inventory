@@ -34,4 +34,41 @@
             $(`#${ElementId.Component.ALERT}`).empty();
         }
     }
+
+    class ConfirmationModal {
+        static #setOptions(options) {
+            $("#confirmation-modal-title").text(options.title);
+            $("#confirmation-modal-message").text(options.message);
+            $("#confirmation-modal-button").data("callback", options.callback);
+            $("#confirmation-modal-button").addClass(`btn-${options.type}`);
+        }
+
+        static #clearOptions() {
+            $("#confirmation-modal-title").text("");
+            $("#confirmation-modal-message").text("");
+            $("#confirmation-modal-button").data("callback", ()=>{});
+            $("#confirmation-modal-button").removeClass (function (index, className) {
+                return (className.match (/\bbtn-\S+/g) || []).join(' ');
+            });
+        }
+
+        static show(options) {
+            ConfirmationModal.#setOptions(options);
+            $("#confirmation-modal").modal('show');
+        }
+
+        static hide() {
+            ConfirmationModal.#clearOptions();
+            $("#confirmation-modal").modal('hide');
+        }
+
+        static #callback() {
+            $("#confirmation-modal-button").data().callback();
+        }
+
+        static confirm() {
+            ConfirmationModal.#callback();
+            ConfirmationModal.hide();
+        }
+    }
 </script>

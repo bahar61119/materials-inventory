@@ -1,0 +1,50 @@
+<script>
+    class ConfirmationModalOptions {
+        title;
+        message;
+        type;
+        callback;
+
+        constructor() {
+            this.title = "Confirmation";
+            this.message = "Are you sure?";
+            this.type = ConfirmationModalOptions.Type.SUCCESS;
+            this.callback = () => {};
+        }
+
+        static of() {
+            return new ConfirmationModalOptions();
+        }
+
+        static get Type() {
+            return {
+                SUCCESS: "success",
+                DANGER: "danger",
+                INFO: "info",
+                WARNING: "warning",
+                PRIMARY: "primary"
+            }
+
+        }
+
+        withTitle(title) {
+            this.title = title;
+            return this;
+        }
+
+        withMessage(message) {
+            this.message = message;
+            return this;
+        }
+
+        withType(type) {
+            this.type = type;
+            return this;
+        }
+
+        withCallback(callback) {
+            this.callback = callback;
+            return this;
+        }
+    }
+</script>

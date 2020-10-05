@@ -9,7 +9,13 @@
         static clickEventHandler(event) {
             let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
             if(supplierDeleteButton) {
-                SupplierService.deleteSupplier(supplierDeleteButton.dataset.supplierId); 
+                let supplierId = supplierDeleteButton.dataset.supplierId;
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Delete")
+                                .withMessage(`Are you sure you want to delete supplier with supplier id${supplierId}?`)
+                                .withCallback(()=>SupplierService.deleteSupplier(supplierId))
+                                .withType(ConfirmationModalOptions.Type.DANGER);
+                ConfirmationModal.show(options);
             }
         }
     }
