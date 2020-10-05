@@ -12,7 +12,7 @@
                 let supplierId = supplierDeleteButton.dataset.supplierId;
                 let options = ConfirmationModalOptions.of()
                                 .withTitle("Delete")
-                                .withMessage(`Are you sure you want to delete supplier with supplier id${supplierId}?`)
+                                .withMessage(`Are you sure you want to delete supplier(${supplierId})?`)
                                 .withCallback(()=>SupplierService.deleteSupplier(supplierId))
                                 .withType(ConfirmationModalOptions.Type.DANGER);
                 ConfirmationModal.show(options);

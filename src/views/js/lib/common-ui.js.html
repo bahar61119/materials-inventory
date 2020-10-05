@@ -2,9 +2,11 @@
     class Spinner {
         static view(flag) {
             if(flag) {
-                $(".spinner-grow").removeClass('d-none')
+                $(`.${ElementClass.Component.SPINNER}`).removeClass('d-none');
+                $(`.${ElementClass.Component.SPINNER_OVERLAY}`).addClass('modal-backdrop fade show');
             } else {
-                $(".spinner-grow").addClass('d-none')
+                $(`.${ElementClass.Component.SPINNER}`).addClass('d-none');
+                $(`.${ElementClass.Component.SPINNER_OVERLAY}`).removeClass('modal-backdrop fade show');
             }
         } 
 
@@ -37,33 +39,33 @@
 
     class ConfirmationModal {
         static #setOptions(options) {
-            $("#confirmation-modal-title").text(options.title);
-            $("#confirmation-modal-message").text(options.message);
-            $("#confirmation-modal-button").data("callback", options.callback);
-            $("#confirmation-modal-button").addClass(`btn-${options.type}`);
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_TITLE}`).text(options.title);
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_MESSAGE}`).text(options.message);
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).data("callback", options.callback);
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).addClass(`btn-${options.type}`);
         }
 
         static #clearOptions() {
-            $("#confirmation-modal-title").text("");
-            $("#confirmation-modal-message").text("");
-            $("#confirmation-modal-button").data("callback", ()=>{});
-            $("#confirmation-modal-button").removeClass (function (index, className) {
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_TITLE}`).text("");
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_MESSAGE}`).text("");
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).data("callback", ()=>{});
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).removeClass (function (index, className) {
                 return (className.match (/\bbtn-\S+/g) || []).join(' ');
             });
         }
 
         static show(options) {
             ConfirmationModal.#setOptions(options);
-            $("#confirmation-modal").modal('show');
+            $(`#${ElementId.Component.CONFIRMATION_MODAL}`).modal('show');
         }
 
         static hide() {
             ConfirmationModal.#clearOptions();
-            $("#confirmation-modal").modal('hide');
+            $(`#${ElementId.Component.CONFIRMATION_MODAL}`).modal('hide');
         }
 
         static #callback() {
-            $("#confirmation-modal-button").data().callback();
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).data().callback();
         }
 
         static confirm() {
