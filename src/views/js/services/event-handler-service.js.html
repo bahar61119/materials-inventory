@@ -9,11 +9,12 @@
         static clickEventHandler(event) {
             let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
             if(supplierDeleteButton) {
-                let supplierId = supplierDeleteButton.dataset.supplierId;
+                console.log(supplierDeleteButton.dataset.supplier);
+                let supplier = JSON.parse(supplierDeleteButton.dataset.supplier);
                 let options = ConfirmationModalOptions.of()
                                 .withTitle("Delete")
-                                .withMessage(`Are you sure you want to delete supplier(${supplierId})?`)
-                                .withCallback(()=>SupplierService.deleteSupplier(supplierId))
+                                .withMessage(`Are you sure you want to delete supplier ${supplier.supplierName} (ID: ${supplier.supplierId})?`)
+                                .withCallback(()=>SupplierService.deleteSupplier(supplier.supplierId))
                                 .withType(ConfirmationModalOptions.Type.DANGER);
                 ConfirmationModal.show(options);
             }

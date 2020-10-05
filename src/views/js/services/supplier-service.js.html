@@ -28,7 +28,10 @@
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
                 })
                 let deleteButton = tr.querySelector(`.${ElementClass.Supplier.DELETE_BUTTON}`);
-                deleteButton.dataset.supplierId = result.supplierId;
+                deleteButton.dataset.supplier = JSON.stringify({
+                    supplierId: result.supplierId,
+                    supplierName: result.supplierName
+                });
                 supplierListTable.appendChild(tr);
             });
         }
