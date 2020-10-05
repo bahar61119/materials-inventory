@@ -1,11 +1,13 @@
 <script>
     class APIOptions {
         api;
+        data;
         success;
         failure;
 
         constructor(api) {
             this.api = api;
+            this.data = undefined;
             this.success = () => {};
             this.failure = () => {};
         }
@@ -14,17 +16,22 @@
             return new APIOptions(api);
         }
 
-        setApi(api) {
+        withApi(api) {
             this.api = api;
             return this;
         }
 
-        setSuccess(success) {
+        withData(data) {
+            this.data = data;
+            return this;
+        }
+
+        withSuccess(success) {
             this.success = success;
             return this;
         }
 
-        setFailure(failure) {
+        withFailure(failure) {
             this.failure = failure;
             return this;
         }

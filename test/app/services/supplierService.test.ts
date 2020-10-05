@@ -105,9 +105,7 @@ describe("SupplierService Test", ()=>{
             expect(DB.getSheetData).toBeCalledTimes(1);
             expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
         });
-
-
-
+        
         test(`delete supplier`, ()=>{
             let getSheetData = jest.fn()
                 .mockReturnValue(

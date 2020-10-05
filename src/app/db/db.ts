@@ -8,7 +8,7 @@ export class DB {
         const suppliersRawDataList: Array<any> = supplierDataSheet.getRange(
             metaData.startRow,
             metaData.startColumn,
-            supplierDataSheet.getLastRow()-metaData.startRow,
+            supplierDataSheet.getLastRow()-metaData.startRow+1,
             metaData.totalColumn
         ).getValues();
         return suppliersRawDataList;

@@ -1,0 +1,16 @@
+<script>
+    class EventHandlerService {
+        static inputEventHandler(event) {
+            if(event.target.matches(`#${ElementId.Supplier.SUPPLIER_LIST_SEARCH}`)) {
+                SupplierService.searchSupplier(); 
+            }
+        }
+
+        static clickEventHandler(event) {
+            let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
+            if(supplierDeleteButton) {
+                SupplierService.deleteSupplier(supplierDeleteButton.dataset.supplierId); 
+            }
+        }
+    }
+</script>

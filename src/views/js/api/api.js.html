@@ -11,7 +11,7 @@
                     Spinner.hide();
                     options.failure(error);
                 })
-                [options.api]();
+                [options.api](options.data);
         }
 
         static get NAME() {
@@ -19,39 +19,49 @@
                 loadSupplierListView: "loadSupplierListView",
                 loadAddSupplierView: "loadAddSupplierView",
                 loadEditSupplierView: "loadEditSupplierView",
-                getSupplierList: "getSupplierList"
+                getSupplierList: "getSupplierList",
+                deleteSupplier:"deleteSupplier"
             }
         }
 
         static loadSupplierListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadSupplierListView)
-                .setSuccess(successHandler)
-                .setFailure(failureHandler)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
             );
         }
 
         static loadAddSupplierView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadAddSupplierView)
-                .setSuccess(successHandler)
-                .setFailure(failureHandler)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
             );
         }
 
         static loadEditSupplierView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadEditSupplierView)
-                .setSuccess(successHandler)
-                .setFailure(failureHandler)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
             );
         }
 
         static getSupplierList(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.getSupplierList)
-                .setSuccess(successHandler)
-                .setFailure(failureHandler)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteSupplier(supplierId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteSupplier)
+                .withData(supplierId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
             );
         }
     }

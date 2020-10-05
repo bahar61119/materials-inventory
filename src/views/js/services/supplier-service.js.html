@@ -16,22 +16,40 @@
         }
 
         static searchSupplier() {
-            let searchInput = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_SEARCH).value;
+            let searchInput = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_SEARCH).value;
             let results = DataManipulation.filterData(searchInput, SupplierService.#supplierList);
-            let supplierListTable = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_TABLE);
+            let supplierListTable = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_TABLE);
+            let template = SupplierService.getTemplate(ElementId.Supplier.SUPPLIER_LIST_ROW_TEMPLATE);
 
             supplierListTable.innerHTML = "";
             results.forEach(result => {
-                let tr = SupplierService.getTemplate(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE);
+                let tr = template.cloneNode(true);
                 Object.keys(result).forEach(column => {
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
                 })
+                let deleteButton = tr.querySelector(`.${ElementClass.Supplier.DELETE_BUTTON}`);
+                deleteButton.dataset.supplierId = result.supplierId;
                 supplierListTable.appendChild(tr);
             });
+            console.log(results);
+        }
+
+        static deleteSupplier(supplierId) {
+            API.deleteSupplier(
+                supplierId,
+                dataReturned => {
+                    console.log(`Data Deleted Success full: ${dataReturned}`);
+                    SupplierService.setDataForSupplierSearch();
+                },
+                error => {
+                    console.error(error);
+                    Alert.show();
+                }
+            );
         }
 
         static getTemplate(templateId) {
-            let template = document.getElementById(ElementId.SupplierList.SUPPLIER_LIST_ROW_TEMPLATE).content;
+            let template = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_ROW_TEMPLATE).content;
             return template.cloneNode(true);
         }
     }
