@@ -27,9 +27,11 @@
             alert.appendChild(template.cloneNode(true));
         }
 
-        static show(message = "") {
+        static show(options) {
             Alert.#setAlert();
-            $(`#${ElementId.Component.ALERT_MESSAGE}`).text(message);
+            $(`.${ElementClass.Component.ALERT}`).addClass(`alert-${options.type}`);
+            $(`#${ElementId.Component.ALERT_TITLE}`).text(options.title);
+            $(`#${ElementId.Component.ALERT_MESSAGE}`).text(options.message);
         }
 
         static hide() {

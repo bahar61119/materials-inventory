@@ -10,7 +10,12 @@
                 },
                 error => {
                     console.error(error);
-                    Alert.show();
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Loading Supplier Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
                 }
             );
         }
@@ -40,12 +45,16 @@
             API.deleteSupplier(
                 supplierId,
                 dataReturned => {
-                    console.log(`Data Deleted Success full: ${dataReturned}`);
                     SupplierService.setDataForSupplierSearch();
                 },
                 error => {
                     console.error(error);
-                    Alert.show();
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Supplier Delete Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
                 }
             );
         }

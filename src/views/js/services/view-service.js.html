@@ -6,7 +6,12 @@
 
         static #errorHandler(error) {
             console.error(error);
-            Alert.show("Error occurred while loading supplier list");
+            Alert.show(
+                AlertOptions.of()
+                    .withTitle("Error")
+                    .withMessage(error.message)
+                    .withType(AlertOptions.Type.DANGER)
+            );
         }
 
         static #clear() {

@@ -1,0 +1,46 @@
+<script>
+    class AlertOptions {
+        title;
+        message;
+        type;
+
+        constructor() {
+            this.title = "";
+            this.message = "";
+            this.type = AlertOptions.Type.SUCCESS;
+        }
+
+        static of() {
+            return new AlertOptions();
+        }
+
+        static get Type() {
+            return {
+                SUCCESS: "success",
+                DANGER: "danger",
+                INFO: "info",
+                WARNING: "warning",
+                PRIMARY: "primary"
+            }
+
+        }
+
+        withTitle(title) {
+            this.title = title;
+            return this;
+        }
+
+        withMessage(message) {
+            if(!(message === undefined || message === null))
+            this.message = message.split("Error:").pop().trim();
+            return this;
+        }
+
+        withType(type) {
+            this.type = type;
+            return this;
+        }
+        static #parseMessage(message) {
+        }
+    }
+</script>

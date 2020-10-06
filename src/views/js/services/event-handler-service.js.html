@@ -9,7 +9,6 @@
         static clickEventHandler(event) {
             let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
             if(supplierDeleteButton) {
-                console.log(supplierDeleteButton.dataset.supplier);
                 let supplier = JSON.parse(supplierDeleteButton.dataset.supplier);
                 let options = ConfirmationModalOptions.of()
                                 .withTitle("Delete")
