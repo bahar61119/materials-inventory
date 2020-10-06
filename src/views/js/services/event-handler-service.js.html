@@ -8,15 +8,33 @@
 
         static clickEventHandler(event) {
             let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
+            let supplierEditButton = event.target.closest(`button.${ElementClass.Supplier.EDIT_BUTTON}`);
+
             if(supplierDeleteButton) {
-                let supplier = JSON.parse(supplierDeleteButton.dataset.supplier);
+                EventHandlerService.#deleteSupplier(supplierDeleteButton);
+            } else if(supplierEditButton) {
+                EventHandlerService.#editSupplier(supplierEditButton);
+            }
+        }
+
+        static #deleteSupplier(supplierDeleteButton) {
+            let supplier = JSON.parse(supplierDeleteButton.dataset.supplier);
                 let options = ConfirmationModalOptions.of()
-                                .withTitle("Delete")
+                                .withTitle("Delete Supplier")
                                 .withMessage(`Are you sure you want to delete supplier ${supplier.supplierName} (ID: ${supplier.supplierId})?`)
                                 .withCallback(()=>SupplierService.deleteSupplier(supplier.supplierId))
                                 .withType(ConfirmationModalOptions.Type.DANGER);
                 ConfirmationModal.show(options);
-            }
+        }
+
+        static #editSupplier(supplierEditButton) {
+            let supplier = JSON.parse(supplierEditButton.dataset.supplier);
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Edit Supplier")
+                                .withMessage(`Are you sure you want to edit supplier ${supplier.supplierName} (ID: ${supplier.supplierId})?`)
+                                .withCallback(()=>SupplierService.editSupplier(supplier.supplierId))
+                                .withType(ConfirmationModalOptions.Type.WARNING);
+                ConfirmationModal.show(options);
         }
     }
 </script>

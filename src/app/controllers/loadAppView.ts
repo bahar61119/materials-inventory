@@ -1,7 +1,8 @@
 import { ViewFileNames } from "../constants/fileNames";
 
-function loadAppView_(contentHtmlFile: string) {
+function loadAppView_(contentHtmlFile: string, data: any = "") {
   const htmlService = HtmlService.createTemplateFromFile(contentHtmlFile);
+  htmlService.data = data;
   return htmlService.evaluate().getContent();
 }
 
@@ -13,8 +14,9 @@ function loadAddSupplierView() {
   return loadAppView_(ViewFileNames.ADD_SUPPLIER);
 }
 
-function loadEditSupplierView() {
-  return loadAppView_(ViewFileNames.EDIT_SUPPLIER);
+function loadEditSupplierView(supplierId: string) {
+  let data = {supplierId}
+  return loadAppView_(ViewFileNames.EDIT_SUPPLIER, data);
 }
 
 export {

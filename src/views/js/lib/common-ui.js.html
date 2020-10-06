@@ -29,7 +29,10 @@
 
         static show(options) {
             Alert.#setAlert();
-            $(`.${ElementClass.Component.ALERT}`).addClass(`alert-${options.type}`);
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).removeClass (function (index, className) {
+                return (className.match (/\balert-\S+/g) || []).join(' ');
+            });
+            $(`.${ElementClass.Component.ALERT}`).addClass(`alert-${options.type} alert-dismissible`);
             $(`#${ElementId.Component.ALERT_TITLE}`).text(options.title);
             $(`#${ElementId.Component.ALERT_MESSAGE}`).text(options.message);
         }
@@ -44,6 +47,9 @@
             $(`#${ElementId.Component.CONFIRMATION_MODAL_TITLE}`).text(options.title);
             $(`#${ElementId.Component.CONFIRMATION_MODAL_MESSAGE}`).text(options.message);
             $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).data("callback", options.callback);
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).removeClass (function (index, className) {
+                return (className.match (/\bbtn-\S+/g) || []).join(' ');
+            });
             $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).addClass(`btn-${options.type}`);
         }
 

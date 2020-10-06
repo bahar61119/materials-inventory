@@ -40,9 +40,10 @@
             );
         }
 
-        static loadEditSupplierView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+        static loadEditSupplierView(supplierId, successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadEditSupplierView)
+                .withData(supplierId)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

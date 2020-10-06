@@ -2,9 +2,8 @@
     $(function(){
         $(`#${ElementId.Navbar.SUPPLIER_LIST_LINK}`).bind("click", ViewService.loadSupplierListView);
         $(`#${ElementId.Navbar.ADD_SUPPLIER_LINK}`).bind("click", ViewService.loadAddSupplierView);
-        $(`#${ElementId.Navbar.EDIT_SUPPLIER_LINK}`).bind("click", ViewService.loadEditSupplierView);
         $(`#${ElementId.Main.APP}`).bind("input", EventHandlerService.inputEventHandler);
         $(`#${ElementId.Main.APP}`).bind("click", EventHandlerService.clickEventHandler);
-        $(`#confirmation-modal-button`).bind("click", ConfirmationModal.confirm);
+        $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).bind("click", ConfirmationModal.confirm);
     });
   </script>

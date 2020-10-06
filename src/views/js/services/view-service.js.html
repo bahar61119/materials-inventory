@@ -39,9 +39,10 @@
             );
         }
 
-        static loadEditSupplierView() {
+        static loadEditSupplierView(supplierId) {
             ViewService.#clear();
             API.loadEditSupplierView(
+                supplierId,
                 ViewService.#setHtml,
                 ViewService.#errorHandler
             );
