@@ -3,4 +3,5 @@ export interface SheetMetaDataInterface {
     startRow: number;
     startColumn: number;
     totalColumn: number;
+    totalRow: number;
 }

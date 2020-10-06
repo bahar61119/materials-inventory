@@ -5,10 +5,11 @@ import { DBError } from '../errors/dbError';
 export class DB {
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {
         const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        const totalRow = metaData.totalRow > 0? metaData.totalRow: supplierDataSheet.getLastRow()-metaData.startRow+1;
         const suppliersRawDataList: Array<any> = supplierDataSheet.getRange(
             metaData.startRow,
             metaData.startColumn,
-            supplierDataSheet.getLastRow()-metaData.startRow+1,
+            totalRow,
             metaData.totalColumn
         ).getValues();
         return suppliersRawDataList;

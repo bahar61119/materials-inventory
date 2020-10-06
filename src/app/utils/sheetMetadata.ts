@@ -4,12 +4,14 @@ export class SheetMetadata implements SheetMetaDataInterface {
     startRow: number;
     startColumn: number;
     totalColumn: number;
+    totalRow: number;
 
     private constructor(sheetName: string) {
       this.sheetName = sheetName;
       this.startRow = 2;
       this.startColumn = 1;
       this.totalColumn = 1;
+      this.totalRow = 0;
     }
 
     static of(sheetName: string) {
@@ -33,6 +35,11 @@ export class SheetMetadata implements SheetMetaDataInterface {
 
     withTotalColumn(totalColumn: number) {
       this.totalColumn = totalColumn;
+      return this;
+    }
+
+    withTotalRow(totalRow: number) {
+      this.totalRow = totalRow;
       return this;
     }
 }

@@ -3,47 +3,42 @@
   
   <div class="form-group">
     <label for="supplier-id">Supplier ID</label>
-    <input type="text" class="form-control" disabled id="supplier-id" value=<?= data.supplierId ?>>
+    <input type="text" class="form-control" disabled id="supplier-id" value=<?= data.supplierId ?> >
   </div>
 
   <div class="form-group">
     <label for="supplier-name">Supplier Name</label>
-    <input type="text" class="form-control" id="supplier-name">
+    <input type="text" class="form-control" id="supplier-name"value=<?= data.supplierName ?> >
   </div>
   
   <div class="form-group">
     <label for="supplier-type">Supplier Type</label>
-    <select class="form-control" id="supplier-type">
-      <option>Supplier</option>
-      <option>Contractor</option>
-      <option>Stuff</option>
-      <option>Others</option>
-    </select>
+    <input type="text" class="form-control" id="supplier-type" value=<?= data.supplierType ?> >
   </div>
   
   <div class="form-group">
     <label for="supplier-company">Company</label>
-    <input type="text" class="form-control" id="supplier-company">
+    <input type="text" class="form-control" id="supplier-company" value=<?= data.supplierCompany ?> >
   </div>
   
   <div class="form-group">
     <label for="supplier-designation">Designation</label>
-    <input type="text" class="form-control" id="supplier-designation">
+    <input type="text" class="form-control" id="supplier-designation" value=<?= data.supplierDesignation ?> >
   </div>
   
   <div class="form-group">
     <label for="supplier-contact-number">Contact Number</label>
-    <input type="text" class="form-control" id="supplier-contact-number">
+    <input type="text" class="form-control" id="supplier-contact-number" value=<?= data.supplierContactNumber ?> >
   </div>
   
   <div class="form-group">
     <label for="supplier-email">Email</label>
-    <input type="email" class="form-control" id="supplier-email">
+    <input type="email" class="form-control" id="supplier-email" value=<?= data.supplierEmail ?> >
   </div>
   
   <div class="form-group">
     <label for="supplier-address">Address</label>
-    <textarea class="form-control" id="supplier-address" rows="3"></textarea>
+    <textarea class="form-control" id="supplier-address" rows="3"><?= data.supplierAddress ?></textarea>
   </div>
   
   <div class="row">

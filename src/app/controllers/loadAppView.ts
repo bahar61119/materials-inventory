@@ -1,4 +1,5 @@
 import { ViewFileNames } from "../constants/fileNames";
+import { SupplierService } from '../services/supplierService';
 
 function loadAppView_(contentHtmlFile: string, data: any = "") {
   const htmlService = HtmlService.createTemplateFromFile(contentHtmlFile);
@@ -15,7 +16,7 @@ function loadAddSupplierView() {
 }
 
 function loadEditSupplierView(supplierId: string) {
-  let data = {supplierId}
+  let data = SupplierService.getSupplier(supplierId);
   return loadAppView_(ViewFileNames.EDIT_SUPPLIER, data);
 }
 
