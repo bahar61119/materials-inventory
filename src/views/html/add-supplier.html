@@ -1,48 +1,100 @@
-<div class="container jumbotron add-supplier-form">
-  <h1 class="text-center">Add New Supplier</h1>
+<form class="container edit-supplier-form novalidate">
+  <div class="row">
+    <div class="shadow p-3 mb-5 bg-light rounded col-md-6 offset-md-3">
+      <h3 class="text-center">Edit Supplier</h3>
+  
+      <div class="form-group">
+        <label for="supplier-id">Supplier ID</label>
+        <input type="text" class="form-control" disabled id="supplier-id" value=<?= data.supplierId ?> >
+      </div>
 
-  <div class="form-group">
-    <label for="supplier-name">Supplier Name</label>
-    <input type="text" class="form-control" id="supplier-name">
+      <div class="form-group">
+        <label for="supplier-name">Supplier Name</label>
+        <input type="text" class="form-control" id="supplier-name" required value=<?= data.supplierName ?> >
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier name.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-type">Supplier Type</label>
+        <input type="text" class="form-control" id="supplier-type" required value=<?= data.supplierType ?> >
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier type.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-company">Company</label>
+        <input type="text" class="form-control" id="supplier-company" required value=<?= data.supplierCompany ?> >
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier company.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-designation">Designation</label>
+        <input type="text" class="form-control" id="supplier-designation" required value=<?= data.supplierDesignation ?> >
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier designation.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-contact-number">Contact Number</label>
+        <input type="text" class="form-control" id="supplier-contact-number" required value=<?= data.supplierContactNumber ?> >
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier contact number.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-email">Email</label>
+        <input type="email" class="form-control" id="supplier-email" value=<?= data.supplierEmail ?> >
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier email.
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="supplier-address">Address</label>
+        <textarea class="form-control" id="supplier-address" rows="3" required><?= data.supplierAddress ?></textarea>
+        <div class="valid-feedback">
+          Looks good!
+        </div>
+        <div class="invalid-feedback">
+          Please provide a valid supplier address.
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <button type="button" class="btn btn-outline-success btn-block btn-lg" id="update-supplier-button">Update</button>
+        </div>
+        <div class="col">
+          <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="cancel-update-supplier-button">Cancel</button>
+        </div>
+      </div>
+    </div>
   </div>
   
-  <div class="form-group">
-    <label for="supplier-type">Supplier Type</label>
-    <select class="form-control" id="supplier-type">
-      <option>Supplier</option>
-      <option>Contractor</option>
-      <option>Stuff</option>
-      <option>Others</option>
-    </select>
-  </div>
-  
-  <div class="form-group">
-    <label for="supplier-company">Company</label>
-    <input type="text" class="form-control" id="supplier-company">
-  </div>
-  
-  <div class="form-group">
-    <label for="supplier-designation">Designation</label>
-    <input type="text" class="form-control" id="supplier-designation">
-  </div>
-  
-  <div class="form-group">
-    <label for="supplier-contact-number">Contact Number</label>
-    <input type="text" class="form-control" id="supplier-contact-number">
-  </div>
-  
-  <div class="form-group">
-    <label for="supplier-email">Email</label>
-    <input type="email" class="form-control" id="supplier-email">
-  </div>
-  
-  <div class="form-group">
-    <label for="supplier-address">Address</label>
-    <textarea class="form-control" id="supplier-address" rows="3"></textarea>
-  </div>
-  
-  <div class="form-group">
-    <button type="button" class="btn btn-outline-success btn-block btn-lg">Update</button>
-  </div>
-</div>
+</form>
 

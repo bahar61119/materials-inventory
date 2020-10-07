@@ -70,6 +70,15 @@
             ViewService.loadEditSupplierView(supplierId);
         }
 
+        static updateSupplier() {
+            Alert.show(
+                AlertOptions.of()
+                    .withTitle("Supplier Update")
+                    .withMessage("Supplier Update successfully")
+                    .withType(AlertOptions.Type.SUCCESS)
+            );
+        }
+
         static getTemplate(templateId) {
             let template = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_ROW_TEMPLATE).content;
             return template.cloneNode(true);

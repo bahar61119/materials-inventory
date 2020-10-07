@@ -9,11 +9,17 @@
         static clickEventHandler(event) {
             let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
             let supplierEditButton = event.target.closest(`button.${ElementClass.Supplier.EDIT_BUTTON}`);
+            let supplierUpdateCancelButton = event.target.closest(`#${ElementId.Supplier.CANCEL_UPDATE_SUPPLIER_BUTTON}`);
+            let supplierUpdateButton = event.target.closest(`#${ElementId.Supplier.UPDATE_SUPPLIER_BUTTON}`);
 
             if(supplierDeleteButton) {
                 EventHandlerService.#deleteSupplier(supplierDeleteButton);
             } else if(supplierEditButton) {
                 EventHandlerService.#editSupplier(supplierEditButton);
+            } else if(supplierUpdateCancelButton) {
+                EventHandlerService.#supplierUpdateCancel(supplierUpdateCancelButton);
+            } else if(supplierUpdateButton) {
+                EventHandlerService.#supplierUpdate(supplierUpdateButton);
             }
         }
 
@@ -35,6 +41,34 @@
                                 .withCallback(()=>SupplierService.editSupplier(supplier.supplierId))
                                 .withType(ConfirmationModalOptions.Type.WARNING);
                 ConfirmationModal.show(options);
+        }
+
+        static #supplierUpdate(supplierUpdate) {
+            let form = document.getElementsByClassName(`${ElementClass.Supplier.EDIT_SUPPLIER_FORM}`)[0];
+            let isValidForm = form.checkValidity();
+            if(!isValidForm) {
+                form.classList.add('was-validated');
+            } else {
+                let supplierId = $(`#${ElementId.Supplier.SUPPLIER_ID}`).val();
+                let supplierName = $(`#${ElementId.Supplier.SUPPLIER_NAME}`).val();
+                let options = ConfirmationModalOptions.of()
+                                    .withTitle("Update Supplier")
+                                    .withMessage(`Are you sure you want to update supplier ${supplierName} (ID: ${supplierId})?`)
+                                    .withCallback(()=>SupplierService.updateSupplier())
+                                    .withType(ConfirmationModalOptions.Type.SUCCESS);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static #supplierUpdateCancel(supplierUpdateCancelButton) {
+            let supplierId = $(`#${ElementId.Supplier.SUPPLIER_ID}`).val();
+            let supplierName = $(`#${ElementId.Supplier.SUPPLIER_NAME}`).val();
+            let options = ConfirmationModalOptions.of()
+                                .withTitle("Update Supplier")
+                                .withMessage(`Are you sure you want to cancel updating supplier ${supplierName} (ID: ${supplierId})?`)
+                                .withCallback(()=>ViewService.loadSupplierListView())
+                                .withType(ConfirmationModalOptions.Type.WARNING);
+            ConfirmationModal.show(options);
         }
     }
 </script>
