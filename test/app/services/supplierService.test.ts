@@ -248,7 +248,7 @@ describe("SupplierService Test", ()=>{
 
             expect(supplierId).toStrictEqual("2");
             expect(updateRow).toBeCalledTimes(1);
-            expect(updateRow).toBeCalledWith(metaData, dbData);
+            expect(updateRow).toBeCalledWith(metaData, [dbData]);
             
         });
 
@@ -284,7 +284,7 @@ describe("SupplierService Test", ()=>{
 
             expect(supplierId).toStrictEqual(uniqueId);
             expect(updateRow).toBeCalledTimes(1);
-            expect(updateRow).toBeCalledWith(metaData, dbData);
+            expect(updateRow).toBeCalledWith(metaData, [dbData]);
         });
     });
 });

@@ -80,7 +80,7 @@ describe("DB Tests", () =>{
                 .withStartRow(4)
                 .withTotalRow(1)
                 .withTotalColumn(4);
-            const data = ["1","2","3","4"];
+            const data = [["1","2","3","4"]];
 
             // when
             DB.updateRow(metadata, data);
@@ -114,7 +114,7 @@ describe("DB Tests", () =>{
                 .withStartRow(0)
                 .withTotalRow(1)
                 .withTotalColumn(4);
-            const data = ["1","2","3","4"];
+            const data = [["1","2","3","4"]];
 
             // when
             DB.updateRow(metadata, data);

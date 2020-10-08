@@ -15,7 +15,7 @@ export class DB {
         return suppliersRawDataList;
     }
 
-    static updateRow(metaData: SheetMetaDataInterface, data: Array<any>): void {
+    static updateRow(metaData: SheetMetaDataInterface, data: Array<Array<any>>): void {
         const supplierDataSheet = DB.getSheet(metaData.sheetName);
         const startRow = metaData.startRow > 0? metaData.startRow: supplierDataSheet.getLastRow()+1;
         const totalRow = metaData.totalRow > 0? metaData.totalRow: supplierDataSheet.getLastRow()-metaData.startRow+1;

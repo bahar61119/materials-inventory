@@ -42,7 +42,7 @@ class SupplierService {
     let supplierId = supplier.supplierId? supplier.supplierId: GenerateId.getUniqueId();
     supplier.withSupplierId(supplierId); 
     let data = SupplierService.getRowDataFromSupplier(supplier, !isEditSupplier);
-    DB.updateRow(sheetMetaData, data);
+    DB.updateRow(sheetMetaData, [data]);
     return supplierId;
   }
 
