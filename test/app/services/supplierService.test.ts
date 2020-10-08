@@ -5,6 +5,7 @@ import { DBError } from '../../../src/app/errors/dbError';
 import { SupplierError } from '../../../src/app/errors/supplierError';
 import { Supplier } from '../../../src/app/models/supplierModel';
 import { SupplierService } from "../../../src/app/services/supplierService";
+import { GenerateId } from '../../../src/app/utils/generateId';
 import { SheetMetadata } from '../../../src/app/utils/sheetMetadata';
 
 describe("SupplierService Test", ()=>{
@@ -172,6 +173,118 @@ describe("SupplierService Test", ()=>{
             .toThrowError(new SupplierError(ErrorMessage.internalError));
             expect(DB.getSheetData).toBeCalledTimes(1);
             expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(1));
+        });
+    });
+
+    describe(`getRowDataFromSupplier`, ()=>{
+        test(`returns raw data from supplier`, ()=>{
+            // given
+            let supplier = Supplier.of()
+                .withSupplierId("id")
+                .withSupplierName("name")
+                .withSupplierType("type")
+                .withSupplierAddress("address")
+                .withSupplierCompany("company")
+                .withSupplierContactNumber("contact_number")
+                .withSupplierEmail("email@email")
+                .withSupplierDesignation("designation");
+            
+            // when
+            let results = SupplierService.getRowDataFromSupplier(supplier, true);
+            let expectedResult = ["id", "name", "type", "company", 
+                "designation", "contact_number", "email@email", "address"];
+            expect(results).toStrictEqual(expectedResult);
+        });
+
+        test(`returns raw data from supplier without supplier id`, ()=>{
+            // given
+            let supplier = Supplier.of()
+                .withSupplierId("id")
+                .withSupplierName("name")
+                .withSupplierType("type")
+                .withSupplierAddress("address")
+                .withSupplierCompany("company")
+                .withSupplierContactNumber("contact_number")
+                .withSupplierEmail("email@email")
+                .withSupplierDesignation("designation");
+            
+            // when
+            let results = SupplierService.getRowDataFromSupplier(supplier);
+            let expectedResult = ["name", "type", "company", 
+                "designation", "contact_number", "email@email", "address"];
+            expect(results).toStrictEqual(expectedResult);
+        });
+    });
+
+    describe(`updateSupplier`, ()=>{
+        test(`edit supplier`, ()=>{
+            let getSheetData = jest.fn().mockReturnValue([["1"],["2"],["3"]]);
+            let updateRow = jest.fn();
+            DB.updateRow = updateRow;
+            DB.getSheetData = getSheetData;
+
+            // given
+            let supplier = Supplier.of()
+                .withSupplierId("2")
+                .withSupplierName("name")
+                .withSupplierType("type")
+                .withSupplierAddress("address")
+                .withSupplierCompany("company")
+                .withSupplierContactNumber("contact_number")
+                .withSupplierEmail("email@email")
+                .withSupplierDesignation("designation");
+
+            // when
+            let supplierId = SupplierService.updateSupplier(supplier);
+
+            // then
+            let dbData = ["name", "type", "company", 
+                "designation", "contact_number", "email@email", "address"];
+            let metaData = SheetMetadata.of(SheetName.SUPPLIER)
+                .withStartRow(3)
+                .withStartColumn(2)
+                .withTotalColumn(7)
+                .withTotalRow(1);
+
+            expect(supplierId).toStrictEqual("2");
+            expect(updateRow).toBeCalledTimes(1);
+            expect(updateRow).toBeCalledWith(metaData, dbData);
+            
+        });
+
+        test(`add supplier`, ()=>{
+            let getSheetData = jest.fn().mockReturnValue([["1"],["2"],["3"]]);
+            let updateRow = jest.fn();
+            let uniqueId = "unique_id";
+            DB.updateRow = updateRow;
+            DB.getSheetData = getSheetData;
+            GenerateId.getUniqueId = jest.fn().mockReturnValue(uniqueId);
+
+            // given
+            let supplier = Supplier.of()
+                .withSupplierName("name")
+                .withSupplierType("type")
+                .withSupplierAddress("address")
+                .withSupplierCompany("company")
+                .withSupplierContactNumber("contact_number")
+                .withSupplierEmail("email@email")
+                .withSupplierDesignation("designation");
+
+            // when
+            let supplierId = SupplierService.updateSupplier(supplier);
+
+            // then
+            let dbData = [uniqueId, "name", "type", "company", 
+                "designation", "contact_number", "email@email", "address"];
+            let metaData = SheetMetadata.of(SheetName.SUPPLIER)
+                .withStartRow(0)
+                .withStartColumn(1)
+                .withTotalColumn(8)
+                .withTotalRow(1);
+
+            expect(supplierId).toStrictEqual(uniqueId);
+            expect(updateRow).toBeCalledTimes(1);
+            expect(updateRow).toBeCalledWith(metaData, dbData);
         });
     });
 });

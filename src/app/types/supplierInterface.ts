@@ -1,5 +1,5 @@
 interface SupplierInterface {
-    supplierId: string;
+    supplierId: string | undefined;
     supplierName: string;
     supplierType: string;
     supplierCompany: string;

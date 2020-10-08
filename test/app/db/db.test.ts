@@ -64,4 +64,74 @@ describe("DB Tests", () =>{
             expect(deleteRow).toBeCalledTimes(1);
         });
     });
+
+    describe(`updateRow`, ()=>{
+        test(`update data when start row present`, () =>{
+            // mock
+            let setValues = jest.fn();
+            let getRange = jest.fn().mockReturnValue({ setValues });
+            let getLastRow = jest.fn().mockReturnValue(1);
+            let getSheet = jest.fn().mockReturnValue({ getRange, getLastRow });
+            DB.getSheet = getSheet;
+
+            // given
+            const metadata = SheetMetadata.of("Sheet Data")
+                .withStartColumn(2)
+                .withStartRow(4)
+                .withTotalRow(1)
+                .withTotalColumn(4);
+            const data = ["1","2","3","4"];
+
+            // when
+            DB.updateRow(metadata, data);
+
+            // then
+            expect(getSheet).toBeCalledTimes(1);
+            expect(getSheet).toBeCalledWith("Sheet Data");
+            expect(getLastRow).toBeCalledTimes(0);
+            expect(getRange).toBeCalledTimes(1);
+            expect(getRange).toBeCalledWith(
+                metadata.startRow, 
+                metadata.startColumn, 
+                metadata.totalRow, 
+                metadata.totalColumn
+            );
+            expect(setValues).toBeCalledTimes(1);
+            expect(setValues).toBeCalledWith([data]);
+        });
+
+        test(`update data when start row not present`, () =>{
+            // mock
+            let setValues = jest.fn();
+            let getRange = jest.fn().mockReturnValue({ setValues });
+            let getLastRow = jest.fn().mockReturnValue(5);
+            let getSheet = jest.fn().mockReturnValue({ getRange, getLastRow });
+            DB.getSheet = getSheet;
+
+            // given
+            const metadata = SheetMetadata.of("Sheet Data")
+                .withStartColumn(2)
+                .withStartRow(0)
+                .withTotalRow(1)
+                .withTotalColumn(4);
+            const data = ["1","2","3","4"];
+
+            // when
+            DB.updateRow(metadata, data);
+
+            // then
+            expect(getSheet).toBeCalledTimes(1);
+            expect(getSheet).toBeCalledWith("Sheet Data");
+            expect(getLastRow).toBeCalledTimes(1);
+            expect(getRange).toBeCalledTimes(1);
+            expect(getRange).toBeCalledWith(
+                6, 
+                metadata.startColumn, 
+                metadata.totalRow, 
+                metadata.totalColumn
+            );
+            expect(setValues).toBeCalledTimes(1);
+            expect(setValues).toBeCalledWith([data]);
+        });
+    });
 });

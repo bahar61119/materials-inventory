@@ -15,6 +15,18 @@ export class DB {
         return suppliersRawDataList;
     }
 
+    static updateRow(metaData: SheetMetaDataInterface, data: Array<any>): void {
+        const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        const startRow = metaData.startRow > 0? metaData.startRow: supplierDataSheet.getLastRow()+1;
+        const totalRow = metaData.totalRow > 0? metaData.totalRow: supplierDataSheet.getLastRow()-metaData.startRow+1;
+        supplierDataSheet.getRange(
+            startRow,
+            metaData.startColumn,
+            totalRow,
+            metaData.totalColumn
+        ).setValues([data]);
+    }
+
     static deleteRow(metaData: SheetMetaDataInterface): void {
         const supplierDataSheet = DB.getSheet(metaData.sheetName);
         supplierDataSheet.deleteRow(metaData.startRow);

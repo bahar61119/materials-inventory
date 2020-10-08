@@ -4,6 +4,7 @@ import { SheetName } from "../constants/sheetNames";
 import { SupplierErrorMessage } from '../constants/errorMessages';
 import { DB } from '../db/db';
 import { SupplierError } from '../errors/supplierError';
+import { GenerateId } from '../utils/generateId';
 
 class SupplierService {
   static readonly TOTAL_COLUMN: number = 8;
@@ -28,6 +29,23 @@ class SupplierService {
     return SupplierService.getSupplierFromRawData(supplierRawData);
   }
 
+  static updateSupplier(supplier: Supplier): string {
+    let isEditSupplier = supplier.supplierId? true: false;
+    let startRow = supplier.supplierId? SupplierService.getSupplierIndex(supplier.supplierId) + 2: 0;
+    let startColumn = isEditSupplier? 2: 1;
+    let totalColumn = isEditSupplier? SupplierService.TOTAL_COLUMN-1: SupplierService.TOTAL_COLUMN;
+    let sheetMetaData = SheetMetadata.of(SheetName.SUPPLIER)
+        .withStartRow(startRow)
+        .withStartColumn(startColumn)
+        .withTotalRow(1)
+        .withTotalColumn(totalColumn);
+    let supplierId = supplier.supplierId? supplier.supplierId: GenerateId.getUniqueId();
+    supplier.withSupplierId(supplierId); 
+    let data = SupplierService.getRowDataFromSupplier(supplier, !isEditSupplier);
+    DB.updateRow(sheetMetaData, data);
+    return supplierId;
+  }
+
   static deleteSupplier(supplierId: string): string {
     let index = SupplierService.getSupplierIndex(supplierId);
     try {
@@ -48,6 +66,17 @@ class SupplierService {
       supplier[key] = String(suppliersRawData[index]);
     });
     return supplier;
+  }
+
+  static getRowDataFromSupplier(supplier: Supplier, withSupplierId: boolean = false): Array<any> {
+    let data: Array<any> = [];
+    let supplierKeys = Object.keys(supplier);
+    supplierKeys.forEach( (key: any) => {
+      if(!(key === "supplierId" && !withSupplierId)) {
+        data.push(supplier[key]);
+      }
+    });
+    return data;
   }
 
   private static getSupplierIndex(supplierId: string): number {

@@ -1,5 +1,5 @@
 class Supplier implements SupplierInterface {
-    supplierId: string;
+    supplierId: string | undefined;
     supplierName: string;
     supplierType: string;
     supplierCompany: string;
@@ -9,7 +9,7 @@ class Supplier implements SupplierInterface {
     supplierAddress: string;
 
     constructor() {
-        this.supplierId = '';
+        this.supplierId = undefined;
         this.supplierName = '';
         this.supplierType = '';
         this.supplierCompany = '';
