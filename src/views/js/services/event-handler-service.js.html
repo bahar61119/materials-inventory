@@ -69,7 +69,7 @@
             let supplierName = $(`#${ElementId.Supplier.SUPPLIER_NAME}`).val();
             let options = ConfirmationModalOptions.of()
                                 .withTitle("Update Supplier")
-                                .withMessage(`Are you sure you want to cancel updating supplier ${supplierName} (ID: ${supplierId})?`)
+                                .withMessage(`Are you sure you want to cancel updating supplier ${supplierName}?`)
                                 .withCallback(()=>ViewService.loadSupplierListView())
                                 .withType(ConfirmationModalOptions.Type.WARNING);
             ConfirmationModal.show(options);
