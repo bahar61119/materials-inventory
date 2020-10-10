@@ -1,5 +1,15 @@
 <script>
     class ViewService {
+        static get FunctionName() {
+            let functionName = name => `${ViewService.name}.${name}()`
+            return {
+                loadHomeView: functionName(ViewService.loadHomeView.name),
+                loadSupplierListView: functionName(ViewService.loadSupplierListView.name),
+                loadAddSupplierView: functionName(ViewService.loadAddSupplierView.name),
+                loadEditSupplierView: functionName(ViewService.loadEditSupplierView.name)
+            }
+        }
+
         static #setHtml(html, id = ElementId.Main.APP) {
             document.getElementById(id).innerHTML = html;
         }
@@ -20,6 +30,20 @@
             Spinner.hide();
         }
 
+        static loadHomeView() {
+            ViewService.#clear();
+            API.loadHomeView(
+                html => {
+                        ViewService.#setHtml(html);
+                },
+                ViewService.#errorHandler
+            );
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ViewService.FunctionName.loadHomeView)
+            );
+        }
+
         static loadSupplierListView() {
             ViewService.#clear();
             API.loadSupplierListView(
@@ -29,6 +53,12 @@
                 },
                 ViewService.#errorHandler
             );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ViewService.FunctionName.loadSupplierListView)
+                    .withHash(BrowserHistoryOptions.Url.SUPPLIER_LIST)
+            );
         }
 
         static loadAddSupplierView() {
@@ -36,6 +66,12 @@
             API.loadAddSupplierView(
                 ViewService.#setHtml,
                 ViewService.#errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ViewService.FunctionName.loadAddSupplierView)
+                    .withHash(BrowserHistoryOptions.Url.SUPPLIER_ADD)
             );
         }
 
@@ -45,6 +81,16 @@
                 supplierId,
                 ViewService.#setHtml,
                 ViewService.#errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ViewService.FunctionName.loadEditSupplierView)
+                    .withFunctionArguments(supplierId)
+                    .withParams({
+                        supplierId
+                    })
+                    .withHash(BrowserHistoryOptions.Url.SUPPLIER_EDIT)
             );
         }
     }
