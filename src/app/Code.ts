@@ -8,6 +8,11 @@ function doGet(event: GoogleAppsScript.Events.DoGet) {
     .setTitle("Material Inventory");
 } 
 
+function doPost(event: GoogleAppsScript.Events.DoPost) {
+  console.log("Opening from doPost ...");
+  console.log(event);
+} 
+
 function onOpen(event: GoogleAppsScript.Events.DocsOnOpen) {
   console.log("Opening from doOpen ...");
   console.log(event);
@@ -23,5 +28,6 @@ function createMenu_() {
 
 export {
   doGet,
+  doPost,
   onOpen
 };
