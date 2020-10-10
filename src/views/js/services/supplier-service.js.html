@@ -97,8 +97,6 @@
 
         static updateSupplier(isEdit = true) {
             let supplier = SupplierService.#getSupplier(isEdit);
-            console.log(JSON.stringify(supplier));
-            console.log(isEdit);
             API.updateSupplier(
                 supplier,
                 dataReturned => {

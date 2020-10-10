@@ -8,6 +8,10 @@ function loadAppView_(contentHtmlFile: string, data: any = "") {
   return htmlService.evaluate().getContent();
 }
 
+function loadHomeView() {
+  return loadAppView_(ViewFileNames.HOME);
+}
+
 function loadSupplierListView() {
   return loadAppView_(ViewFileNames.SUPPLIER_LIST);
 }
@@ -30,6 +34,7 @@ function loadEditSupplierView(supplierId: string) {
 }
 
 export {
+  loadHomeView,
   loadSupplierListView, 
   loadAddSupplierView, 
   loadEditSupplierView

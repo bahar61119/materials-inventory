@@ -16,6 +16,7 @@
 
         static get NAME() {
             return {
+                loadHomeView: "loadHomeView",
                 loadSupplierListView: "loadSupplierListView",
                 loadAddSupplierView: "loadAddSupplierView",
                 loadEditSupplierView: "loadEditSupplierView",
@@ -23,6 +24,14 @@
                 deleteSupplier:"deleteSupplier",
                 updateSupplier:"updateSupplier"
             }
+        }
+
+        static loadHomeView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadHomeView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
         }
 
         static loadSupplierListView(successHandler = ()=>{}, failureHandler = ()=>{}) {

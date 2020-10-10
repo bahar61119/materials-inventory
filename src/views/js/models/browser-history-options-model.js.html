@@ -1,0 +1,58 @@
+<script>
+    class BrowserHistoryOptions {
+        timestamp;
+        functionName;
+        functionArguments;
+        params;
+        hash;
+
+        constructor() {
+            this.timestamp = (new Date()).getTime();
+            this.functionName = "";
+            this.functionArguments = [];
+            this.params = {};
+            this.hash = '';
+        }
+
+        static of() {
+            return new BrowserHistoryOptions();
+        }
+
+        get state() {
+            return {
+                timestamp: this.timestamp,
+                functionName: this.functionName,
+                functionArguments: this.functionArguments
+            }
+        }
+
+        withFunctionName(functionName) {
+            this.functionName = functionName;
+            return this;
+        }
+
+        withFunctionArguments(...functionArguments) {
+            this.functionArguments = functionArguments;
+            return this;
+        }
+
+        withParams(params) {
+            this.params = params;
+            return this;
+        }
+
+        withHash(hash) {
+            this.hash = hash;
+            return this;
+        }
+
+        static get Url() {
+            return {
+                SUPPLIER_LIST: "supplier-list",
+                SUPPLIER_ADD: "supplier-add",
+                SUPPLIER_EDIT: "supplier-edit",
+                HOME: "home"
+            }
+        }
+    }
+</script>

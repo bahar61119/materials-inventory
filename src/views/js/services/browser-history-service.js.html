@@ -1,0 +1,22 @@
+<script>
+    class BrowserHistory {
+        static setHistory(options) {
+            google.script.history.push(options.state, options.params, options.hash);
+        }
+
+        static changedState() {
+            google.script.history.setChangeHandler(function (e) {
+                if(e.state.functionName) {
+                    BrowserHistory.#executeFunctionByName(e.state.functionName, e.state.functionArguments);
+                } else {
+                    ViewService.loadHomeView();
+                }
+            });
+        }
+
+        static #executeFunctionByName(functionName, functionArguments) {
+            var tmpFunc = new Function(functionName);
+            tmpFunc(functionArguments);
+        }
+    }
+</script>
