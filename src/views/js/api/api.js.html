@@ -20,7 +20,8 @@
                 loadAddSupplierView: "loadAddSupplierView",
                 loadEditSupplierView: "loadEditSupplierView",
                 getSupplierList: "getSupplierList",
-                deleteSupplier:"deleteSupplier"
+                deleteSupplier:"deleteSupplier",
+                updateSupplier:"updateSupplier"
             }
         }
 
@@ -61,6 +62,15 @@
             API.call(
                 APIOptions.of(API.NAME.deleteSupplier)
                 .withData(supplierId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updateSupplier(supplier, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateSupplier)
+                .withData(supplier)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

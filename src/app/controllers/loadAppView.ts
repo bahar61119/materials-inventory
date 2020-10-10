@@ -1,4 +1,5 @@
 import { ViewFileNames } from "../constants/fileNames";
+import { Supplier } from '../models/supplierModel';
 import { SupplierService } from '../services/supplierService';
 
 function loadAppView_(contentHtmlFile: string, data: any = "") {
@@ -12,12 +13,20 @@ function loadSupplierListView() {
 }
 
 function loadAddSupplierView() {
-  return loadAppView_(ViewFileNames.ADD_SUPPLIER);
+  let data = {
+    supplier: Supplier.of(),
+    isEdit: false
+  }
+  return loadAppView_(ViewFileNames.UPDATE_SUPPLIER, data);
 }
 
 function loadEditSupplierView(supplierId: string) {
-  let data = SupplierService.getSupplier(supplierId);
-  return loadAppView_(ViewFileNames.EDIT_SUPPLIER, data);
+  let supplier = SupplierService.getSupplier(supplierId);
+  let data = {
+    supplier,
+    isEdit: true
+  }
+  return loadAppView_(ViewFileNames.UPDATE_SUPPLIER, data);
 }
 
 export {

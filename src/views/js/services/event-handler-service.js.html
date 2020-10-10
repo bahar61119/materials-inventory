@@ -7,12 +7,15 @@
         }
 
         static clickEventHandler(event) {
+            let supplierAddButton = event.target.closest(`#${ElementId.Supplier.ADD_SUPPLIER_BUTTON}`);
             let supplierDeleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
             let supplierEditButton = event.target.closest(`button.${ElementClass.Supplier.EDIT_BUTTON}`);
             let supplierUpdateCancelButton = event.target.closest(`#${ElementId.Supplier.CANCEL_UPDATE_SUPPLIER_BUTTON}`);
             let supplierUpdateButton = event.target.closest(`#${ElementId.Supplier.UPDATE_SUPPLIER_BUTTON}`);
 
-            if(supplierDeleteButton) {
+            if(supplierAddButton) {
+                ViewService.loadAddSupplierView();
+            } else if(supplierDeleteButton) {
                 EventHandlerService.#deleteSupplier(supplierDeleteButton);
             } else if(supplierEditButton) {
                 EventHandlerService.#editSupplier(supplierEditButton);
@@ -43,7 +46,7 @@
                 ConfirmationModal.show(options);
         }
 
-        static #supplierUpdate(supplierUpdate) {
+        static #supplierUpdate(supplierUpdateButton) {
             let form = document.getElementsByClassName(`${ElementClass.Supplier.EDIT_SUPPLIER_FORM}`)[0];
             let isValidForm = form.checkValidity();
             if(!isValidForm) {
@@ -51,10 +54,11 @@
             } else {
                 let supplierId = $(`#${ElementId.Supplier.SUPPLIER_ID}`).val();
                 let supplierName = $(`#${ElementId.Supplier.SUPPLIER_NAME}`).val();
+                let isEdit = supplierUpdateButton.dataset.isEdit === "true"? true: false;
                 let options = ConfirmationModalOptions.of()
                                     .withTitle("Update Supplier")
-                                    .withMessage(`Are you sure you want to update supplier ${supplierName} (ID: ${supplierId})?`)
-                                    .withCallback(()=>SupplierService.updateSupplier())
+                                    .withMessage(`Are you sure you want to update supplier ${supplierName}?`)
+                                    .withCallback(()=>SupplierService.updateSupplier(isEdit))
                                     .withType(ConfirmationModalOptions.Type.SUCCESS);
                 ConfirmationModal.show(options);
             }

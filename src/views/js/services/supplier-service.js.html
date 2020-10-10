@@ -53,6 +53,12 @@
                 supplierId,
                 dataReturned => {
                     SupplierService.setDataForSupplierSearch();
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Supplier Delete")
+                            .withMessage(`Supplier (ID: ${supplierId}) Deleted successfully`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
                 },
                 error => {
                     console.error(error);
@@ -70,18 +76,48 @@
             ViewService.loadEditSupplierView(supplierId);
         }
 
-        static updateSupplier() {
-            Alert.show(
-                AlertOptions.of()
-                    .withTitle("Supplier Update")
-                    .withMessage("Supplier Update successfully")
-                    .withType(AlertOptions.Type.SUCCESS)
+        static updateSupplier(isEdit = true) {
+            let supplier = SupplierService.#getSupplier(isEdit);
+            console.log(JSON.stringify(supplier));
+            console.log(isEdit);
+            API.updateSupplier(
+                supplier,
+                dataReturned => {
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Supplier Update")
+                            .withMessage("Supplier Updated successfully")
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Supplier Update Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
             );
+            
         }
 
         static getTemplate(templateId) {
             let template = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_ROW_TEMPLATE).content;
             return template.cloneNode(true);
+        }
+
+        static #getSupplier(isEdit = true) {
+            return Supplier.of()
+                .withSupplierId(isEdit? $(`#${ElementId.Supplier.SUPPLIER_ID}`).val(): '')
+                .withSupplierName($(`#${ElementId.Supplier.SUPPLIER_NAME}`).val())
+                .withSupplierType($(`#${ElementId.Supplier.SUPPLIER_TYPE}`).val())
+                .withSupplierCompany($(`#${ElementId.Supplier.SUPPLIER_COMPANY}`).val())
+                .withSupplierDesignation($(`#${ElementId.Supplier.SUPPLIER_DESIGNATION}`).val())
+                .withSupplierContactNumber($(`#${ElementId.Supplier.SUPPLIER_CONTACT_NUMBER}`).val())
+                .withSupplierEmail($(`#${ElementId.Supplier.SUPPLIER_EMAIL}`).val())
+                .withSupplierAddress($(`#${ElementId.Supplier.SUPPLIER_ADDRESS}`).val())
         }
     }
 </script>

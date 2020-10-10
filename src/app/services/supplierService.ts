@@ -29,7 +29,8 @@ class SupplierService {
     return SupplierService.getSupplierFromRawData(supplierRawData);
   }
 
-  static updateSupplier(supplier: Supplier): string {
+  static updateSupplier(supplierData: any): string {
+    let supplier = Supplier.from(supplierData);
     let isEditSupplier = supplier.supplierId? true: false;
     let startRow = supplier.supplierId? SupplierService.getSupplierIndex(supplier.supplierId) + 2: 0;
     let startColumn = isEditSupplier? 2: 1;

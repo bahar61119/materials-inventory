@@ -97,7 +97,7 @@ describe("DB Tests", () =>{
                 metadata.totalColumn
             );
             expect(setValues).toBeCalledTimes(1);
-            expect(setValues).toBeCalledWith([data]);
+            expect(setValues).toBeCalledWith(data);
         });
 
         test(`update data when start row not present`, () =>{
@@ -131,7 +131,7 @@ describe("DB Tests", () =>{
                 metadata.totalColumn
             );
             expect(setValues).toBeCalledTimes(1);
-            expect(setValues).toBeCalledWith([data]);
+            expect(setValues).toBeCalledWith(data);
         });
     });
 });

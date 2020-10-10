@@ -24,7 +24,7 @@ export class DB {
             metaData.startColumn,
             totalRow,
             metaData.totalColumn
-        ).setValues([data]);
+        ).setValues(data);
     }
 
     static deleteRow(metaData: SheetMetaDataInterface): void {

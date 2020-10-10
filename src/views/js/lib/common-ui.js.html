@@ -11,6 +11,7 @@
         } 
 
         static show() {
+            scroll(0,0);
             Spinner.view(true);
         }
 
@@ -35,6 +36,7 @@
             $(`.${ElementClass.Component.ALERT}`).addClass(`alert-${options.type} alert-dismissible`);
             $(`#${ElementId.Component.ALERT_TITLE}`).text(options.title);
             $(`#${ElementId.Component.ALERT_MESSAGE}`).text(options.message);
+            scroll(0,0);
         }
 
         static hide() {
