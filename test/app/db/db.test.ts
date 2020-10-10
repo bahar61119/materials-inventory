@@ -6,6 +6,21 @@ import { DBError } from '../../../src/app/errors/dbError';
 describe("DB Tests", () =>{
     console.error = jest.fn();
     describe("getSheetData", () =>{
+        test(`returns empty array when sheet is empty`, ()=>{
+            let getLastRow = jest.fn().mockReturnValue(1);
+            let getLastColumn = jest.fn().mockReturnValue(1);
+            let getSheet = jest.fn().mockReturnValue({
+                getLastColumn,
+                getLastRow
+            });
+            DB.getSheet = getSheet;
+            const metadata = SheetMetadata.of("Sheet Data").withTotalColumn(8);
+            const results = DB.getSheetData(metadata);
+            expect(results).toStrictEqual([]);
+            expect(getSheet).toBeCalledTimes(1);
+            expect(getSheet).toBeCalledWith("Sheet Data");
+        });
+
         test(`throws ${DBError.name} when sheet not found`, ()=>{
             let getSheet = jest.fn().mockImplementation(()=>{
                 throw new DBError(SheetErrorMessage.sheetNotFound("Sheet Data"));
@@ -25,10 +40,12 @@ describe("DB Tests", () =>{
             let getRange = jest.fn().mockReturnValue({
                 getValues
             });
-            let getLastRow = jest.fn().mockReturnValue(1);
+            let getLastRow = jest.fn().mockReturnValue(2);
+            let getLastColumn = jest.fn().mockReturnValue(3);
             let getSheet = jest.fn().mockReturnValue({
                 getRange,
-                getLastRow
+                getLastRow,
+                getLastColumn
             });
             DB.getSheet = getSheet;
             const metadata = SheetMetadata.of("Sheet Data");

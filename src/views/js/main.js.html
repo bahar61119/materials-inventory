@@ -1,7 +1,6 @@
 <script>
     $(function(){
         $(`#${ElementId.Navbar.SUPPLIER_LIST_LINK}`).bind("click", ViewService.loadSupplierListView);
-        $(`#${ElementId.Navbar.ADD_SUPPLIER_LINK}`).bind("click", ViewService.loadAddSupplierView);
         $(`#${ElementId.Main.APP}`).bind("input", EventHandlerService.inputEventHandler);
         $(`#${ElementId.Main.APP}`).bind("click", EventHandlerService.clickEventHandler);
         $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).bind("click", ConfirmationModal.confirm);

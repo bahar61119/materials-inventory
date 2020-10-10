@@ -6,7 +6,27 @@
             API.getSupplierList(
                 dataReturned => {
                     SupplierService.#supplierList = dataReturned.slice();
-                    SupplierService.searchSupplier();
+                    if(SupplierService.#supplierList.length === 0) {
+                        Alert.show(
+                            AlertOptions.of()
+                                .withTitle("No Suppliers Found")
+                                .withMessage("Please add a new Supplier")
+                                .withType(AlertOptions.Type.WARNING)
+                        );
+
+                        ConfirmationModal.show(
+                            ConfirmationModalOptions.of()
+                                .withTitle("No Suppliers Found")
+                                .withMessage(`Do you want to add new supplier?`)
+                                .withCallback(()=>{
+                                    Alert.hide();
+                                    ViewService.loadAddSupplierView();
+                                })
+                                .withType(ConfirmationModalOptions.Type.WARNING)
+                        );
+                    } else {
+                        SupplierService.searchSupplier();
+                    }
                 },
                 error => {
                     console.error(error);

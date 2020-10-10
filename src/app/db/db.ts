@@ -5,6 +5,9 @@ import { DBError } from '../errors/dbError';
 export class DB {
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {
         const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        if(this.isSheetEmpty(supplierDataSheet)) {
+            return [];
+        }
         const totalRow = metaData.totalRow > 0? metaData.totalRow: supplierDataSheet.getLastRow()-metaData.startRow+1;
         const suppliersRawDataList: Array<any> = supplierDataSheet.getRange(
             metaData.startRow,
@@ -38,5 +41,12 @@ export class DB {
             throw new DBError(SheetErrorMessage.sheetNotFound(sheetName))
         }
         return supplierDataSheet;
+    }
+
+    private static isSheetEmpty(sheet: GoogleAppsScript.Spreadsheet.Sheet): boolean {
+        let lastRow = sheet.getLastRow();
+        let lastColumn = sheet.getLastColumn();
+        if(lastRow === 0 || lastRow < 2 || lastColumn === 0) return true;
+        return false;
     }
 }
