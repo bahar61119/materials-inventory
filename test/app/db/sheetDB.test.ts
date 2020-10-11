@@ -1,4 +1,4 @@
-import { DB } from "../../../src/app/db/db";
+import { SheetDB } from "../../../src/app/db/sheetDB";
 import { SheetMetadata } from "../../../src/app/utils/sheetMetadata";
 import { SheetErrorMessage } from "../../../src/app/constants/errorMessages";
 import { DBError } from '../../../src/app/errors/dbError';
@@ -13,9 +13,9 @@ describe("DB Tests", () =>{
                 getLastColumn,
                 getLastRow
             });
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
             const metadata = SheetMetadata.of("Sheet Data").withTotalColumn(8);
-            const results = DB.getSheetData(metadata);
+            const results = SheetDB.getSheetData(metadata);
             expect(results).toStrictEqual([]);
             expect(getSheet).toBeCalledTimes(1);
             expect(getSheet).toBeCalledWith("Sheet Data");
@@ -25,10 +25,10 @@ describe("DB Tests", () =>{
             let getSheet = jest.fn().mockImplementation(()=>{
                 throw new DBError(SheetErrorMessage.sheetNotFound("Sheet Data"));
             });
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
             const metadata = SheetMetadata.of("Sheet Data").withTotalColumn(8);
             expect(()=> {
-                DB.getSheetData(metadata);
+                SheetDB.getSheetData(metadata);
             }).toThrowError(new DBError(SheetErrorMessage.sheetNotFound("Sheet Data")));
             expect(getSheet).toBeCalledTimes(1);
             expect(getSheet).toBeCalledWith("Sheet Data");
@@ -47,9 +47,9 @@ describe("DB Tests", () =>{
                 getLastRow,
                 getLastColumn
             });
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
             const metadata = SheetMetadata.of("Sheet Data");
-            expect(DB.getSheetData(metadata)).toBe(mockData);
+            expect(SheetDB.getSheetData(metadata)).toBe(mockData);
             expect(getSheet).toBeCalledTimes(1);
             expect(getSheet).toBeCalledWith("Sheet Data");
         });
@@ -60,10 +60,10 @@ describe("DB Tests", () =>{
             let getSheet = jest.fn().mockImplementation(()=>{
                 throw new DBError(SheetErrorMessage.sheetNotFound("Sheet Data"));
             });
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
             const metadata = SheetMetadata.of("Sheet Data").withStartRow(3);
             expect(()=> {
-                DB.deleteRow(metadata);
+                SheetDB.deleteRow(metadata);
             }).toThrowError(new DBError(SheetErrorMessage.sheetNotFound("Sheet Data")));
             expect(getSheet).toBeCalledTimes(1);
             expect(getSheet).toBeCalledWith("Sheet Data");
@@ -72,9 +72,9 @@ describe("DB Tests", () =>{
         test(`delete data`, ()=>{
             let deleteRow = jest.fn();
             let getSheet = jest.fn().mockReturnValue({deleteRow});
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
             const metadata = SheetMetadata.of("Sheet Data").withStartRow(3);
-            DB.deleteRow(metadata);
+            SheetDB.deleteRow(metadata);
             expect(getSheet).toBeCalledTimes(1);
             expect(getSheet).toBeCalledWith("Sheet Data");
             expect(deleteRow).toBeCalledWith(3);
@@ -89,7 +89,7 @@ describe("DB Tests", () =>{
             let getRange = jest.fn().mockReturnValue({ setValues });
             let getLastRow = jest.fn().mockReturnValue(1);
             let getSheet = jest.fn().mockReturnValue({ getRange, getLastRow });
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
 
             // given
             const metadata = SheetMetadata.of("Sheet Data")
@@ -100,7 +100,7 @@ describe("DB Tests", () =>{
             const data = [["1","2","3","4"]];
 
             // when
-            DB.updateRow(metadata, data);
+            SheetDB.updateRow(metadata, data);
 
             // then
             expect(getSheet).toBeCalledTimes(1);
@@ -123,7 +123,7 @@ describe("DB Tests", () =>{
             let getRange = jest.fn().mockReturnValue({ setValues });
             let getLastRow = jest.fn().mockReturnValue(5);
             let getSheet = jest.fn().mockReturnValue({ getRange, getLastRow });
-            DB.getSheet = getSheet;
+            SheetDB.getSheet = getSheet;
 
             // given
             const metadata = SheetMetadata.of("Sheet Data")
@@ -134,7 +134,7 @@ describe("DB Tests", () =>{
             const data = [["1","2","3","4"]];
 
             // when
-            DB.updateRow(metadata, data);
+            SheetDB.updateRow(metadata, data);
 
             // then
             expect(getSheet).toBeCalledTimes(1);

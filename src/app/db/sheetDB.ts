@@ -2,9 +2,9 @@ import { SheetMetaDataInterface } from "../types/sheetMetadataInterface";
 import { SheetErrorMessage } from "../constants/errorMessages";
 import { DBError } from '../errors/dbError';
 
-export class DB {
+export class SheetDB {
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {
-        const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        const supplierDataSheet = SheetDB.getSheet(metaData.sheetName);
         if(this.isSheetEmpty(supplierDataSheet)) {
             return [];
         }
@@ -19,7 +19,7 @@ export class DB {
     }
 
     static updateRow(metaData: SheetMetaDataInterface, data: Array<Array<any>>): void {
-        const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        const supplierDataSheet = SheetDB.getSheet(metaData.sheetName);
         const startRow = metaData.startRow > 0? metaData.startRow: supplierDataSheet.getLastRow()+1;
         const totalRow = metaData.totalRow > 0? metaData.totalRow: supplierDataSheet.getLastRow()-metaData.startRow+1;
         supplierDataSheet.getRange(
@@ -31,7 +31,7 @@ export class DB {
     }
 
     static deleteRow(metaData: SheetMetaDataInterface): void {
-        const supplierDataSheet = DB.getSheet(metaData.sheetName);
+        const supplierDataSheet = SheetDB.getSheet(metaData.sheetName);
         supplierDataSheet.deleteRow(metaData.startRow);
     }
 
