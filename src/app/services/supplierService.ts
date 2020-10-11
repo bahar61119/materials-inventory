@@ -2,7 +2,7 @@ import { SheetMetadata } from "../utils/sheetMetadata";
 import { Supplier } from "../models/supplierModel";
 import { SheetName } from "../constants/sheetNames";
 import { SupplierErrorMessage } from '../constants/errorMessages';
-import { DB } from '../db/db';
+import { SheetDB } from '../db/sheetDB';
 import { SupplierError } from '../errors/supplierError';
 import { GenerateId } from '../utils/generateId';
 
@@ -43,14 +43,14 @@ class SupplierService {
     let supplierId = supplier.supplierId? supplier.supplierId: GenerateId.getUniqueId();
     supplier.withSupplierId(supplierId); 
     let data = SupplierService.getRowDataFromSupplier(supplier, !isEditSupplier);
-    DB.updateRow(sheetMetaData, [data]);
+    SheetDB.updateRow(sheetMetaData, [data]);
     return supplierId;
   }
 
   static deleteSupplier(supplierId: string): string {
     let index = SupplierService.getSupplierIndex(supplierId);
     try {
-      DB.deleteRow(
+        SheetDB.deleteRow(
         SheetMetadata.of(SheetName.SUPPLIER).withStartRow(index+2)
       );
       return supplierId;
@@ -97,7 +97,7 @@ class SupplierService {
 
   private static getSupplierRawDataList(sheetMetaData: SheetMetadata): Array<any> {
     try {
-      return DB.getSheetData(sheetMetaData);
+      return SheetDB.getSheetData(sheetMetaData);
     } catch(error) {
       console.error(error);
       throw new SupplierError(SupplierErrorMessage.internalError);

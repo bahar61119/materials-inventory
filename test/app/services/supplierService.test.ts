@@ -1,6 +1,6 @@
 import { ErrorMessage, SupplierErrorMessage } from '../../../src/app/constants/errorMessages';
 import { SheetName } from '../../../src/app/constants/sheetNames';
-import { DB } from '../../../src/app/db/db';
+import { SheetDB } from '../../../src/app/db/sheetDB';
 import { DBError } from '../../../src/app/errors/dbError';
 import { SupplierError } from '../../../src/app/errors/supplierError';
 import { Supplier } from '../../../src/app/models/supplierModel';
@@ -30,7 +30,7 @@ describe("SupplierService Test", ()=>{
             const supplierRawDataList = [
                 [11,"12", "13", "14", "15", "16", "17", "18"]
             ];
-            DB.getSheetData = jest.fn().mockReturnValue(supplierRawDataList);
+            SheetDB.getSheetData = jest.fn().mockReturnValue(supplierRawDataList);
             const expectedResults = [
                 Supplier.of()
                     .withSupplierId("11")
@@ -44,40 +44,40 @@ describe("SupplierService Test", ()=>{
             ];
             const actualResults = SupplierService.getSupplierList();
             expect(actualResults).toStrictEqual(expectedResults);
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8));
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8));
         });
 
         test('throws error when db throws error', ()=>{
-            DB.getSheetData = jest.fn().mockImplementation(() => {
+            SheetDB.getSheetData = jest.fn().mockImplementation(() => {
                 throw new DBError("Error thrown at getSheetData");
             });
             expect(() => {
                 SupplierService.getSupplierList();
             })
             .toThrowError(new Error(ErrorMessage.internalError));
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8));
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8));
         });
     });
 
     describe("deleteSupplier", ()=>{
         test("throws error when db throws error", ()=>{
-            DB.getSheetData = jest.fn().mockImplementation(() => {
+            SheetDB.getSheetData = jest.fn().mockImplementation(() => {
                 throw new DBError("Error thrown at getSheetData");
             });
-            DB.deleteRow = jest.fn();
+            SheetDB.deleteRow = jest.fn();
             expect(() => {
                 SupplierService.deleteSupplier("1");
             })
             .toThrowError(new Error(ErrorMessage.internalError));
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
-            expect(DB.deleteRow).toBeCalledTimes(0);
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.deleteRow).toBeCalledTimes(0);
         });
 
         test(`throws ${SupplierError.name} when supplier id not found`, ()=>{
-            DB.getSheetData = jest.fn()
+            SheetDB.getSheetData = jest.fn()
                 .mockReturnValue(
                     [[1], [2], [3], [4], [6], [7]]
                 );
@@ -85,17 +85,17 @@ describe("SupplierService Test", ()=>{
                 SupplierService.deleteSupplier("10");
             })
             .toThrowError(new SupplierError(SupplierErrorMessage.supplierIdNotFound("10")));
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
-            expect(DB.deleteRow).toBeCalledTimes(0);
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.deleteRow).toBeCalledTimes(0);
         });
 
         test(`throws ${SupplierError.name} when errors in deleting supplier id`, ()=>{
-            DB.getSheetData = jest.fn()
+            SheetDB.getSheetData = jest.fn()
                 .mockReturnValue(
                     [[1], [2], [3], [4], [6], [7]]
                 );
-            DB.deleteRow = jest.fn().mockImplementation(()=>{
+            SheetDB.deleteRow = jest.fn().mockImplementation(()=>{
                 throw new Error("Unknown Error");
             });
             expect(() => {
@@ -103,8 +103,8 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new SupplierError(SupplierErrorMessage.supplierDeleteError("1")));
 
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
         });
         
         test(`delete supplier`, ()=>{
@@ -113,8 +113,8 @@ describe("SupplierService Test", ()=>{
                     [[1], [2], [3], [4], [5], [6]]
                 );
             let deleteRow = jest.fn();
-            DB.getSheetData = getSheetData;
-            DB.deleteRow = deleteRow;
+            SheetDB.getSheetData = getSheetData;
+            SheetDB.deleteRow = deleteRow;
             SupplierService.deleteSupplier("5");
             expect(getSheetData).toBeCalledTimes(1);
             expect(getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
@@ -128,7 +128,7 @@ describe("SupplierService Test", ()=>{
             const supplierRawDataList = [
                 [11,"12", "13", "14", "15", "16", "17", "18"]
             ];
-            DB.getSheetData = jest.fn().mockReturnValue(supplierRawDataList);
+            SheetDB.getSheetData = jest.fn().mockReturnValue(supplierRawDataList);
             const expectedResult = Supplier.of()
                 .withSupplierId("11")
                 .withSupplierName("12")
@@ -141,17 +141,17 @@ describe("SupplierService Test", ()=>{
             ;
             const actualResult = SupplierService.getSupplier("11");
             expect(actualResult).toStrictEqual(expectedResult);
-            expect(DB.getSheetData).toBeCalledTimes(2);
-            expect(DB.getSheetData).toBeCalledWith(
+            expect(SheetDB.getSheetData).toBeCalledTimes(2);
+            expect(SheetDB.getSheetData).toBeCalledWith(
                 SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(1)
             );
-            expect(DB.getSheetData).toBeCalledWith(
+            expect(SheetDB.getSheetData).toBeCalledWith(
                 SheetMetadata.of(SheetName.SUPPLIER).withStartRow(2).withTotalColumn(8).withTotalRow(1)
             );
         });
 
         test(`throws ${SupplierError.name} when supplier id not found`, ()=>{
-            DB.getSheetData = jest.fn()
+            SheetDB.getSheetData = jest.fn()
                 .mockReturnValue(
                     [[1], [2], [3], [4], [6], [7]]
                 );
@@ -159,20 +159,20 @@ describe("SupplierService Test", ()=>{
                 SupplierService.getSupplier("10");
             })
             .toThrowError(new SupplierError(SupplierErrorMessage.supplierIdNotFound("10")));
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
         });
 
         test(`throws ${SupplierError.name}  when db throws error`, ()=>{
-            DB.getSheetData = jest.fn().mockImplementation(() => {
+            SheetDB.getSheetData = jest.fn().mockImplementation(() => {
                 throw new DBError("Error thrown at getSheetData");
             });
             expect(() => {
                 SupplierService.getSupplier("11");
             })
             .toThrowError(new SupplierError(ErrorMessage.internalError));
-            expect(DB.getSheetData).toBeCalledTimes(1);
-            expect(DB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(1));
+            expect(SheetDB.getSheetData).toBeCalledTimes(1);
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(1));
         });
     });
 
@@ -220,8 +220,8 @@ describe("SupplierService Test", ()=>{
         test(`edit supplier`, ()=>{
             let getSheetData = jest.fn().mockReturnValue([["1"],["2"],["3"]]);
             let updateRow = jest.fn();
-            DB.updateRow = updateRow;
-            DB.getSheetData = getSheetData;
+            SheetDB.updateRow = updateRow;
+            SheetDB.getSheetData = getSheetData;
 
             // given
             let supplier = Supplier.of()
@@ -256,8 +256,8 @@ describe("SupplierService Test", ()=>{
             let getSheetData = jest.fn().mockReturnValue([["1"],["2"],["3"]]);
             let updateRow = jest.fn();
             let uniqueId = "unique_id";
-            DB.updateRow = updateRow;
-            DB.getSheetData = getSheetData;
+            SheetDB.updateRow = updateRow;
+            SheetDB.getSheetData = getSheetData;
             GenerateId.getUniqueId = jest.fn().mockReturnValue(uniqueId);
 
             // given
