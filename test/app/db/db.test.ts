@@ -39,6 +39,7 @@ class TestObject {
 }
 
 describe("DB Tests", ()=>{
+    console.error = console.log;
     describe("getUserDB", ()=>{
         test("returns user db", ()=>{
             DB.getUserProperties = jest.fn();
@@ -94,6 +95,7 @@ describe("DB Tests", ()=>{
             DB.getUserProperties = dbService;
 
             let actualValue = DB.getUserDB().get("key", new TestObject);
+            expect(actualValue instanceof TestObject).toBe(true);
             expect(actualValue).toStrictEqual(value);
             expect(getProperty).toBeCalledTimes(1);
             expect(getProperty).toBeCalledWith("key");
@@ -115,6 +117,7 @@ describe("DB Tests", ()=>{
             DB.getUserProperties = dbService;
 
             let actualValue = DB.getUserDB().get("key");
+            expect(actualValue instanceof Object).toBe(true);
             expect(actualValue).toStrictEqual(value);
             expect(getProperty).toBeCalledTimes(1);
             expect(getProperty).toBeCalledWith("key");
@@ -133,7 +136,7 @@ describe("DB Tests", ()=>{
             expect(getKeys).toBeCalledTimes(1);
         });
     });
-    
+
     describe("delete", ()=>{
         test("success", ()=>{
             let deleteProperty = jest.fn();
@@ -144,6 +147,18 @@ describe("DB Tests", ()=>{
             DB.getUserDB().delete("key");
             expect(deleteProperty).toBeCalledTimes(1);
             expect(deleteProperty).toBeCalledWith("key");
+        });
+    });
+
+    describe("deleteAll", ()=>{
+        test("success", ()=>{
+            let deleteAllProperties = jest.fn();
+            let dbService = jest.fn().mockReturnValue({deleteAllProperties});
+    
+            DB.getUserProperties = dbService;
+
+            DB.getUserDB().deleteAll();
+            expect(deleteAllProperties).toBeCalledTimes(1);
         });
     });
 }); 
