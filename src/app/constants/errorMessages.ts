@@ -19,3 +19,17 @@ export class SupplierErrorMessage extends ErrorMessage {
         return (supplierId: string) => `Deleting supplier with id(${supplierId}) failed`;
     }
 }
+
+export class UserErrorMessage extends ErrorMessage {
+    static get userNotFound() {
+        return `User Not Found`
+    }
+
+    static get userAlreadyExists() {
+        return `User Already Exists`
+    }
+
+    static get validationError() {
+        return (value: String) => `${value} is required`;
+    }
+}

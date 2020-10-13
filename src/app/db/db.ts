@@ -1,3 +1,6 @@
+import { ErrorMessage } from '../constants/errorMessages';
+import { DBError } from '../errors/dbError';
+
 export class DB {
     private dbService: GoogleAppsScript.Properties.Properties;
 
@@ -14,29 +17,72 @@ export class DB {
         return new DB(DB.getScriptProperties());
     }
 
-    put(key: string, value: any): void {
-        let stringValue = JSON.stringify(value);
-        this.dbService.setProperty(key, stringValue);
+    put<T>(key: string, value: T): void {
+        try {
+            let stringValue = JSON.stringify(value);
+            this.dbService.setProperty(key, stringValue);
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
     }
     
-    get(key: string, target: any = new Object): any {
-        let value = this.dbService.getProperty(key);
-        return value? Object.assign(target, JSON.parse(value)): null;
+    get<T>(key: string, target?: T): T {
+        try {
+            let value = this.dbService.getProperty(key);
+            if(target) {
+                return value? Object.assign(target, JSON.parse(value)): null;
+            } else {
+                return value? JSON.parse(value): null;
+            }
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
     }
     
     getKeys(): string [] {
-        return this.dbService.getKeys();
+        try {
+            return this.dbService.getKeys();
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
     }
     
     delete(key: string): void {
-        this.dbService.deleteProperty(key);
+        try {
+            this.dbService.deleteProperty(key);
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
+    }
+    
+    deleteAll(): void {
+        try {
+            this.dbService.deleteAllProperties();
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
     }
 
     static getScriptProperties() {
-        return PropertiesService.getScriptProperties()
+        try {
+            return PropertiesService.getScriptProperties();
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
     }
 
     static getUserProperties() {
-        return PropertiesService.getUserProperties()
+        try {
+            return PropertiesService.getUserProperties();
+        } catch(error) {
+            console.error(error);
+            throw new DBError(ErrorMessage.internalError);
+        }
     }
 }

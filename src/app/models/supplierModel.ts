@@ -19,20 +19,12 @@ class Supplier implements SupplierInterface {
         this.supplierAddress = '';
     }
 
-    static of() {
+    static of(): Supplier {
         return new Supplier();
     }
 
-    static from(supplierData: any) {
-        return Supplier.of()
-        .withSupplierId(supplierData.supplierId)
-        .withSupplierName(supplierData.supplierName)
-        .withSupplierType(supplierData.supplierType)
-        .withSupplierCompany(supplierData.supplierCompany)
-        .withSupplierDesignation(supplierData.supplierDesignation)
-        .withSupplierContactNumber(supplierData.supplierContactNumber)
-        .withSupplierEmail(supplierData.supplierEmail)
-        .withSupplierAddress(supplierData.supplierAddress)
+    static from(supplierData: any): Supplier {
+        return Object.assign(new Supplier, supplierData);
     }
 
     withSupplierId(supplierId: string) {

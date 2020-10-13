@@ -4,15 +4,24 @@ class User implements UserInterface {
     lastName: string;
     email: string;
 
-    constructor(uuid: string) {
-        this.uuid = uuid;
+    constructor() {
+        this.uuid = '';
         this.firstName = '';
         this.lastName = '';
         this.email = '';
     }
 
     static of(uuid: string) {
-        return new User(uuid);
+        return (new User()).withUUID(uuid);
+    }
+
+    static from(userData: object) {
+        return Object.assign(new User, userData);
+    }
+
+    withUUID(uuid: string) {
+        this.uuid = uuid;
+        return this;
     }
 
     withFirstName(firstName: string) {
