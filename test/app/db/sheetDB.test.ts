@@ -3,7 +3,7 @@ import { SheetMetadata } from "../../../src/app/utils/sheetMetadata";
 import { SheetErrorMessage } from "../../../src/app/constants/errorMessages";
 import { DBError } from '../../../src/app/errors/dbError';
 
-describe("DB Tests", () =>{
+describe("sheetDB Tests", () =>{
     console.error = jest.fn();
     describe("getSheetData", () =>{
         test(`returns empty array when sheet is empty`, ()=>{
