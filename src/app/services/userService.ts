@@ -1,13 +1,12 @@
 import { UserErrorMessage } from '../constants/errorMessages';
 import { DB } from "../db/db";
 import { UserError } from '../errors/userError';
+import { User } from '../models/userModel';
 
+type Users = { [key: string]: User };
 export class UserService {
     private static USER_DB_USER_KEY = "user";
     private static APPLICATION_DB_USERS_KEY = "users";
-
-    private static userDB = DB.getUserDB();
-    private static applicationDB = DB.getApplicationDB();
 
     static addUser(user: User): User {
         UserService.validateUser(user, true);
@@ -18,10 +17,10 @@ export class UserService {
             throw new UserError(UserErrorMessage.userAlreadyExists);
         }
 
-        user.withUUID(Utilities.getUuid());
+        user.withUUID(UserService.getUuid());
         users[user.email] = user;
 
-        UserService.applicationDB.put(UserService.APPLICATION_DB_USERS_KEY, users);
+        DB.getApplicationDB().put(UserService.APPLICATION_DB_USERS_KEY, users);
 
         return user;
     }
@@ -39,7 +38,7 @@ export class UserService {
         users[email] = user;
         if(oldEmail) delete users[oldEmail];
 
-        UserService.applicationDB.put(UserService.APPLICATION_DB_USERS_KEY, users);
+        DB.getApplicationDB().put(UserService.APPLICATION_DB_USERS_KEY, users);
     }
 
     static updateCurrentUser(user: User): User {
@@ -47,7 +46,7 @@ export class UserService {
         if(!UserService.exists(user.email)) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
-        UserService.userDB.put(UserService.USER_DB_USER_KEY, user);
+        DB.getUserDB().put(UserService.USER_DB_USER_KEY, user);
         return user;
     }
 
@@ -62,11 +61,13 @@ export class UserService {
         let user = users[email];
         delete users[email];
 
+        DB.getApplicationDB().put(UserService.APPLICATION_DB_USERS_KEY, users);
+
         return user;
     }
 
     static deleteCurrentUser(): void {
-        UserService.userDB.deleteAll();
+        DB.getUserDB().deleteAll();
     }
 
     static getUser(email: string): User {
@@ -78,11 +79,11 @@ export class UserService {
     }
 
     static getUsers(): Users {
-        return UserService.applicationDB.get(UserService.APPLICATION_DB_USERS_KEY, <Users>{}); 
+        return DB.getApplicationDB().get(UserService.APPLICATION_DB_USERS_KEY, <Users>{}); 
     }
 
     static getCurrentUser(): User {
-        let user = UserService.userDB.get(UserService.USER_DB_USER_KEY, new User);
+        let user = DB.getUserDB().get(UserService.USER_DB_USER_KEY, new User);
         if(!user) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
@@ -96,8 +97,9 @@ export class UserService {
 
     static validateUser(user: User, newUser: boolean) {
         let errors: string [] = [];
-        if(!user.email) {
-            errors.push(UserErrorMessage.validationError("Email"));
+
+        if(!newUser && !user.uuid) {
+            errors.push(UserErrorMessage.validationError("UUID"));
         }
         if(!user.firstName) {
             errors.push(UserErrorMessage.validationError("FirstName"));
@@ -105,12 +107,16 @@ export class UserService {
         if(!user.lastName) {
             errors.push(UserErrorMessage.validationError("LastName"));
         }
-        if(!newUser && user.uuid) {
-            errors.push(UserErrorMessage.validationError("UUID"));
+        if(!user.email) {
+            errors.push(UserErrorMessage.validationError("Email"));
         }
 
         if(errors.length > 0) {
             throw new UserError(errors.join(', '))
         }
+    }
+
+    static getUuid() {
+        return Utilities.getUuid();
     }
 }

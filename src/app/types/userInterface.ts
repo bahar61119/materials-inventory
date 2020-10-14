@@ -4,5 +4,3 @@ interface UserInterface {
     lastName: string;
     email: string;
 }
-
-type Users = { [key: string]: User };
