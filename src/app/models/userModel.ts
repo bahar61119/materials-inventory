@@ -1,4 +1,4 @@
-class User implements UserInterface {
+export class User implements UserInterface {
     uuid: string;
     firstName: string;
     lastName: string;
@@ -11,8 +11,8 @@ class User implements UserInterface {
         this.email = '';
     }
 
-    static of(uuid: string) {
-        return (new User()).withUUID(uuid);
+    static of() {
+        return new User();
     }
 
     static from(userData: object) {
