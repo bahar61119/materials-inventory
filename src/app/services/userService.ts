@@ -25,7 +25,22 @@ export class UserService {
         return user;
     }
 
-    static updateUser(user: User, oldEmail?: string): void {
+    static addCurrentUser(email: string) {
+        let users = UserService.getUsers();
+        if(!users[email]) {
+            throw new UserError(UserErrorMessage.userNotFound);
+        }
+
+        let currentUserExists = UserService.doesCurrentUserExist();
+        if(currentUserExists) {
+            throw new UserError(UserErrorMessage.userAlreadyExists);
+        }
+
+        DB.getUserDB().put(UserService.USER_DB_USER_KEY, users[email]);
+        return users[email];
+    }
+
+    static updateUser(user: User, oldEmail?: string): User {
         UserService.validateUser(user, false);
         let email = oldEmail? oldEmail: user.email;
         let users: Users = UserService.getUsers();
@@ -35,19 +50,24 @@ export class UserService {
             throw new UserError(UserErrorMessage.userNotFound);
         }
 
-        users[email] = user;
+        users[user.email] = user;
         if(oldEmail) delete users[oldEmail];
 
         DB.getApplicationDB().put(UserService.APPLICATION_DB_USERS_KEY, users);
+
+        return user;
     }
 
-    static updateCurrentUser(user: User): User {
-        UserService.validateUser(user, true);
-        if(!UserService.exists(user.email)) {
+    static updateCurrentUser(): User {
+        let currentUser = UserService.getCurrentUser();
+
+        let users = UserService.getUsers();
+        if(!users[currentUser.email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
-        DB.getUserDB().put(UserService.USER_DB_USER_KEY, user);
-        return user;
+
+        DB.getUserDB().put(UserService.USER_DB_USER_KEY, users[currentUser.email]);
+        return users[currentUser.email];
     }
 
     static deleteUser(email: string): User {
@@ -67,12 +87,20 @@ export class UserService {
     }
 
     static deleteCurrentUser(): void {
+        let currentUser = UserService.getCurrentUser();
+        let users: Users = UserService.getUsers();
+        users = users? users: {};
+        
+        if(!users[currentUser.email]) {
+            throw new UserError(UserErrorMessage.userNotFound);
+        }
+        
         DB.getUserDB().deleteAll();
     }
 
     static getUser(email: string): User {
         let users = UserService.getUsers();
-        if(!users[email]) {
+        if(!users || !users[email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
         return users[email];
@@ -90,9 +118,14 @@ export class UserService {
         return user;
     }
 
-    static exists(email: string): boolean {
+    static doesUserExist(email: string): boolean {
         let users = UserService.getUsers();
-        return users[email]? true: false;
+        return users && users[email]? true: false;
+    }
+
+    static doesCurrentUserExist(): boolean {
+        let user = DB.getUserDB().get(UserService.USER_DB_USER_KEY);
+        return user? true: false;
     }
 
     static validateUser(user: User, newUser: boolean) {
