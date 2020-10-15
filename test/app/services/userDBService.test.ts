@@ -2,9 +2,9 @@ import { UserErrorMessage } from '../../../src/app/constants/errorMessages';
 import { DB } from '../../../src/app/db/db';
 import { UserError } from "../../../src/app/errors/userError";
 import { User } from '../../../src/app/models/userModel';
-import { UserService } from '../../../src/app/services/userService';
+import { UserDBService } from '../../../src/app/services/userDBService';
 
-describe("UserService Test", ()=>{
+describe("UserDBService Test", ()=>{
     describe("validateUser", ()=>{
         test("throw error for new user",()=>{
             let user = new User();
@@ -15,7 +15,7 @@ describe("UserService Test", ()=>{
                 UserErrorMessage.validationError("Email")
             ].join(", ");
             expect(() => {
-                UserService.validateUser(user, true);
+                UserDBService.validateUser(user, true);
             })
             .toThrowError(new UserError(validateErrorMessage));
         });
@@ -29,7 +29,7 @@ describe("UserService Test", ()=>{
                 UserErrorMessage.validationError("Email")
             ].join(", ");
             expect(() => {
-                UserService.validateUser(user, false);
+                UserDBService.validateUser(user, false);
             })
             .toThrowError(new UserError(validateErrorMessage));
         });
@@ -40,15 +40,15 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.validateUser(user, false);          
+            UserDBService.validateUser(user, false);          
         });
     });
 
     describe("addUser", ()=>{
         beforeEach(()=>{
-            UserService.validateUser = jest.fn();
-            UserService.getUsers = jest.fn().mockReturnValue(null);
-            UserService.getUuid = jest.fn().mockReturnValue("uuid");
+            UserDBService.validateUser = jest.fn();
+            UserDBService.getUsers = jest.fn().mockReturnValue(null);
+            UserDBService.getUuid = jest.fn().mockReturnValue("uuid");
             let put = jest.fn();
             DB.getApplicationDB = jest.fn().mockReturnValue({put});
         });
@@ -58,7 +58,7 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            let addedUser = UserService.addUser(user);
+            let addedUser = UserDBService.addUser(user);
             expect(addedUser.uuid).toBe("uuid");
 
             let put = DB.getApplicationDB().put;
@@ -72,10 +72,10 @@ describe("UserService Test", ()=>{
                 .withLastName("LastName")
                 .withEmail("Email");
 
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
 
             expect(() => {
-                UserService.addUser(user);
+                UserDBService.addUser(user);
             })
             .toThrowError(new UserError(UserErrorMessage.userAlreadyExists));
         });
@@ -88,8 +88,8 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
-            UserService.doesCurrentUserExist = jest.fn().mockReturnValue(false);
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.doesCurrentUserExist = jest.fn().mockReturnValue(false);
             let put = jest.fn();
             DB.getUserDB = jest.fn().mockReturnValue({put});
         });
@@ -100,7 +100,7 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.addCurrentUser("Email");
+            UserDBService.addCurrentUser("Email");
 
             let put = DB.getUserDB().put;
             expect(put).toBeCalledTimes(1);
@@ -109,7 +109,7 @@ describe("UserService Test", ()=>{
 
         test("throws error when user exists", ()=>{
             expect(() => {
-                UserService.addCurrentUser("NotFoundEmail");
+                UserDBService.addCurrentUser("NotFoundEmail");
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
@@ -117,7 +117,7 @@ describe("UserService Test", ()=>{
 
     describe("updateUser", ()=>{
         beforeEach(()=>{
-            UserService.validateUser = jest.fn();
+            UserDBService.validateUser = jest.fn();
             let put = jest.fn();
             DB.getApplicationDB = jest.fn().mockReturnValue({put});
 
@@ -126,7 +126,7 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
         });
 
         test("success", ()=>{
@@ -135,7 +135,7 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstNameUpdate")
                 .withLastName("LastNameUpdate")
                 .withEmail("Email");
-            let updatedUser = UserService.updateUser(user);
+            let updatedUser = UserDBService.updateUser(user);
             expect(updatedUser.uuid).toBe("uuid");
             expect(updatedUser.firstName).toBe("FirstNameUpdate");
             expect(updatedUser.lastName).toBe("LastNameUpdate");
@@ -152,7 +152,7 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstNameUpdate")
                 .withLastName("LastNameUpdate")
                 .withEmail("NewEmail");
-            let updatedUser = UserService.updateUser(user, oldEmail);
+            let updatedUser = UserDBService.updateUser(user, oldEmail);
             expect(updatedUser.uuid).toBe("uuid");
             expect(updatedUser.firstName).toBe("FirstNameUpdate");
             expect(updatedUser.lastName).toBe("LastNameUpdate");
@@ -170,7 +170,7 @@ describe("UserService Test", ()=>{
                 .withEmail("NotExistEmail");
 
             expect(() => {
-                UserService.updateUser(user);
+                UserDBService.updateUser(user);
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
@@ -184,14 +184,14 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
             let get = jest.fn().mockReturnValue(user);
             let put = jest.fn();
             DB.getUserDB = jest.fn().mockReturnValue({get, put});
         });
 
         test("success", ()=>{
-            let updatedUser = UserService.updateCurrentUser();
+            let updatedUser = UserDBService.updateCurrentUser();
             expect(updatedUser.uuid).toBe("uuid");
             expect(updatedUser.firstName).toBe("FirstName");
             expect(updatedUser.lastName).toBe("LastName");
@@ -205,7 +205,7 @@ describe("UserService Test", ()=>{
             let get = jest.fn().mockReturnValue(null);
             DB.getUserDB = jest.fn().mockReturnValue({get});
             expect(() => {
-                UserService.updateCurrentUser();
+                UserDBService.updateCurrentUser();
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
@@ -220,12 +220,12 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
         });
 
         test("success", ()=>{
             let email = "Email";
-            UserService.deleteUser(email);
+            UserDBService.deleteUser(email);
 
             let put = DB.getApplicationDB().put;
             expect(put).toBeCalledTimes(1);
@@ -234,7 +234,7 @@ describe("UserService Test", ()=>{
 
         test("throws error when user don't exists", ()=>{
             expect(() => {
-                UserService.deleteUser("NotFoundEmail");
+                UserDBService.deleteUser("NotFoundEmail");
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
@@ -249,7 +249,7 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
             
             let get = jest.fn().mockReturnValue(user);
             let deleteAll = jest.fn();
@@ -257,14 +257,14 @@ describe("UserService Test", ()=>{
         });
 
         test("success", ()=>{
-            UserService.deleteCurrentUser();
+            UserDBService.deleteCurrentUser();
             let deleteAll = DB.getUserDB().deleteAll;
             expect(deleteAll).toBeCalledTimes(1);
         });
 
         test("throws error when user don't exists", ()=>{
             expect(() => {
-                UserService.deleteUser("NotFoundEmail");
+                UserDBService.deleteUser("NotFoundEmail");
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
@@ -279,11 +279,11 @@ describe("UserService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
         });
 
         test("success", ()=>{
-            let user = UserService.getUser("Email");
+            let user = UserDBService.getUser("Email");
             expect(user.uuid).toBe("uuid");
             expect(user.firstName).toBe("FirstName");
             expect(user.lastName).toBe("LastName");
@@ -291,9 +291,9 @@ describe("UserService Test", ()=>{
         });
 
         test("throws error when user don't exists", ()=>{
-            UserService.getUsers = jest.fn().mockReturnValue(null);
+            UserDBService.getUsers = jest.fn().mockReturnValue(null);
             expect(() => {
-                UserService.getUser("Email");
+                UserDBService.getUser("Email");
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
@@ -311,7 +311,7 @@ describe("UserService Test", ()=>{
         });
 
         test("success", ()=>{
-            let user = UserService.getCurrentUser();
+            let user = UserDBService.getCurrentUser();
             expect(user.uuid).toBe("uuid");
             expect(user.firstName).toBe("FirstName");
             expect(user.lastName).toBe("LastName");
@@ -321,7 +321,7 @@ describe("UserService Test", ()=>{
         test("throws error when user don't exists", ()=>{
             DB.getUserDB().get = jest.fn().mockReturnValue(null);
             expect(() => {
-                UserService.getCurrentUser();
+                UserDBService.getCurrentUser();
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
