@@ -1,33 +1,31 @@
-import { ViewFileNames } from "./constants/fileNames";
+import { loadIndexView } from './controllers/views/loadIndexViews';
 
-function doGet(event: GoogleAppsScript.Events.DoGet) {
+export function doGet(event: GoogleAppsScript.Events.DoGet) {
   console.log("Opening from doGet ...");
   console.log(event);
-  return HtmlService.createTemplateFromFile(ViewFileNames.INDEX)
-    .evaluate()
-    .setTitle("Material Inventory");
+  
+  // check if the user is registered or not.
+  return loadIndexView(true);
 } 
 
-function doPost(event: GoogleAppsScript.Events.DoPost) {
+export function doPost(event: GoogleAppsScript.Events.DoPost) {
   console.log("Opening from doPost ...");
   console.log(event);
 } 
 
-function onOpen(event: GoogleAppsScript.Events.DocsOnOpen) {
-  console.log("Opening from doOpen ...");
-  console.log(event);
-  createMenu_();
-}
+// function onOpen(event: GoogleAppsScript.Events.DocsOnOpen) {
+//   console.log("Opening from doOpen ...");
+//   console.log(event);
+//   createMenu_();
+// }
 
-function createMenu_() {
-  const ui = SpreadsheetApp.getUi();
-  const menu = ui.createMenu("Inventory Application");
-  menu.addItem("Open Application", "loadApplication");
-  menu.addToUi();
-}
+// function createMenu_() {
+//   const ui = SpreadsheetApp.getUi();
+//   const menu = ui.createMenu("Inventory Application");
+//   menu.addItem("Open Application", "loadApplication");
+//   menu.addToUi();
+// }
 
-export {
-  doGet,
-  doPost,
-  onOpen
-};
+// export {
+//   onOpen
+// };
