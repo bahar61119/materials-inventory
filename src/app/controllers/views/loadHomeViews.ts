@@ -1,8 +1,8 @@
 import { ViewFileNames } from '../../constants/fileNames';
-import { loadAppView } from './loadAppView';
+import { loadView } from './loadView';
 
 function loadHomeView() {
-  return loadAppView(ViewFileNames.HOME);
+  return loadView(ViewFileNames.HOME);
 }
 
 export {

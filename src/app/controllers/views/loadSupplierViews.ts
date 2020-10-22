@@ -1,10 +1,10 @@
 import { ViewFileNames } from "../../constants/fileNames";
 import { Supplier } from '../../models/supplierModel';
 import { SupplierService } from '../../services/supplierService';
-import { loadAppView } from './loadAppView';
+import { loadView } from './loadView';
 
 function loadSupplierListView() {
-  return loadAppView(ViewFileNames.SUPPLIER_LIST);
+  return loadView(ViewFileNames.SUPPLIER_LIST);
 }
 
 function loadAddSupplierView() {
@@ -12,7 +12,7 @@ function loadAddSupplierView() {
     supplier: Supplier.of(),
     isEdit: false
   }
-  return loadAppView(ViewFileNames.UPDATE_SUPPLIER, data);
+  return loadView(ViewFileNames.UPDATE_SUPPLIER, data);
 }
 
 function loadEditSupplierView(supplierId: string) {
@@ -21,7 +21,7 @@ function loadEditSupplierView(supplierId: string) {
     supplier,
     isEdit: true
   }
-  return loadAppView(ViewFileNames.UPDATE_SUPPLIER, data);
+  return loadView(ViewFileNames.UPDATE_SUPPLIER, data);
 }
 
 export {

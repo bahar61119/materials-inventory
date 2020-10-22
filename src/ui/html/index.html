@@ -8,22 +8,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <?!= include('src/views/css/main.css') ?>
+    <?!= include('src/ui/css/main.css') ?>
 
   </head>
   <body>
-    <div class="container-fluid">
-      <?!= include('src/views/html/components/nav-bar') ?>
-      <br/>
-      <?!= include('src/views/html/components/alert') ?>
-      <div id="app">
-        <?!= include('src/views/html/home') ?>
-      </div>
+    <div id="body">
+      <?!= bodyContent ?>
     </div>
-    <?!= include('src/views/html/components/spinner') ?>
-    <?!= include('src/views/html/components/modal') ?>
-    
-
+    <?!= include('src/ui/html/components/spinner') ?>
+    <?!= include('src/ui/html/components/modal') ?>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -32,32 +25,32 @@
     
     <!-- Ordering of the includes are important -->
     <!-- Constants -->
-    <?!= include('src/views/js/constants/element-class-constants.js') ?>
-    <?!= include('src/views/js/constants/element-id-constants.js') ?>
+    <?!= include('src/ui/js/constants/element-class-constants.js') ?>
+    <?!= include('src/ui/js/constants/element-id-constants.js') ?>
   
 
     <!-- Models -->
-    <?!= include('src/views/js/models/browser-history-options-model.js') ?>
-    <?!= include('src/views/js/models/api-options-model.js') ?>
-    <?!= include('src/views/js/models/modal-options-model.js') ?>
-    <?!= include('src/views/js/models/alert-options-model.js') ?>
-    <?!= include('src/views/js/models/supplier-model.js') ?>
+    <?!= include('src/ui/js/models/browser-history-options-model.js') ?>
+    <?!= include('src/ui/js/models/api-options-model.js') ?>
+    <?!= include('src/ui/js/models/modal-options-model.js') ?>
+    <?!= include('src/ui/js/models/alert-options-model.js') ?>
+    <?!= include('src/ui/js/models/supplier-model.js') ?>
 
     <!-- Lib -->
-    <?!= include('src/views/js/lib/common.js') ?>
-    <?!= include('src/views/js/lib/common-ui.js') ?>
+    <?!= include('src/ui/js/lib/common.js') ?>
+    <?!= include('src/ui/js/lib/common-ui.js') ?>
 
     <!-- API -->
-    <?!= include('src/views/js/api/api.js') ?>
+    <?!= include('src/ui/js/api/api.js') ?>
 
     <!-- Services -->
-    <?!= include('src/views/js/services/browser-history-service.js') ?>
-    <?!= include('src/views/js/services/supplier-service.js') ?>
-    <?!= include('src/views/js/services/view-service.js') ?>
-    <?!= include('src/views/js/services/event-handler-service.js') ?>
+    <?!= include('src/ui/js/services/browser-history-service.js') ?>
+    <?!= include('src/ui/js/services/supplier-service.js') ?>
+    <?!= include('src/ui/js/services/view-service.js') ?>
+    <?!= include('src/ui/js/services/event-handler-service.js') ?>
 
     <!-- Main -->
-    <?!= include('src/views/js/main.js') ?>
+    <?!= include('src/ui/js/main.js') ?>
   </body>
 </html>
 
