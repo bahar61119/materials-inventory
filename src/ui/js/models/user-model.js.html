@@ -1,0 +1,43 @@
+<script>
+    class User {
+        uuid;
+        firstName;
+        lastName;
+        email;
+
+        constructor() {
+            this.uuid = '';
+            this.firstName = '';
+            this.lastName = '';
+            this.email = '';
+        }
+
+        static of() {
+            return new User();
+        }
+
+        static from(userData) {
+            return Object.assign(new User, userData);
+        }
+
+        withUUID(uuid) {
+            this.uuid = uuid;
+            return this;
+        }
+
+        withFirstName(firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        withLastName(lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        withEmail(email) {
+            this.email = email;
+            return this;
+        }
+    }
+</script>
