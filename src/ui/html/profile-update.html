@@ -32,7 +32,7 @@
             
             <div class="form-group required">
                 <label for="user-email" class="control-label">Email</label>
-                <input type="email" class="form-control" id="user-email" value=<?= data.user.email ?> >
+                <input type="email" class="form-control" id="user-email" required value=<?= data.user.email ?> >
                 <div class="valid-feedback">
                     Looks good!
                 </div>
@@ -43,7 +43,7 @@
             
             <div class="row">
                 <div class="col">
-                    <button type="button" class="btn btn-outline-success btn-block btn-lg" data-user-uuid=<?= data.user.uuid ?> >Update</button>
+                    <button type="button" class="btn btn-outline-success btn-block btn-lg" id="update-profile-button" data-user-uuid=<?= data.user.uuid ?> >Update</button>
                 </div>
                 <div class="col">
                     <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="cancel-update-profile-button">Cancel</button>
