@@ -1,0 +1,56 @@
+<script>
+    class ProfileEventHandlerService {
+        static inputEventHandler(event) {
+            
+        }
+
+        static clickEventHandler(event) {
+            let profileUpdateCancelButton = event.target.closest(`#${ElementId.Profile.CANCEL_UPDATE_PROFILE_BUTTON}`);
+            let profileUpdateButton = event.target.closest(`#${ElementId.Profile.UPDATE_PROFILE_BUTTON}`);
+
+            if(profileUpdateCancelButton) {
+                ProfileEventHandlerService.#profileUpdateCancel(profileUpdateCancelButton);
+            } else if(profileUpdateButton) {
+                ProfileEventHandlerService.#profileUpdate(profileUpdateButton);
+            }
+        }
+
+        static #profileUpdate(profileUpdateButton) {
+            let form = document.getElementsByClassName(`${ElementClass.Profile.PROFILE_UPDATE_FORM}`)[0];
+            let isValidForm = form.checkValidity();
+            if(!isValidForm) {
+                form.classList.add('was-validated');
+            } else {
+                let userFirstName = $(`#${ElementId.Profile.USER_FIRST_NAME}`).val();
+                let userLastName = $(`#${ElementId.Profile.USER_LAST_NAME}`).val();
+                let userEmail = $(`#${ElementId.Profile.USER_EMAIL}`).val();
+                let userUUID = profileUpdateButton.dataset.userUuid;
+                console.log(userUUID);
+                console.log(userFirstName);
+                console.log(userLastName);
+                console.log(userEmail);
+                let user = User.of()
+                            .withUUID(userUUID)
+                            .withFirstName(userFirstName)
+                            .withLastName(userLastName)
+                            .withEmail(userEmail)
+
+                let options = ConfirmationModalOptions.of()
+                                    .withTitle("Profile Update")
+                                    .withMessage(`Are you sure you want to update your profile?`)
+                                    .withCallback(()=>ProfileService.updateProfile(user))
+                                    .withType(ConfirmationModalOptions.Type.SUCCESS);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static #profileUpdateCancel(profileUpdateCancelButton) {
+            let options = ConfirmationModalOptions.of()
+                                .withTitle("Profile Update")
+                                .withMessage(`Are you sure you want to cancel updating your profile?`)
+                                .withCallback(()=>ViewService.loadHomeView())
+                                .withType(ConfirmationModalOptions.Type.WARNING);
+            ConfirmationModal.show(options);
+        }
+    }
+</script>
