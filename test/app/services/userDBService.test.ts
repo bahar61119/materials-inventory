@@ -47,7 +47,7 @@ describe("UserDBService Test", ()=>{
     describe("addUser", ()=>{
         beforeEach(()=>{
             UserDBService.validateUser = jest.fn();
-            UserDBService.getUsers = jest.fn().mockReturnValue(null);
+            UserDBService.getUsers = jest.fn().mockReturnValue({});
             UserDBService.getUuid = jest.fn().mockReturnValue("uuid");
             let put = jest.fn();
             DB.getApplicationDB = jest.fn().mockReturnValue({put});
@@ -291,7 +291,7 @@ describe("UserDBService Test", ()=>{
         });
 
         test("throws error when user don't exists", ()=>{
-            UserDBService.getUsers = jest.fn().mockReturnValue(null);
+            UserDBService.getUsers = jest.fn().mockReturnValue({});
             expect(() => {
                 UserDBService.getUser("Email");
             })
@@ -322,6 +322,50 @@ describe("UserDBService Test", ()=>{
             DB.getUserDB().get = jest.fn().mockReturnValue(null);
             expect(() => {
                 UserDBService.getCurrentUser();
+            })
+            .toThrowError(new UserError(UserErrorMessage.userNotFound));
+        });
+    });
+
+    describe("addToWhiteList", ()=>{
+        beforeEach(()=>{
+            let put = jest.fn();
+            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(new Set());
+        });
+
+        test("success", ()=>{
+            let userEmail = UserDBService.addToWhiteList("email");
+            expect(userEmail).toBe("email");
+            expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+        });
+
+        test("throws error when user exists", ()=>{
+            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(new Set(["email"]));
+            expect(() => {
+                UserDBService.addToWhiteList("email");
+            })
+            .toThrowError(new UserError(UserErrorMessage.userAlreadyExists));
+        });
+    });
+
+    describe("removeFromWhiteList", ()=>{
+        beforeEach(()=>{
+            let put = jest.fn();
+            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(new Set(["email"]));
+        });
+
+        test("success", ()=>{
+            let userEmail = UserDBService.removeFromWhiteList("email");
+            expect(userEmail).toBe("email");
+            expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+        });
+
+        test("throws error when user don't exists", ()=>{
+            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(new Set());
+            expect(() => {
+                UserDBService.removeFromWhiteList("email");
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
