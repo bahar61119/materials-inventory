@@ -7,30 +7,30 @@ type Users = { [key: string]: User };
 export class UserDBService {
     private static USER_DB_USER_KEY = "user";
     private static APPLICATION_DB_USERS_KEY = "users";
-    private static APPLICATION_DB_WHITELIST_USERS_KEY = "whiteListUsers";
+    private static APPLICATION_DB_WHITELIST_USERS_KEY = "whiteListedUsers";
 
     static addToWhiteList(userEmail: string): string {
-        let whiteListUsers: Set<string> = UserDBService.getWhiteListUsers();
+        let whiteListUsers: Set<string> = new Set<string>(UserDBService.getWhiteListUsers());
         if(whiteListUsers.has(userEmail)) {
             throw new UserError(UserErrorMessage.userAlreadyExists);
         }
         whiteListUsers.add(userEmail);
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, whiteListUsers);
+        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, Array.from(whiteListUsers));
         return userEmail;
     }
 
     static removeFromWhiteList(userEmail: string): string {
-        let whiteListUsers = UserDBService.getWhiteListUsers();
+        let whiteListUsers: Set<string> = new Set<string>(UserDBService.getWhiteListUsers());
         if(!whiteListUsers.has(userEmail)) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
         whiteListUsers.delete(userEmail);
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, whiteListUsers);
+        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, Array.from(whiteListUsers));
         return userEmail;
     }
 
     static doesWhiteListedUser(userEmail: string) {
-        let whiteListUsers = UserDBService.getWhiteListUsers();
+        let whiteListUsers: Set<string> = new Set<string>(UserDBService.getWhiteListUsers());
         return whiteListUsers.has(userEmail);
     }
 
@@ -174,9 +174,9 @@ export class UserDBService {
         return users? users: {};
     }
 
-    static getWhiteListUsers(): Set<string> {
-        let whiteListUsers = DB.getApplicationDB().get(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, new Set<string>());
-        return whiteListUsers? whiteListUsers: new Set<string>();
+    static getWhiteListUsers(): Array<string> {
+        let whiteListUsers = DB.getApplicationDB().get(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, new Array<string>());
+        return whiteListUsers? whiteListUsers: new Array<string>();
     }
 
     static getAdminUserEmail(): string {

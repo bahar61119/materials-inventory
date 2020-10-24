@@ -8,6 +8,6 @@ export function removeEmailFromWhiteList(email: string): string {
     return UserDBService.removeFromWhiteList(email);
 }
 
-export function getWhiteListedEmails(): Set<string> {
+export function getWhiteListedEmails(): Array<string> {
     return UserDBService.getWhiteListUsers();
 }

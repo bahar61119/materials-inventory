@@ -331,7 +331,7 @@ describe("UserDBService Test", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
             DB.getApplicationDB = jest.fn().mockReturnValue({put});
-            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(new Set());
+            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue([]);
         });
 
         test("success", ()=>{
@@ -341,7 +341,7 @@ describe("UserDBService Test", ()=>{
         });
 
         test("throws error when user exists", ()=>{
-            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(new Set(["email"]));
+            UserDBService.getWhiteListUsers = jest.fn().mockReturnValue(["email"]);
             expect(() => {
                 UserDBService.addToWhiteList("email");
             })

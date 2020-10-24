@@ -25,10 +25,6 @@
                 let userLastName = $(`#${ElementId.Profile.USER_LAST_NAME}`).val();
                 let userEmail = $(`#${ElementId.Profile.USER_EMAIL}`).val();
                 let userUUID = profileUpdateButton.dataset.userUuid;
-                console.log(userUUID);
-                console.log(userFirstName);
-                console.log(userLastName);
-                console.log(userEmail);
                 let user = User.of()
                             .withUUID(userUUID)
                             .withFirstName(userFirstName)
