@@ -7,12 +7,36 @@ type Users = { [key: string]: User };
 export class UserDBService {
     private static USER_DB_USER_KEY = "user";
     private static APPLICATION_DB_USERS_KEY = "users";
+    private static APPLICATION_DB_WHITELIST_USERS_KEY = "whiteListUsers";
+
+    static addToWhiteList(userEmail: string): string {
+        let whiteListUsers: Set<string> = UserDBService.getWhiteListUsers();
+        if(whiteListUsers.has(userEmail)) {
+            throw new UserError(UserErrorMessage.userAlreadyExists);
+        }
+        whiteListUsers.add(userEmail);
+        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, whiteListUsers);
+        return userEmail;
+    }
+
+    static removeFromWhiteList(userEmail: string): string {
+        let whiteListUsers = UserDBService.getWhiteListUsers();
+        if(!whiteListUsers.has(userEmail)) {
+            throw new UserError(UserErrorMessage.userNotFound);
+        }
+        whiteListUsers.delete(userEmail);
+        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, whiteListUsers);
+        return userEmail;
+    }
+
+    static doesWhiteListedUser(userEmail: string) {
+        let whiteListUsers = UserDBService.getWhiteListUsers();
+        return whiteListUsers.has(userEmail);
+    }
 
     static addUser(user: User): User {
         UserDBService.validateUser(user, true);
         let users: Users = UserDBService.getUsers();
-        users = users? users: {};
-        
         if(users[user.email]) {
             throw new UserError(UserErrorMessage.userAlreadyExists);
         }
@@ -72,8 +96,6 @@ export class UserDBService {
 
     static deleteUser(email: string): User {
         let users: Users = UserDBService.getUsers();
-        users = users? users: {};
-        
         if(!users[email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
@@ -89,8 +111,6 @@ export class UserDBService {
     static deleteCurrentUser(): void {
         let currentUser = UserDBService.getCurrentUser();
         let users: Users = UserDBService.getUsers();
-        users = users? users: {};
-        
         if(!users[currentUser.email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
@@ -100,14 +120,10 @@ export class UserDBService {
 
     static getUser(email: string): User {
         let users = UserDBService.getUsers();
-        if(!users || !users[email]) {
+        if(!users[email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
         return users[email];
-    }
-
-    static getUsers(): Users {
-        return DB.getApplicationDB().get(UserDBService.APPLICATION_DB_USERS_KEY, <Users>{}); 
     }
 
     static getCurrentUser(): User {
@@ -120,7 +136,7 @@ export class UserDBService {
 
     static doesUserExist(email: string): boolean {
         let users = UserDBService.getUsers();
-        return users && users[email]? true: false;
+        return users[email]? true: false;
     }
 
     static doesCurrentUserExist(): boolean {
@@ -151,5 +167,19 @@ export class UserDBService {
 
     static getUuid() {
         return Utilities.getUuid();
+    }
+
+    static getUsers(): Users {
+        let users = DB.getApplicationDB().get(UserDBService.APPLICATION_DB_USERS_KEY, <Users>{}); 
+        return users? users: {};
+    }
+
+    static getWhiteListUsers(): Set<string> {
+        let whiteListUsers = DB.getApplicationDB().get(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, new Set<string>());
+        return whiteListUsers? whiteListUsers: new Set<string>();
+    }
+
+    static getAdminUserEmail(): string {
+        return Session.getEffectiveUser().getEmail();
     }
 }

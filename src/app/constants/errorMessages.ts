@@ -33,3 +33,13 @@ export class UserErrorMessage extends ErrorMessage {
         return (value: String) => `${value} is required`;
     }
 }
+
+export class ProfileErrorMessage extends ErrorMessage {
+    static get notAuthorized() {
+        return `You are not authorized. Please contact with administrator.`
+    }
+
+    static get emailExists() {
+        return `Email is registered with another user`;
+    }
+}

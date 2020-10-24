@@ -3,9 +3,7 @@ import { loadIndexView } from './controllers/views/loadIndexViews';
 export function doGet(event: GoogleAppsScript.Events.DoGet) {
   console.log("Opening from doGet ...");
   console.log(event);
-  
-  // check if the user is registered or not.
-  return loadIndexView(true);
+  return loadIndexView();
 } 
 
 export function doPost(event: GoogleAppsScript.Events.DoPost) {
