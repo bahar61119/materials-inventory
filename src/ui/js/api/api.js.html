@@ -22,7 +22,8 @@
                 loadEditSupplierView: "loadEditSupplierView",
                 getSupplierList: "getSupplierList",
                 deleteSupplier:"deleteSupplier",
-                updateSupplier:"updateSupplier"
+                updateSupplier:"updateSupplier",
+                updateProfile: "updateProfile"
             }
         }
 
@@ -80,6 +81,15 @@
             API.call(
                 APIOptions.of(API.NAME.updateSupplier)
                 .withData(supplier)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updateProfile(user, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateProfile)
+                .withData(user)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

@@ -1,5 +1,6 @@
-import { ProfileErrorMessage } from '../../../src/app/constants/errorMessages';
+import { ProfileErrorMessage, UserErrorMessage } from '../../../src/app/constants/errorMessages';
 import { ProfileError } from '../../../src/app/errors/profileError';
+import { UserError } from '../../../src/app/errors/userError';
 import { User } from '../../../src/app/models/userModel';
 import { ProfileService } from '../../../src/app/services/profileService';
 import { UserDBService } from "../../../src/app/services/userDBService";
@@ -101,6 +102,43 @@ describe("ProfileService", ()=>{
             expect(UserDBService.addCurrentUser).toBeCalledTimes(0);
             expect(UserDBService.updateUser).toBeCalledTimes(0);
             expect(UserDBService.updateCurrentUser).toBeCalledTimes(0);
+        });
+    });
+
+    describe("validateProfile", ()=>{
+        beforeEach(()=>{
+            let user = User.of()
+                .withUUID('uuid')
+                .withFirstName('firstName')
+                .withLastName('lastName')
+                .withEmail('email');
+            UserDBService.getCurrentUser = jest.fn().mockReturnValue(user);
+            UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
+        });
+        test("success", ()=>{
+            ProfileService.validateProfile();
+            expect(UserDBService.getCurrentUser).toBeCalledTimes(1);
+            expect(UserDBService.doesWhiteListedUser).toBeCalledTimes(1);
+        });
+
+        test("throw error, when user not exists", ()=>{
+            UserDBService.getCurrentUser = jest.fn().mockImplementation(()=>{
+                throw new UserError(UserErrorMessage.userNotFound);
+            });
+            expect(() => {
+                ProfileService.validateProfile();
+            })
+            .toThrowError(new UserError(UserErrorMessage.userNotFound));
+        });
+
+        test("throw error, when user is not whitelisted", ()=>{
+            UserDBService.getCurrentUser = jest.fn().mockImplementation(()=>{
+                throw new ProfileError(ProfileErrorMessage.notAuthorized);
+            });
+            expect(() => {
+                ProfileService.validateProfile();
+            })
+            .toThrowError(new ProfileError(ProfileErrorMessage.notAuthorized));
         });
     });
 });

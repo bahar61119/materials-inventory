@@ -1,11 +1,25 @@
 <script>
     class ProfileService {
         static updateProfile(user) {
-            Alert.show(
-                AlertOptions.of()
-                    .withTitle("Profile Update")
-                    .withMessage("Profile successfully updated")
-                    .withType(AlertOptions.Type.SUCCESS)
+            API.updateProfile(
+                user,
+                dataReturned => {
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Profile Update")
+                            .withMessage("Profile successfully updated")
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Profile Update Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
             );
         }
     }

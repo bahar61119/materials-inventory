@@ -29,4 +29,12 @@ export class ProfileService {
         
         return user;
     }
+
+    static validateProfile() {
+        let user = UserDBService.getCurrentUser();
+        let userWhitelisted = UserDBService.doesWhiteListedUser(user.email);
+        if(!userWhitelisted) {
+            throw new ProfileError(ProfileErrorMessage.notAuthorized);
+        }
+    }
 }
