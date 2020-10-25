@@ -6,7 +6,7 @@
         EventHandlerService.inputEventHandler();
         BrowserHistory.setHistory(
             BrowserHistoryOptions.of()
-                .withFunctionName(ViewService.FunctionName.loadHomeView)
+                .withFunctionName(HomeViewService.FunctionName.loadHomeView)
         );
         BrowserHistory.changedState();
     });
