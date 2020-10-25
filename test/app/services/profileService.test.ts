@@ -1,6 +1,5 @@
-import { ProfileErrorMessage, UserErrorMessage } from '../../../src/app/constants/errorMessages';
+import { ProfileErrorMessage } from '../../../src/app/constants/errorMessages';
 import { ProfileError } from '../../../src/app/errors/profileError';
-import { UserError } from '../../../src/app/errors/userError';
 import { User } from '../../../src/app/models/userModel';
 import { ProfileService } from '../../../src/app/services/profileService';
 import { UserDBService } from "../../../src/app/services/userDBService";
@@ -112,6 +111,7 @@ describe("ProfileService", ()=>{
                 .withFirstName('firstName')
                 .withLastName('lastName')
                 .withEmail('email');
+            UserDBService.doesCurrentUserExist = jest.fn().mockReturnValue(true);
             UserDBService.getCurrentUser = jest.fn().mockReturnValue(user);
             UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
         });
@@ -122,13 +122,11 @@ describe("ProfileService", ()=>{
         });
 
         test("throw error, when user not exists", ()=>{
-            UserDBService.getCurrentUser = jest.fn().mockImplementation(()=>{
-                throw new UserError(UserErrorMessage.userNotFound);
-            });
+            UserDBService.doesCurrentUserExist = jest.fn().mockReturnValue(false);
             expect(() => {
                 ProfileService.validateProfile();
             })
-            .toThrowError(new UserError(UserErrorMessage.userNotFound));
+            .toThrowError(new ProfileError(ProfileErrorMessage.profileNotFound));
         });
 
         test("throw error, when user is not whitelisted", ()=>{

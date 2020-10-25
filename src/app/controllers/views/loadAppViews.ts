@@ -1,5 +1,6 @@
 import { ViewFileNames } from "../../constants/fileNames";
 import { loadHomeView } from './loadHomeViews';
+import { loadNavbarView } from './loadNavbarViews';
 import { loadProfileUpdateView } from './loadProfileViews';
 import { loadView } from './loadView';
 
@@ -13,5 +14,7 @@ export function loadAppView(appContentFileName: string, data: {[key: string]: an
         default:
             appContents = loadHomeView();
     }
-    return loadView(ViewFileNames.APP, {appContents});
+
+    let navbarContents = loadNavbarView();
+    return loadView(ViewFileNames.APP, {appContents, navbarContents});
 }

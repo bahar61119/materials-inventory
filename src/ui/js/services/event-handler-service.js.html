@@ -1,13 +1,21 @@
 <script>
     class EventHandlerService {
-        static inputEventHandler(event) {
-            SupplierEventHandlerService.inputEventHandler(event);
-            ProfileEventHandlerService.inputEventHandler(event);
+        static inputEventHandler() {
+            $(`#${ElementId.Main.APP}`).bind("input", EventHandlerService.#inputEvents);
         }
 
-        static clickEventHandler(event) {
+        static clickEventHandler() {
+            $(`#${ElementId.Main.APP}`).bind("click", EventHandlerService.#clickEvents);
+        }
+
+        static #clickEvents(event) {
             SupplierEventHandlerService.clickEventHandler(event);
             ProfileEventHandlerService.clickEventHandler(event);
+        }
+
+        static #inputEvents(event) {
+            SupplierEventHandlerService.inputEventHandler(event);
+            ProfileEventHandlerService.inputEventHandler(event);
         }
     }
 </script>

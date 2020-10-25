@@ -31,6 +31,10 @@ export class ProfileService {
     }
 
     static validateProfile() {
+        if(!UserDBService.doesCurrentUserExist()){
+            throw new ProfileError(ProfileErrorMessage.profileNotFound);
+        }
+
         let user = UserDBService.getCurrentUser();
         let userWhitelisted = UserDBService.doesWhiteListedUser(user.email);
         if(!userWhitelisted) {

@@ -1,0 +1,22 @@
+<script>
+    class Spinner {
+        static view(flag) {
+            if(flag) {
+                $(`.${ElementClass.Component.SPINNER}`).removeClass('d-none');
+                $(`.${ElementClass.Component.SPINNER_OVERLAY}`).addClass('modal-backdrop fade show');
+            } else {
+                $(`.${ElementClass.Component.SPINNER}`).addClass('d-none');
+                $(`.${ElementClass.Component.SPINNER_OVERLAY}`).removeClass('modal-backdrop fade show');
+            }
+        } 
+
+        static show() {
+            scroll(0,0);
+            Spinner.view(true);
+        }
+
+        static hide() {
+            Spinner.view(false);
+        }
+    }
+</script>

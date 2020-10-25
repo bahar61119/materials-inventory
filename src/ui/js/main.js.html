@@ -1,11 +1,9 @@
 <script>
     $(function(){
-        $(`#${ElementId.Navbar.HOME_LINK}`).bind("click", ViewService.loadHomeView);
-        $(`#${ElementId.Navbar.SUPPLIER_LIST_LINK}`).bind("click", ViewService.loadSupplierListView);
-        $(`#${ElementId.Main.APP}`).bind("input", EventHandlerService.inputEventHandler);
-        $(`#${ElementId.Main.APP}`).bind("click", EventHandlerService.clickEventHandler);
-        $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).bind("click", ConfirmationModal.confirm);
-
+        Navbar.clickEventHandler();
+        ConfirmationModal.clickEventHandler();
+        EventHandlerService.clickEventHandler();
+        EventHandlerService.inputEventHandler();
         BrowserHistory.setHistory(
             BrowserHistoryOptions.of()
                 .withFunctionName(ViewService.FunctionName.loadHomeView)
