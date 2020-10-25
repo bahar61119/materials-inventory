@@ -1,0 +1,14 @@
+<script>
+    class NavbarViewService extends ViewService {
+        static loadNavbarView() {
+            API.loadNavbarView(
+                html => {
+                    NavbarViewService.setHtml(html, ElementId.Navbar.ID);
+                },
+                error => {
+                    console.error(error);
+                }
+            );
+        }
+    }
+</script>

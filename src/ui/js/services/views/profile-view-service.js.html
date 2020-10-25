@@ -1,0 +1,25 @@
+<script>
+    class ProfileViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${ProfileViewService.name}.${name}()`
+            return {
+                loadUpdateProfile: functionName(ProfileViewService.loadUpdateProfile.name),
+            }
+        }
+
+        static loadUpdateProfile() {
+            ProfileViewService.clear();
+            API.loadProfileUpdateView(
+                html => {
+                    ProfileViewService.setHtml(html);
+                },
+                ProfileViewService.errorHandler
+            );
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ProfileViewService.FunctionName.loadUpdateProfile)
+                    .withHash(BrowserHistoryOptions.Url.PROFILE_UPDATE)
+            );
+        }
+    }
+</script>

@@ -14,8 +14,8 @@
             );
         }
 
-        static clear() {
-            ViewService.setHtml("");
+        static clear(id = ElementId.Main.APP) {
+            ViewService.setHtml("", id);
             Alert.hide();
             Spinner.hide();
         }
