@@ -1,0 +1,25 @@
+<script>
+    class SettingsViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${SettingsViewService.name}.${name}()`
+            return {
+                loadSettingsView: functionName(SettingsViewService.loadSettingsView.name),
+            }
+        }
+
+        static loadSettingsView() {
+            SettingsViewService.clear();
+            API.loadSettingsView(
+                html => {
+                    SettingsViewService.setHtml(html);
+                },
+                SettingsViewService.errorHandler
+            );
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(SettingsViewService.FunctionName.loadSettingsView)
+                    .withHash(BrowserHistoryOptions.Url.SETTINGS)
+            );
+        }
+    }
+</script>

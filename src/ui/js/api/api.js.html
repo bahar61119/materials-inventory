@@ -26,7 +26,8 @@
                 updateSupplier:"updateSupplier",
                 loadProfileUpdateView: "loadProfileUpdateView",
                 updateProfile: "updateProfile",
-                deleteProfile: "deleteProfile"
+                deleteProfile: "deleteProfile",
+                loadSettingsView: "loadSettingsView"
             }
         }
 
@@ -117,6 +118,14 @@
         static deleteProfile(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.deleteProfile)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadSettingsView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadSettingsView)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );
