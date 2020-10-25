@@ -45,9 +45,11 @@
                 <div class="col">
                     <button type="button" class="btn btn-outline-success btn-block btn-lg" id="update-profile-button" data-user-uuid=<?= data.user.uuid ?> >Update</button>
                 </div>
+                <? if(data.isAdmin === false) { ?>
                 <div class="col">
-                    <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="cancel-update-profile-button">Cancel</button>
+                    <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="delete-profile-button">Delete</button>
                 </div>
+                <? } ?>
             </div>
         </div>
     </div>

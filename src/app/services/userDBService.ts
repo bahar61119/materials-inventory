@@ -111,8 +111,9 @@ export class UserDBService {
     static deleteCurrentUser(): void {
         let currentUser = UserDBService.getCurrentUser();
         let users: Users = UserDBService.getUsers();
-        if(!users[currentUser.email]) {
-            throw new UserError(UserErrorMessage.userNotFound);
+        if(users[currentUser.email]) {
+            console.error(`Please delete from application db first`);
+            throw new UserError(UserErrorMessage.internalError);
         }
         
         DB.getUserDB().deleteAll();

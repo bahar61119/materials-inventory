@@ -46,4 +46,8 @@ export class ProfileErrorMessage extends ErrorMessage {
     static get emailExists() {
         return `Email is registered with another user`;
     }
+
+    static get adminProfile() {
+        return `Admin user cannot delete profile`
+    }
 }

@@ -139,4 +139,39 @@ describe("ProfileService", ()=>{
             .toThrowError(new ProfileError(ProfileErrorMessage.notAuthorized));
         });
     });
+
+    describe("deleteProfile", ()=>{
+        beforeEach(()=>{
+            let user = User.of()
+                .withUUID('uuid')
+                .withFirstName('firstName')
+                .withLastName('lastName')
+                .withEmail('email');
+            UserDBService.getCurrentUser = jest.fn().mockReturnValue(user);
+            UserDBService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
+            UserDBService.deleteUser = jest.fn();
+            UserDBService.deleteCurrentUser = jest.fn();
+        });
+
+        test("success", ()=>{
+            ProfileService.deleteProfile();
+            expect(UserDBService.getCurrentUser).toBeCalledTimes(1);
+            expect(UserDBService.getAdminUserEmail).toBeCalledTimes(1);
+            expect(UserDBService.deleteUser).toBeCalledTimes(1);
+            expect(UserDBService.deleteUser).toBeCalledWith("email");
+            expect(UserDBService.deleteCurrentUser).toBeCalledTimes(1);
+        });
+
+        test("throw error, when user is admin", ()=>{
+            UserDBService.getAdminUserEmail = jest.fn().mockReturnValue("email");
+            expect(() => {
+                ProfileService.deleteProfile();
+            })
+            .toThrowError(new ProfileError(ProfileErrorMessage.adminProfile));
+            expect(UserDBService.getCurrentUser).toBeCalledTimes(1);
+            expect(UserDBService.getAdminUserEmail).toBeCalledTimes(1);
+            expect(UserDBService.deleteUser).toBeCalledTimes(0);
+            expect(UserDBService.deleteCurrentUser).toBeCalledTimes(0);
+        });
+    });
 });

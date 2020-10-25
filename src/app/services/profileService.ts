@@ -30,6 +30,16 @@ export class ProfileService {
         return user;
     }
 
+    static deleteProfile(): User {
+        let user = UserDBService.getCurrentUser();
+        if(user.email === UserDBService.getAdminUserEmail()) {
+            throw new ProfileError(ProfileErrorMessage.adminProfile);
+        }
+        UserDBService.deleteUser(user.email);
+        UserDBService.deleteCurrentUser();
+        return user;
+    }
+
     static validateProfile() {
         if(!UserDBService.doesCurrentUserExist()){
             throw new ProfileError(ProfileErrorMessage.profileNotFound);
@@ -40,5 +50,10 @@ export class ProfileService {
         if(!userWhitelisted) {
             throw new ProfileError(ProfileErrorMessage.notAuthorized);
         }
+    }
+
+    static isAdminProfile() {
+        let user = UserDBService.getCurrentUser();
+        return user.email === UserDBService.getAdminUserEmail();
     }
 }

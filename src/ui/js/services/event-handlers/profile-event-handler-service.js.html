@@ -5,11 +5,11 @@
         }
 
         static clickEventHandler(event) {
-            let profileUpdateCancelButton = event.target.closest(`#${ElementId.Profile.CANCEL_UPDATE_PROFILE_BUTTON}`);
+            let profileDeleteButton = event.target.closest(`#${ElementId.Profile.DELETE_PROFILE_BUTTON}`);
             let profileUpdateButton = event.target.closest(`#${ElementId.Profile.UPDATE_PROFILE_BUTTON}`);
 
-            if(profileUpdateCancelButton) {
-                ProfileEventHandlerService.#profileUpdateCancel(profileUpdateCancelButton);
+            if(profileDeleteButton) {
+                ProfileEventHandlerService.#profileDeleteButton(profileDeleteButton);
             } else if(profileUpdateButton) {
                 ProfileEventHandlerService.#profileUpdate(profileUpdateButton);
             }
@@ -40,12 +40,12 @@
             }
         }
 
-        static #profileUpdateCancel(profileUpdateCancelButton) {
+        static #profileDeleteButton(profileDeleteButton) {
             let options = ConfirmationModalOptions.of()
-                                .withTitle("Profile Update")
-                                .withMessage(`Are you sure you want to cancel updating your profile?`)
-                                .withCallback(()=>HomeViewService.loadHomeView())
-                                .withType(ConfirmationModalOptions.Type.WARNING);
+                                .withTitle("Profile Delete")
+                                .withMessage(`Are you sure you want to delete your profile?`)
+                                .withCallback(()=>ProfileService.deleteProfile())
+                                .withType(ConfirmationModalOptions.Type.DANGER);
             ConfirmationModal.show(options);
         }
     }
