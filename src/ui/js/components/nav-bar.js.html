@@ -5,6 +5,7 @@
             Navbar.#homeLinkClickEvent();
             Navbar.#suppliersLinkClickEvent();
             Navbar.#profileUpdateLinkClickEvent();
+            Navbar.#settingsLinkClickEvent();
         }
 
         static #activeStatusEvent() {
@@ -31,6 +32,10 @@
 
         static #profileUpdateLinkClickEvent() {
             $(`#${ElementId.Navbar.PROFILE_UPDATE_LINK}`).bind("click", ProfileViewService.loadUpdateProfile);
+        }
+
+        static #settingsLinkClickEvent() {
+            $(`#${ElementId.Navbar.SETTINGS_LINK}`).bind("click", SettingsViewService.loadSettingsView);
         }
     }
 </script>
