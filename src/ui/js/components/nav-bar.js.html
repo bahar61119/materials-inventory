@@ -1,0 +1,32 @@
+<script>
+    class Navbar {
+        static clickEventHandler(){
+            Navbar.#activeStatusEvent();
+            Navbar.#homeLinkClickEvent();
+            Navbar.#suppliersLinkClickEvent();
+        }
+
+        static #activeStatusEvent() {
+            $(".nav-item .nav-link").on("click", function(){
+                if(this !== $(".nav-link.dropdown-toggle").get(0)) {
+                    $(".nav-item").find(".active").removeClass("active");
+                    $(this).addClass("active");
+                }
+            });
+
+            $(".nav-item.dropdown .dropdown-menu .dropdown-item").on("click", function(){
+                $(".nav-item").find(".active").removeClass("active");
+                console.log($(this).closest('li').find(".nav-link"));
+                $(this).closest('li').find(".nav-link").addClass("active");
+            });
+        }
+
+        static #homeLinkClickEvent() {
+            $(`#${ElementId.Navbar.HOME_LINK}`).bind("click", ViewService.loadHomeView);
+        }
+
+        static #suppliersLinkClickEvent() {
+            $(`#${ElementId.Navbar.SUPPLIERS_LINK}`).bind("click", ViewService.loadSupplierListView);
+        }
+    }
+</script>

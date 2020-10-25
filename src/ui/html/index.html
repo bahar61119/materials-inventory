@@ -16,7 +16,7 @@
       <?!= bodyContent ?>
     </div>
     <?!= include('src/ui/html/components/spinner') ?>
-    <?!= include('src/ui/html/components/modal') ?>
+    <?!= include('src/ui/html/components/confirmation-modal') ?>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -37,9 +37,12 @@
     <?!= include('src/ui/js/models/supplier-model.js') ?>
     <?!= include('src/ui/js/models/user-model.js') ?>
 
-    <!-- Lib -->
-    <?!= include('src/ui/js/lib/common.js') ?>
-    <?!= include('src/ui/js/lib/common-ui.js') ?>
+    <!-- Components -->
+    <?!= include('src/ui/js/components/nav-bar.js') ?>
+    <?!= include('src/ui/js/components/common.js') ?>
+    <?!= include('src/ui/js/components/alert.js') ?>
+    <?!= include('src/ui/js/components/spinner.js') ?>
+    <?!= include('src/ui/js/components/confirmation-modal.js') ?>
 
     <!-- API -->
     <?!= include('src/ui/js/api/api.js') ?>

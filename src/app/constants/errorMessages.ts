@@ -39,6 +39,10 @@ export class ProfileErrorMessage extends ErrorMessage {
         return `You are not authorized. Please contact with administrator.`
     }
 
+    static get profileNotFound() {
+        return `Profile not found. Please update your profile.`
+    }
+
     static get emailExists() {
         return `Email is registered with another user`;
     }

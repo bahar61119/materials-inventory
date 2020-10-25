@@ -1,0 +1,25 @@
+<script>
+    class Alert {
+        static #setAlert() {
+            let alert = document.getElementById(ElementId.Component.ALERT);
+            let template = document.getElementById(ElementId.Component.ALERT_TEMPLATE).content;
+            alert.innerHTML = "";
+            alert.appendChild(template.cloneNode(true));
+        }
+
+        static show(options) {
+            Alert.#setAlert();
+            $(`#${ElementId.Component.CONFIRMATION_MODAL_BUTTON}`).removeClass (function (index, className) {
+                return (className.match (/\balert-\S+/g) || []).join(' ');
+            });
+            $(`.${ElementClass.Component.ALERT}`).addClass(`alert-${options.type} alert-dismissible`);
+            $(`#${ElementId.Component.ALERT_TITLE}`).text(options.title);
+            $(`#${ElementId.Component.ALERT_MESSAGE}`).text(options.message);
+            scroll(0,0);
+        }
+
+        static hide() {
+            $(`#${ElementId.Component.ALERT}`).empty();
+        }
+    }
+</script>
