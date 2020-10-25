@@ -16,6 +16,7 @@
 
         static get NAME() {
             return {
+                loadNavbarView: "loadNavbarView",
                 loadHomeView: "loadHomeView",
                 loadSupplierListView: "loadSupplierListView",
                 loadAddSupplierView: "loadAddSupplierView",
@@ -23,8 +24,17 @@
                 getSupplierList: "getSupplierList",
                 deleteSupplier:"deleteSupplier",
                 updateSupplier:"updateSupplier",
+                loadProfileUpdateView: "loadProfileUpdateView",
                 updateProfile: "updateProfile"
             }
+        }
+
+        static loadNavbarView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadNavbarView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
         }
 
         static loadHomeView(successHandler = ()=>{}, failureHandler = ()=>{}) {
@@ -81,6 +91,14 @@
             API.call(
                 APIOptions.of(API.NAME.updateSupplier)
                 .withData(supplier)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadProfileUpdateView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadProfileUpdateView)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

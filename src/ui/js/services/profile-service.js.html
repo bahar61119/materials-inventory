@@ -4,6 +4,7 @@
             API.updateProfile(
                 user,
                 dataReturned => {
+                    NavbarViewService.loadNavbarView();
                     Alert.show(
                         AlertOptions.of()
                             .withTitle("Profile Update")
