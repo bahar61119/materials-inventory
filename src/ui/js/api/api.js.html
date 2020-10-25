@@ -25,7 +25,8 @@
                 deleteSupplier:"deleteSupplier",
                 updateSupplier:"updateSupplier",
                 loadProfileUpdateView: "loadProfileUpdateView",
-                updateProfile: "updateProfile"
+                updateProfile: "updateProfile",
+                deleteProfile: "deleteProfile"
             }
         }
 
@@ -108,6 +109,14 @@
             API.call(
                 APIOptions.of(API.NAME.updateProfile)
                 .withData(user)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteProfile(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteProfile)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

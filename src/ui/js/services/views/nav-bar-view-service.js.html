@@ -4,6 +4,7 @@
             API.loadNavbarView(
                 html => {
                     NavbarViewService.setHtml(html, ElementId.Navbar.ID);
+                    Navbar.clickEventHandler();
                 },
                 error => {
                     console.error(error);
