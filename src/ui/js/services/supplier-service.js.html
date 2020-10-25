@@ -21,7 +21,7 @@
                                 .withMessage(`Do you want to add new supplier?`)
                                 .withCallback(()=>{
                                     Alert.hide();
-                                    ViewService.loadAddSupplierView();
+                                    SuppliersViewService.loadAddSupplierView();
                                 })
                                 .withType(ConfirmationModalOptions.Type.WARNING)
                         );
@@ -92,7 +92,7 @@
         }
 
         static editSupplier(supplierId) {
-            ViewService.loadEditSupplierView(supplierId);
+            SuppliersViewService.loadEditSupplierView(supplierId);
         }
 
         static updateSupplier(isEdit = true) {

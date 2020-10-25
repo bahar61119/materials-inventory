@@ -1,0 +1,24 @@
+<script>
+    class HomeViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${HomeViewService.name}.${name}()`
+            return {
+                loadHomeView: functionName(HomeViewService.loadHomeView.name),
+            }
+        }
+
+        static loadHomeView() {
+            HomeViewService.clear();
+            API.loadHomeView(
+                html => {
+                    HomeViewService.setHtml(html);
+                },
+                HomeViewService.errorHandler
+            );
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(HomeViewService.FunctionName.loadHomeView)
+            );
+        }
+    }
+</script>

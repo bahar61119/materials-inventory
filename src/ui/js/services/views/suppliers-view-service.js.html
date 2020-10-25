@@ -1,0 +1,62 @@
+<script>
+    class SuppliersViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${SuppliersViewService.name}.${name}()`
+            return {
+                loadSupplierListView: functionName(SuppliersViewService.loadSupplierListView.name),
+                loadAddSupplierView: functionName(SuppliersViewService.loadAddSupplierView.name),
+                loadEditSupplierView: functionName(SuppliersViewService.loadEditSupplierView.name)
+            }
+        }
+
+        static loadSupplierListView() {
+            SuppliersViewService.clear();
+            API.loadSupplierListView(
+                html => {
+                    SuppliersViewService.setHtml(html);
+                        SupplierService.setDataForSupplierSearch();
+                },
+                SuppliersViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(SuppliersViewService.FunctionName.loadSupplierListView)
+                    .withHash(BrowserHistoryOptions.Url.SUPPLIER_LIST)
+            );
+        }
+
+        static loadAddSupplierView() {
+            SuppliersViewService.clear();
+            API.loadAddSupplierView(
+                SuppliersViewService.setHtml,
+                SuppliersViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(SuppliersViewService.FunctionName.loadAddSupplierView)
+                    .withHash(BrowserHistoryOptions.Url.SUPPLIER_ADD)
+            );
+        }
+
+        static loadEditSupplierView(supplierId) {
+            SuppliersViewService.clear();
+            API.loadEditSupplierView(
+                supplierId,
+                SuppliersViewService.setHtml,
+                SuppliersViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(SuppliersViewService.FunctionName.loadEditSupplierView)
+                    .withFunctionArguments(supplierId)
+                    .withParams({
+                        supplierId
+                    })
+                    .withHash(BrowserHistoryOptions.Url.SUPPLIER_EDIT)
+            );
+        }
+    }
+</script>

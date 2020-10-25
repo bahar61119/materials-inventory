@@ -1,0 +1,23 @@
+<script>
+    class ViewService {
+        static setHtml(html, id = ElementId.Main.APP) {
+            document.getElementById(id).innerHTML = html;
+        }
+
+        static errorHandler(error) {
+            console.error(error);
+            Alert.show(
+                AlertOptions.of()
+                    .withTitle("Error")
+                    .withMessage(error.message)
+                    .withType(AlertOptions.Type.DANGER)
+            );
+        }
+
+        static clear() {
+            ViewService.setHtml("");
+            Alert.hide();
+            Spinner.hide();
+        }
+    }
+</script>

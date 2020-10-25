@@ -9,7 +9,7 @@
                 if(e.state.functionName) {
                     BrowserHistory.#executeFunctionByName(e.state.functionName, e.state.functionArguments);
                 } else {
-                    ViewService.loadHomeView();
+                    HomeViewService.loadHomeView();
                 }
             });
         }

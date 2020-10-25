@@ -44,7 +44,7 @@
             let options = ConfirmationModalOptions.of()
                                 .withTitle("Profile Update")
                                 .withMessage(`Are you sure you want to cancel updating your profile?`)
-                                .withCallback(()=>ViewService.loadHomeView())
+                                .withCallback(()=>HomeViewService.loadHomeView())
                                 .withType(ConfirmationModalOptions.Type.WARNING);
             ConfirmationModal.show(options);
         }

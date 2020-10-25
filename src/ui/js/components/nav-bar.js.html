@@ -16,17 +16,16 @@
 
             $(".nav-item.dropdown .dropdown-menu .dropdown-item").on("click", function(){
                 $(".nav-item").find(".active").removeClass("active");
-                console.log($(this).closest('li').find(".nav-link"));
                 $(this).closest('li').find(".nav-link").addClass("active");
             });
         }
 
         static #homeLinkClickEvent() {
-            $(`#${ElementId.Navbar.HOME_LINK}`).bind("click", ViewService.loadHomeView);
+            $(`#${ElementId.Navbar.HOME_LINK}`).bind("click", HomeViewService.loadHomeView);
         }
 
         static #suppliersLinkClickEvent() {
-            $(`#${ElementId.Navbar.SUPPLIERS_LINK}`).bind("click", ViewService.loadSupplierListView);
+            $(`#${ElementId.Navbar.SUPPLIERS_LINK}`).bind("click", SuppliersViewService.loadSupplierListView);
         }
     }
 </script>

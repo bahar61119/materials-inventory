@@ -14,7 +14,7 @@
             let supplierUpdateButton = event.target.closest(`#${ElementId.Supplier.UPDATE_SUPPLIER_BUTTON}`);
 
             if(supplierAddButton) {
-                ViewService.loadAddSupplierView();
+                SuppliersViewService.loadAddSupplierView();
             } else if(supplierDeleteButton) {
                 SupplierEventHandlerService.#deleteSupplier(supplierDeleteButton);
             } else if(supplierEditButton) {
@@ -70,7 +70,7 @@
             let options = ConfirmationModalOptions.of()
                                 .withTitle("Update Supplier")
                                 .withMessage(`Are you sure you want to cancel updating supplier ${supplierName}?`)
-                                .withCallback(()=>ViewService.loadSupplierListView())
+                                .withCallback(()=>SuppliersViewService.loadSupplierListView())
                                 .withType(ConfirmationModalOptions.Type.WARNING);
             ConfirmationModal.show(options);
         }
