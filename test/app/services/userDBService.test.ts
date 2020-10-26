@@ -249,7 +249,7 @@ describe("UserDBService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
+            UserDBService.getUsers = jest.fn().mockReturnValue({});
             
             let get = jest.fn().mockReturnValue(user);
             let deleteAll = jest.fn();
