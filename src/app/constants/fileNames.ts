@@ -6,5 +6,6 @@ export enum ViewFileNames {
     HOME = "src/ui/html/home",
     SUPPLIER_LIST = "src/ui/html/supplier/supplier-list",
     UPDATE_SUPPLIER = "src/ui/html/supplier/update-supplier",
-    SETTINGS = "src/ui/html/settings"
+    SETTINGS = "src/ui/html/settings/settings",
+    SETTINGS_AUTHORIZATION = "src/ui/html/settings/settings-authorization"
 }
