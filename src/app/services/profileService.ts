@@ -40,15 +40,23 @@ export class ProfileService {
         return user;
     }
 
-    static validateProfile() {
+    static validateProfile(adminRequired = false) {
         if(!UserDBService.doesCurrentUserExist()){
             throw new ProfileError(ProfileErrorMessage.profileNotFound);
         }
 
         let user = UserDBService.getCurrentUser();
-        let userWhitelisted = UserDBService.doesWhiteListedUser(user.email);
-        if(!userWhitelisted) {
-            throw new ProfileError(ProfileErrorMessage.notAuthorized);
+        let isAdmin = user.email === UserDBService.getAdminUserEmail();
+
+        if(adminRequired) {
+            if(!isAdmin) {
+                throw new ProfileError(ProfileErrorMessage.adminProfileRequired);
+            }
+        } else {
+            let userWhitelisted = UserDBService.doesWhiteListedUser(user.email);
+            if(!isAdmin && !userWhitelisted) {
+                throw new ProfileError(ProfileErrorMessage.notAuthorized);
+            }
         }
     }
 

@@ -114,8 +114,18 @@ describe("ProfileService", ()=>{
             UserDBService.doesCurrentUserExist = jest.fn().mockReturnValue(true);
             UserDBService.getCurrentUser = jest.fn().mockReturnValue(user);
             UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
+            UserDBService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
         });
+
         test("success", ()=>{
+            ProfileService.validateProfile();
+            expect(UserDBService.getCurrentUser).toBeCalledTimes(1);
+            expect(UserDBService.doesWhiteListedUser).toBeCalledTimes(1);
+        });
+
+        test("success, when user is admin", ()=>{
+            UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
+            UserDBService.getAdminUserEmail = jest.fn().mockReturnValue("email");
             ProfileService.validateProfile();
             expect(UserDBService.getCurrentUser).toBeCalledTimes(1);
             expect(UserDBService.doesWhiteListedUser).toBeCalledTimes(1);
@@ -137,6 +147,13 @@ describe("ProfileService", ()=>{
                 ProfileService.validateProfile();
             })
             .toThrowError(new ProfileError(ProfileErrorMessage.notAuthorized));
+        });
+
+        test("throw error, when user is not admin", ()=>{
+            expect(() => {
+                ProfileService.validateProfile(true);
+            })
+            .toThrowError(new ProfileError(ProfileErrorMessage.adminProfileRequired));
         });
     });
 

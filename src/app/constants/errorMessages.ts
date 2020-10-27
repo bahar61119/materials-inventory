@@ -50,4 +50,22 @@ export class ProfileErrorMessage extends ErrorMessage {
     static get adminProfile() {
         return `Admin user cannot delete profile`
     }
+
+    static get adminProfileRequired() {
+        return `Only admin can access this information`
+    }
+}
+
+export class SettingsErrorMessage extends ErrorMessage {
+    static get adminDeleteError() {
+        return `Admin cannot be removed.`
+    }
+
+    static get emailNotFound() {
+        return `Email not found`
+    }
+
+    static get emailExists() {
+        return `Email is already authorized`;
+    }
 }
