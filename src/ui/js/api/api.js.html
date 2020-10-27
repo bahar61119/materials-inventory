@@ -5,6 +5,7 @@
             google.script.run
                 .withSuccessHandler(data => {
                     Spinner.hide();
+                    Tooltip.enable();
                     options.success(data);
                 })
                 .withFailureHandler(error => {
@@ -27,7 +28,10 @@
                 loadProfileUpdateView: "loadProfileUpdateView",
                 updateProfile: "updateProfile",
                 deleteProfile: "deleteProfile",
-                loadSettingsView: "loadSettingsView"
+                loadSettingsView: "loadSettingsView",
+                addAuthorizeUser: "addAuthorizeUser",
+                deleteAuthorizeUser: "deleteAuthorizeUser",
+                loadSettingsAuthorizationView: "loadSettingsAuthorizationView"
             }
         }
 
@@ -126,6 +130,32 @@
         static loadSettingsView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadSettingsView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static addAuthorizeUser(authorizeUserEmail, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.addAuthorizeUser)
+                .withData(authorizeUserEmail)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteAuthorizeUser(authorizeUserEmail, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteAuthorizeUser)
+                .withData(authorizeUserEmail)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadSettingsAuthorizationView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadSettingsAuthorizationView)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

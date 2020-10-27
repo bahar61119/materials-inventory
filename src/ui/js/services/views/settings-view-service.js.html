@@ -21,5 +21,14 @@
                     .withHash(BrowserHistoryOptions.Url.SETTINGS)
             );
         }
+
+        static loadSettingsAuthorizationView() {
+            API.loadSettingsAuthorizationView(
+                html => {
+                    SettingsViewService.setHtml(html, ElementId.Settings.AUTHORIZATION);
+                },
+                SettingsViewService.errorHandler
+            );
+        }
     }
 </script>

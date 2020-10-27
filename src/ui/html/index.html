@@ -17,6 +17,7 @@
     </div>
     <?!= include('src/ui/html/components/spinner') ?>
     <?!= include('src/ui/html/components/confirmation-modal') ?>
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -38,6 +39,7 @@
     <?!= include('src/ui/js/models/user-model.js') ?>
 
     <!-- Components -->
+    <?!= include('src/ui/js/components/tooltip.js') ?>
     <?!= include('src/ui/js/components/nav-bar.js') ?>
     <?!= include('src/ui/js/components/common.js') ?>
     <?!= include('src/ui/js/components/alert.js') ?>
@@ -51,6 +53,7 @@
     <?!= include('src/ui/js/services/browser-history-service.js') ?>
     <?!= include('src/ui/js/services/supplier-service.js') ?>
     <?!= include('src/ui/js/services/profile-service.js') ?>
+    <?!= include('src/ui/js/services/settings-service.js') ?>
 
     <!-- View Services -->
     <?!= include('src/ui/js/services/views/view-service.js') ?>
@@ -63,6 +66,7 @@
     <!-- Event Handlers Services -->
     <?!= include('src/ui/js/services/event-handlers/supplier-event-handler-service.js') ?>
     <?!= include('src/ui/js/services/event-handlers/profile-event-handler-service.js') ?>
+    <?!= include('src/ui/js/services/event-handlers/settings-event-handler-service.js') ?>
     <?!= include('src/ui/js/services/event-handlers/event-handler-service.js') ?>
 
     <!-- Main -->

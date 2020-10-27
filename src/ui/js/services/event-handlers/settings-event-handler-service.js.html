@@ -1,0 +1,40 @@
+<script>
+    class SettingsEventHandlerService {
+        static clickEventHandler(event) {
+            let authorizationAddButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_ADD_BUTTON}`);
+            let authorizationDeleteButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_DELETE_BUTTON}`);
+
+            if(authorizationAddButton) {
+                SettingsEventHandlerService.#addAuthorizeUser(authorizationAddButton);
+            } else if(authorizationDeleteButton) {
+                SettingsEventHandlerService.#deleteAuthorizeUser(authorizationDeleteButton);
+            }
+        }
+
+        static #addAuthorizeUser(authorizationAddButton) {
+            let form = document.getElementsByClassName(`${ElementClass.Settings.AUTHORIZATION_FORM}`)[0];
+            let isValidForm = form.checkValidity();
+            if(!isValidForm) {
+                form.classList.add('was-validated');
+            } else {
+                let authorizeUser = $(`#${ElementId.Settings.AUTHORIZATION_EMAIL}`).val();
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Add User")
+                                .withMessage(`Are you sure you want to authorize user (${authorizeUser}) ?`)
+                                .withCallback(()=>SettingsService.addAuthorizeUser(authorizeUser))
+                                .withType(ConfirmationModalOptions.Type.SUCCESS);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static #deleteAuthorizeUser(authorizationDeleteButton) {
+            let authorizeUser = authorizationDeleteButton.dataset.email;
+            let options = ConfirmationModalOptions.of()
+                            .withTitle("Remove User")
+                            .withMessage(`Are you sure you want to remove user (${authorizeUser})? `)
+                            .withCallback(()=>SettingsService.deleteAuthorizeUser(authorizeUser))
+                            .withType(ConfirmationModalOptions.Type.DANGER);
+            ConfirmationModal.show(options);
+        }
+    }
+</script>

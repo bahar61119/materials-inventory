@@ -4,16 +4,16 @@ import { UserDBService } from '../../services/userDBService';
 import { loadView } from './loadView';
 
 function loadSettingsView() {
-    ProfileService.validateProfile();
+    ProfileService.validateProfile(true);
     let authorizationContents = loadSettingsAuthorizationView();
     return loadView(ViewFileNames.SETTINGS, {authorizationContents});
 }
 
 function loadSettingsAuthorizationView() {
-    ProfileService.validateProfile();
+    ProfileService.validateProfile(true);
     let authorizedUsers = UserDBService.getWhiteListUsers();
-    console.log(JSON.stringify(authorizedUsers));
-    return loadView(ViewFileNames.SETTINGS_AUTHORIZATION, {authorizedUsers});
+    let adminUser = UserDBService.getAdminUserEmail();
+    return loadView(ViewFileNames.SETTINGS_AUTHORIZATION, {authorizedUsers, adminUser});
 }
 
 export {
