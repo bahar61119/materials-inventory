@@ -126,7 +126,13 @@ describe("UserDBService Test", ()=>{
                 .withFirstName("FirstName")
                 .withLastName("LastName")
                 .withEmail("Email");
-            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user});
+
+            let anotherUser = User.of()
+                .withUUID("uuid")
+                .withFirstName("FirstNameUpdate")
+                .withLastName("LastNameUpdate")
+                .withEmail("AnotherUserEmail");
+            UserDBService.getUsers = jest.fn().mockReturnValue({"Email": user, "AnotherUserEmail": anotherUser});
         });
 
         test("success", ()=>{
@@ -142,7 +148,6 @@ describe("UserDBService Test", ()=>{
 
             let put = DB.getApplicationDB().put;
             expect(put).toBeCalledTimes(1);
-            expect(put).toBeCalledWith("users", {"Email": user});
         });
 
         test("success with new email", ()=>{
@@ -160,7 +165,6 @@ describe("UserDBService Test", ()=>{
 
             let put = DB.getApplicationDB().put;
             expect(put).toBeCalledTimes(1);
-            expect(put).toBeCalledWith("users", {"NewEmail": user});
         });
 
         test("throws error when user don't exists", ()=>{
@@ -174,8 +178,19 @@ describe("UserDBService Test", ()=>{
             })
             .toThrowError(new UserError(UserErrorMessage.userNotFound));
         });
-    });
 
+        test("throws error, when new email exists", ()=>{
+            let user = User.of()
+                .withFirstName("FirstName")
+                .withLastName("LastName")
+                .withEmail("AnotherUserEmail");
+
+            expect(() => {
+                UserDBService.updateUser(user, "Email");
+            })
+            .toThrowError(new UserError(UserErrorMessage.userAlreadyExists));
+        });
+    });
 
     describe("updateCurrentUser", ()=>{
         beforeEach(()=>{

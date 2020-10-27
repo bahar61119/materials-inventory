@@ -73,9 +73,13 @@ export class UserDBService {
         if(!users[email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
+        
+        if(oldEmail && oldEmail !== user.email && users[user.email]) {
+            throw new UserError(UserErrorMessage.userAlreadyExists);
+        }
 
-        users[user.email] = user;
         if(oldEmail) delete users[oldEmail];
+        users[user.email] = user;
 
         DB.getApplicationDB().put(UserDBService.APPLICATION_DB_USERS_KEY, users);
 
