@@ -1,5 +1,6 @@
 import { ViewFileNames } from '../../constants/fileNames';
 import { User } from '../../models/userModel';
+import { ProfileService } from '../../services/profileService';
 import { UserDBService } from '../../services/userDBService';
 import { loadView } from './loadView';
 
@@ -8,5 +9,6 @@ export function loadProfileUpdateView() {
     if(UserDBService.doesCurrentUserExist()) {
         user = UserDBService.getCurrentUser();
     }
-    return loadView(ViewFileNames.PROFILE_UPDATE, {user});
+    let isAdmin = ProfileService.isAdminProfile();
+    return loadView(ViewFileNames.PROFILE_UPDATE, {user, isAdmin});
 }
