@@ -17,10 +17,11 @@ describe("ProfileService", ()=>{
             UserDBService.getAdminUserEmail = jest.fn().mockReturnValue('admin');
             UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
             UserDBService.doesUserExist = jest.fn().mockReturnValue(false);
-            UserDBService.addUser = jest.fn().mockReturnValue(user);
+            UserDBService.addUser = jest.fn().mockReturnValue(User.of().withUUID('uuid'));
             UserDBService.addCurrentUser = jest.fn();
-            UserDBService.updateUser = jest.fn().mockReturnValue(user);
+            UserDBService.updateUser = jest.fn().mockReturnValue(User.of().withUUID('uuid'));
             UserDBService.updateCurrentUser = jest.fn();
+            UserDBService.getCurrentUser = jest.fn().mockReturnValue(user);
         });
 
         test("success, when current user doesn't exists", ()=>{
@@ -53,6 +54,7 @@ describe("ProfileService", ()=>{
             expect(UserDBService.updateUser).toBeCalledTimes(1);
             expect(UserDBService.updateCurrentUser).toBeCalledTimes(1);
         });
+
         test("success, when current user is admin user", ()=>{
             let user = User.of()
                 .withUUID('uuid')
@@ -67,6 +69,7 @@ describe("ProfileService", ()=>{
             expect(UserDBService.updateUser).toBeCalledTimes(0);
             expect(UserDBService.updateCurrentUser).toBeCalledTimes(0);
         });
+        
         test("throws error, when user is not whitelisted", ()=>{
             UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
             let user = User.of()

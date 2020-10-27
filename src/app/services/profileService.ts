@@ -23,7 +23,8 @@ export class ProfileService {
             user = UserDBService.addUser(user);
             UserDBService.addCurrentUser(user.email);
         } else {
-            user = UserDBService.updateUser(user);
+            let currentUserInformation = UserDBService.getCurrentUser();
+            user = UserDBService.updateUser(user,currentUserInformation.email);
             UserDBService.updateCurrentUser();
         }
         
