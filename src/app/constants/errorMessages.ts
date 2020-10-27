@@ -8,6 +8,10 @@ export class SheetErrorMessage extends ErrorMessage {
     static get sheetNotFound() {
         return (sheetName: string) => `Sheet(${sheetName}) not found`;
     }
+
+    static get spreadSheetNotFound() {
+        return (id: string) => `SpreadSheet(${id}) not found`;
+    }
 }
 
 export class SupplierErrorMessage extends ErrorMessage {

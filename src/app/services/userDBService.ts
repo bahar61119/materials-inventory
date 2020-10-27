@@ -2,20 +2,18 @@ import { UserErrorMessage } from '../constants/errorMessages';
 import { DB } from "../db/db";
 import { UserError } from '../errors/userError';
 import { User } from '../models/userModel';
+import { ApplicationDBKeys } from '../utils/applicationDBKeys';
+import { UserDBKeys } from '../utils/userDBKeys';
 
 type Users = { [key: string]: User };
 export class UserDBService {
-    private static USER_DB_USER_KEY = "user";
-    private static APPLICATION_DB_USERS_KEY = "users";
-    private static APPLICATION_DB_WHITELIST_USERS_KEY = "whiteListedUsers";
-
     static addToWhiteList(userEmail: string): string {
         let whiteListUsers: Set<string> = new Set<string>(UserDBService.getWhiteListUsers());
         if(whiteListUsers.has(userEmail)) {
             throw new UserError(UserErrorMessage.userAlreadyExists);
         }
         whiteListUsers.add(userEmail);
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, Array.from(whiteListUsers));
+        DB.getApplicationDB().put(ApplicationDBKeys.WHITELIST_USERS, Array.from(whiteListUsers));
         return userEmail;
     }
 
@@ -25,7 +23,7 @@ export class UserDBService {
             throw new UserError(UserErrorMessage.userNotFound);
         }
         whiteListUsers.delete(userEmail);
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, Array.from(whiteListUsers));
+        DB.getApplicationDB().put(ApplicationDBKeys.WHITELIST_USERS, Array.from(whiteListUsers));
         return userEmail;
     }
 
@@ -44,7 +42,7 @@ export class UserDBService {
         user.withUUID(UserDBService.getUuid());
         users[user.email] = user;
 
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_USERS_KEY, users);
+        DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
 
         return user;
     }
@@ -60,7 +58,7 @@ export class UserDBService {
             throw new UserError(UserErrorMessage.userAlreadyExists);
         }
 
-        DB.getUserDB().put(UserDBService.USER_DB_USER_KEY, users[email]);
+        DB.getUserDB().put(UserDBKeys.USER, users[email]);
         return users[email];
     }
 
@@ -73,7 +71,7 @@ export class UserDBService {
         if(!users[email]) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
-        
+
         if(oldEmail && oldEmail !== user.email && users[user.email]) {
             throw new UserError(UserErrorMessage.userAlreadyExists);
         }
@@ -81,7 +79,7 @@ export class UserDBService {
         if(oldEmail) delete users[oldEmail];
         users[user.email] = user;
 
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_USERS_KEY, users);
+        DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
 
         return user;
     }
@@ -94,7 +92,7 @@ export class UserDBService {
             throw new UserError(UserErrorMessage.userNotFound);
         }
 
-        DB.getUserDB().put(UserDBService.USER_DB_USER_KEY, users[currentUser.email]);
+        DB.getUserDB().put(UserDBKeys.USER, users[currentUser.email]);
         return users[currentUser.email];
     }
 
@@ -107,7 +105,7 @@ export class UserDBService {
         let user = users[email];
         delete users[email];
 
-        DB.getApplicationDB().put(UserDBService.APPLICATION_DB_USERS_KEY, users);
+        DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
 
         return user;
     }
@@ -132,7 +130,7 @@ export class UserDBService {
     }
 
     static getCurrentUser(): User {
-        let user = DB.getUserDB().get(UserDBService.USER_DB_USER_KEY, new User);
+        let user = DB.getUserDB().get(UserDBKeys.USER, new User);
         if(!user) {
             throw new UserError(UserErrorMessage.userNotFound);
         }
@@ -145,7 +143,7 @@ export class UserDBService {
     }
 
     static doesCurrentUserExist(): boolean {
-        let user = DB.getUserDB().get(UserDBService.USER_DB_USER_KEY);
+        let user = DB.getUserDB().get(UserDBKeys.USER);
         return user? true: false;
     }
 
@@ -175,12 +173,12 @@ export class UserDBService {
     }
 
     static getUsers(): Users {
-        let users = DB.getApplicationDB().get(UserDBService.APPLICATION_DB_USERS_KEY, <Users>{}); 
+        let users = DB.getApplicationDB().get(ApplicationDBKeys.USERS, <Users>{}); 
         return users? users: {};
     }
 
     static getWhiteListUsers(): Array<string> {
-        let whiteListUsers = DB.getApplicationDB().get(UserDBService.APPLICATION_DB_WHITELIST_USERS_KEY, new Array<string>());
+        let whiteListUsers = DB.getApplicationDB().get(ApplicationDBKeys.WHITELIST_USERS, new Array<string>());
         return whiteListUsers? whiteListUsers: new Array<string>();
     }
 

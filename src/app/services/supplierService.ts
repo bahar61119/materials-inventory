@@ -1,16 +1,16 @@
 import { SheetMetadata } from "../utils/sheetMetadata";
 import { Supplier } from "../models/supplierModel";
-import { SheetName } from "../constants/sheetNames";
 import { SupplierErrorMessage } from '../constants/errorMessages';
 import { SheetDB } from '../db/sheetDB';
 import { SupplierError } from '../errors/supplierError';
 import { GenerateId } from '../utils/generateId';
+import { SheetConstants } from '../constants/sheetConstants';
 
 class SupplierService {
   static readonly TOTAL_COLUMN: number = 8;
 
   static getSupplierList(): Array<Supplier> {
-    let sheetMetaData = SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(SupplierService.TOTAL_COLUMN);
+    let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(SupplierService.TOTAL_COLUMN);
     const suppliersRawDataList = SupplierService.getSupplierRawDataList(sheetMetaData);
     let supplierList = new Array<Supplier>();
     suppliersRawDataList.forEach(supplierRawData => {
@@ -21,7 +21,7 @@ class SupplierService {
 
   static getSupplier(supplierId: string): Supplier {
     let index = SupplierService.getSupplierIndex(supplierId);
-    let sheetMetaData = SheetMetadata.of(SheetName.SUPPLIER)
+    let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
                                 .withStartRow(index+2)
                                 .withTotalRow(1)
                                 .withTotalColumn(SupplierService.TOTAL_COLUMN);
@@ -35,7 +35,7 @@ class SupplierService {
     let startRow = supplier.supplierId? SupplierService.getSupplierIndex(supplier.supplierId) + 2: 0;
     let startColumn = isEditSupplier? 2: 1;
     let totalColumn = isEditSupplier? SupplierService.TOTAL_COLUMN-1: SupplierService.TOTAL_COLUMN;
-    let sheetMetaData = SheetMetadata.of(SheetName.SUPPLIER)
+    let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
         .withStartRow(startRow)
         .withStartColumn(startColumn)
         .withTotalRow(1)
@@ -51,7 +51,7 @@ class SupplierService {
     let index = SupplierService.getSupplierIndex(supplierId);
     try {
         SheetDB.deleteRow(
-        SheetMetadata.of(SheetName.SUPPLIER).withStartRow(index+2)
+        SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withStartRow(index+2)
       );
       return supplierId;
     } catch(error) {
@@ -83,7 +83,7 @@ class SupplierService {
   private static getSupplierIndex(supplierId: string): number {
     supplierId = supplierId.toLowerCase();
     let condition = (id: string) => id === supplierId;
-    let index = SupplierService.getSupplierRawDataList(SheetMetadata.of(SheetName.SUPPLIER))
+    let index = SupplierService.getSupplierRawDataList(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME))
       .flatMap(supplierId => supplierId)
       .map(supplierId => String(supplierId).toLowerCase())
       .findIndex(condition);

@@ -1,5 +1,5 @@
 import { ErrorMessage, SupplierErrorMessage } from '../../../src/app/constants/errorMessages';
-import { SheetName } from '../../../src/app/constants/sheetNames';
+import { SheetConstants } from '../../../src/app/constants/sheetConstants';
 import { SheetDB } from '../../../src/app/db/sheetDB';
 import { DBError } from '../../../src/app/errors/dbError';
 import { SupplierError } from '../../../src/app/errors/supplierError';
@@ -45,7 +45,7 @@ describe("SupplierService Test", ()=>{
             const actualResults = SupplierService.getSupplierList();
             expect(actualResults).toStrictEqual(expectedResults);
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(8));
         });
 
         test('throws error when db throws error', ()=>{
@@ -57,7 +57,7 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new Error(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(8));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(8));
         });
     });
 
@@ -72,7 +72,7 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new Error(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
             expect(SheetDB.deleteRow).toBeCalledTimes(0);
         });
 
@@ -86,7 +86,7 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new SupplierError(SupplierErrorMessage.supplierIdNotFound("10")));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
             expect(SheetDB.deleteRow).toBeCalledTimes(0);
         });
 
@@ -104,7 +104,7 @@ describe("SupplierService Test", ()=>{
             .toThrowError(new SupplierError(SupplierErrorMessage.supplierDeleteError("1")));
 
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
         });
         
         test(`delete supplier`, ()=>{
@@ -117,9 +117,9 @@ describe("SupplierService Test", ()=>{
             SheetDB.deleteRow = deleteRow;
             SupplierService.deleteSupplier("5");
             expect(getSheetData).toBeCalledTimes(1);
-            expect(getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
             expect(deleteRow).toBeCalledTimes(1);
-            expect(deleteRow).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withStartRow(6));
+            expect(deleteRow).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withStartRow(6));
         });
     });
 
@@ -143,10 +143,10 @@ describe("SupplierService Test", ()=>{
             expect(actualResult).toStrictEqual(expectedResult);
             expect(SheetDB.getSheetData).toBeCalledTimes(2);
             expect(SheetDB.getSheetData).toBeCalledWith(
-                SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(1)
+                SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(1)
             );
             expect(SheetDB.getSheetData).toBeCalledWith(
-                SheetMetadata.of(SheetName.SUPPLIER).withStartRow(2).withTotalColumn(8).withTotalRow(1)
+                SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withStartRow(2).withTotalColumn(8).withTotalRow(1)
             );
         });
 
@@ -160,7 +160,7 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new SupplierError(SupplierErrorMessage.supplierIdNotFound("10")));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
         });
 
         test(`throws ${SupplierError.name}  when db throws error`, ()=>{
@@ -172,7 +172,7 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new SupplierError(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetName.SUPPLIER).withTotalColumn(1));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(1));
         });
     });
 
@@ -240,7 +240,7 @@ describe("SupplierService Test", ()=>{
             // then
             let dbData = ["name", "type", "company", 
                 "designation", "contact_number", "email@email", "address"];
-            let metaData = SheetMetadata.of(SheetName.SUPPLIER)
+            let metaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
                 .withStartRow(3)
                 .withStartColumn(2)
                 .withTotalColumn(7)
@@ -276,7 +276,7 @@ describe("SupplierService Test", ()=>{
             // then
             let dbData = [uniqueId, "name", "type", "company", 
                 "designation", "contact_number", "email@email", "address"];
-            let metaData = SheetMetadata.of(SheetName.SUPPLIER)
+            let metaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
                 .withStartRow(0)
                 .withStartColumn(1)
                 .withTotalColumn(8)

@@ -1,8 +1,58 @@
 import { SheetMetaDataInterface } from "../types/sheetMetadataInterface";
 import { SheetErrorMessage } from "../constants/errorMessages";
 import { DBError } from '../errors/dbError';
+import { DB } from './db';
+import { ApplicationDBKeys } from '../utils/applicationDBKeys';
 
 export class SheetDB {
+    static createSpreadsheet(name: string): GoogleAppsScript.Spreadsheet.Spreadsheet {
+        return SpreadsheetApp.create(name);
+    }
+
+    static getSpreadsheet() : GoogleAppsScript.Spreadsheet.Spreadsheet {
+        const id = SheetDB.getSpreadsheetId();
+        const spreadsheet = SpreadsheetApp.openById(id);
+        if(spreadsheet === null) {
+            throw new DBError(SheetErrorMessage.spreadSheetNotFound(id))
+        }
+        return spreadsheet;
+    }
+
+    static doesSpreadsheetExist(): boolean {
+        return DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID)? true: false;
+    }
+
+    static getSpreadsheetId(): string {
+        return DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID);
+    }
+
+    static saveSpreadsheetId(id: string) {
+        DB.getApplicationDB().put(ApplicationDBKeys.SPREADSHEET_ID, id);
+    }
+
+    static addSheet(sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {
+        return SheetDB.getSpreadsheet().insertSheet(sheetName);
+    }
+
+    static doesSheetExist(sheetName: string): boolean {
+        return SheetDB.getSpreadsheet().getSheetByName(sheetName)? true: false;
+    }
+
+    static getSheet(sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {
+        const supplierDataSheet = SheetDB.getSpreadsheet().getSheetByName(sheetName);
+        if(supplierDataSheet === null) {
+            throw new DBError(SheetErrorMessage.sheetNotFound(sheetName))
+        }
+        return supplierDataSheet;
+    }
+
+    private static isSheetEmpty(sheet: GoogleAppsScript.Spreadsheet.Sheet): boolean {
+        let lastRow = sheet.getLastRow();
+        let lastColumn = sheet.getLastColumn();
+        if(lastRow === 0 || lastRow < 2 || lastColumn === 0) return true;
+        return false;
+    }
+
     static getSheetData(metaData: SheetMetaDataInterface): Array<any> {
         const supplierDataSheet = SheetDB.getSheet(metaData.sheetName);
         if(this.isSheetEmpty(supplierDataSheet)) {
@@ -33,20 +83,5 @@ export class SheetDB {
     static deleteRow(metaData: SheetMetaDataInterface): void {
         const supplierDataSheet = SheetDB.getSheet(metaData.sheetName);
         supplierDataSheet.deleteRow(metaData.startRow);
-    }
-
-    static getSheet(sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {
-        const supplierDataSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(sheetName);
-        if(supplierDataSheet === null) {
-            throw new DBError(SheetErrorMessage.sheetNotFound(sheetName))
-        }
-        return supplierDataSheet;
-    }
-
-    private static isSheetEmpty(sheet: GoogleAppsScript.Spreadsheet.Sheet): boolean {
-        let lastRow = sheet.getLastRow();
-        let lastColumn = sheet.getLastColumn();
-        if(lastRow === 0 || lastRow < 2 || lastColumn === 0) return true;
-        return false;
     }
 }

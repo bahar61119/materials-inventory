@@ -1,4 +1,7 @@
-class Supplier implements SupplierInterface {
+/*
+Do not change the fields order
+*/
+export class Supplier implements SupplierInterface {
     supplierId: string | undefined;
     supplierName: string;
     supplierType: string;
@@ -60,8 +63,4 @@ class Supplier implements SupplierInterface {
         return this;
     }
 
-}
-
-export {
-    Supplier
 }
