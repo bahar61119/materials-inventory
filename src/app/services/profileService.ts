@@ -61,6 +61,9 @@ export class ProfileService {
     }
 
     static isAdminProfile() {
+        if(!UserDBService.doesCurrentUserExist()) {
+            return false;
+        }
         let user = UserDBService.getCurrentUser();
         return user.email === UserDBService.getAdminUserEmail();
     }
