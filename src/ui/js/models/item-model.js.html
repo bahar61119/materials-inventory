@@ -1,0 +1,64 @@
+<script>
+    class Item {
+        uuid;
+        itemName;
+        itemType;
+        itemUnitOfMeasure;
+        itemDescription;
+        latestUpdateByUser;
+        latestUpdateTime;
+
+        constructor() {
+            this.uuid = "";
+            this.itemName = "";
+            this.itemType = "";
+            this.itemUnitOfMeasure = "";
+            this.itemDescription = "";
+            this.latestUpdateByUser = "";
+            this.latestUpdateTime = "";
+        }
+
+        static of() {
+            return new Item();
+        }
+
+        static from(itemData) {
+            return Object.assign(new Item, itemData);
+        }
+
+        withUUID(uuid) {
+            this.uuid = uuid;
+            return this;
+        }
+
+        withItemName(itemName) {
+            this.itemName = itemName;
+            return this;
+        }
+
+        withItemType(itemType) {
+            this.itemType = itemType;
+            return this;
+        }
+
+        withItemUnitOfMeasure(itemUnitOfMeasure) {
+            this.itemUnitOfMeasure = itemUnitOfMeasure;
+            return this;
+        }
+
+        withItemDescription(itemDescription) {
+            this.itemDescription = itemDescription;
+            return this;
+        }
+
+        withLatestUpdateByUser(latestUpdateByUser) {
+            this.latestUpdateByUser = latestUpdateByUser;
+            return this;
+        }
+
+        withLatestUpdateTime(latestUpdateTime) {
+            this.latestUpdateTime = latestUpdateTime;
+            return this;
+        }
+    }
+</script>
