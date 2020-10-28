@@ -8,6 +8,8 @@
         supplierContactNumber;
         supplierEmail;
         supplierAddress;
+        latestUpdateByUser;
+        latestUpdateTime;
 
         constructor() {
             this.supplierId = '';
@@ -18,6 +20,8 @@
             this.supplierContactNumber = '';
             this.supplierEmail = '';
             this.supplierAddress = '';
+            this.latestUpdateByUser = '';
+            this.latestUpdateTime = '';
         }
 
         static of() {
@@ -54,6 +58,14 @@
         }
         withSupplierAddress(supplierAddress) {
             this.supplierAddress = supplierAddress;
+            return this;
+        }
+        withLatestUpdateByUser(latestUpdateByUser) {
+            this.latestUpdateByUser = latestUpdateByUser;
+            return this;
+        }
+        withLatestUpdateTime(latestUpdateTime) {
+            this.latestUpdateTime = latestUpdateTime;
             return this;
         }
     }

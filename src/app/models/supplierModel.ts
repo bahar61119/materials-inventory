@@ -10,6 +10,8 @@ export class Supplier implements SupplierInterface {
     supplierContactNumber: string;
     supplierEmail: string;
     supplierAddress: string;
+    latestUpdateByUser: string;
+    latestUpdateTime: string;
 
     constructor() {
         this.supplierId = undefined;
@@ -20,6 +22,8 @@ export class Supplier implements SupplierInterface {
         this.supplierContactNumber = '';
         this.supplierEmail = '';
         this.supplierAddress = '';
+        this.latestUpdateByUser = '';
+        this.latestUpdateTime = '';
     }
 
     static of(): Supplier {
@@ -60,6 +64,14 @@ export class Supplier implements SupplierInterface {
     }
     withSupplierAddress(supplierAddress: string) {
         this.supplierAddress = supplierAddress;
+        return this;
+    }
+    withLatestUpdateByUser(latestUpdateByUser: string) {
+        this.latestUpdateByUser = latestUpdateByUser;
+        return this;
+    }
+    withLatestUpdateTime(latestUpdateTime: string) {
+        this.latestUpdateTime = latestUpdateTime;
         return this;
     }
 

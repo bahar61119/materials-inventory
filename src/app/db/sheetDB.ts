@@ -19,7 +19,13 @@ export class SheetDB {
     }
 
     static doesSpreadsheetExist(): boolean {
-        return DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID)? true: false;
+        let id: string = DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID);
+        if(!id) return false;
+        const spreadsheet = SpreadsheetApp.openById(id);
+        if(!spreadsheet) return false;
+        console.log("Spreadsheet: ");
+        console.log(spreadsheet.getName());
+        return true;
     }
 
     static getSpreadsheetId(): string {

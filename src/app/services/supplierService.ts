@@ -5,12 +5,13 @@ import { SheetDB } from '../db/sheetDB';
 import { SupplierError } from '../errors/supplierError';
 import { GenerateId } from '../utils/generateId';
 import { SheetConstants } from '../constants/sheetConstants';
+import { UserDBService } from './userDBService';
 
 class SupplierService {
-  static readonly TOTAL_COLUMN: number = 8;
 
   static getSupplierList(): Array<Supplier> {
-    let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(SupplierService.TOTAL_COLUMN);
+    let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
+                          .withTotalColumn(SupplierService.getNumberOfFields());
     const suppliersRawDataList = SupplierService.getSupplierRawDataList(sheetMetaData);
     let supplierList = new Array<Supplier>();
     suppliersRawDataList.forEach(supplierRawData => {
@@ -24,17 +25,20 @@ class SupplierService {
     let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
                                 .withStartRow(index+2)
                                 .withTotalRow(1)
-                                .withTotalColumn(SupplierService.TOTAL_COLUMN);
+                                .withTotalColumn(SupplierService.getNumberOfFields());
     const supplierRawData = SupplierService.getSupplierRawDataList(sheetMetaData).flatMap(data => data);
     return SupplierService.getSupplierFromRawData(supplierRawData);
   }
 
   static updateSupplier(supplierData: any): string {
     let supplier = Supplier.from(supplierData);
+    supplier.withLatestUpdateByUser(UserDBService.getCurrentUser().email);
+    supplier.withLatestUpdateTime(Date.now().toString());
+    let numberOfFields = SupplierService.getNumberOfFields();
     let isEditSupplier = supplier.supplierId? true: false;
     let startRow = supplier.supplierId? SupplierService.getSupplierIndex(supplier.supplierId) + 2: 0;
     let startColumn = isEditSupplier? 2: 1;
-    let totalColumn = isEditSupplier? SupplierService.TOTAL_COLUMN-1: SupplierService.TOTAL_COLUMN;
+    let totalColumn = isEditSupplier? numberOfFields-1: numberOfFields;
     let sheetMetaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
         .withStartRow(startRow)
         .withStartColumn(startColumn)
@@ -102,6 +106,10 @@ class SupplierService {
       console.error(error);
       throw new SupplierError(SupplierErrorMessage.internalError);
     }
+  }
+
+  private static getNumberOfFields() {
+    return Object.keys(Supplier.of()).length;
   }
 }
 

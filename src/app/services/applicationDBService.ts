@@ -14,6 +14,10 @@ export class ApplicationDBService {
             console.log('Spreadsheet not found, creating new spreadsheet');
             const spreadSheet = SheetDB.createSpreadsheet(SheetConstants.SPREADSHEET_NAME);
             SheetDB.saveSpreadsheetId(spreadSheet.getId());
+            SheetDB.getSpreadsheetId();
+        } else {
+            console.log('Spreadsheet found');
+            console.log(SheetDB.getSpreadsheet().getId());
         }
     }
 

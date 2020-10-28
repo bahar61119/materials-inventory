@@ -48,6 +48,7 @@
             supplierListTable.innerHTML = "";
             results.forEach(result => {
                 let tr = template.cloneNode(true);
+                result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
                 Object.keys(result).forEach(column => {
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
                 });
