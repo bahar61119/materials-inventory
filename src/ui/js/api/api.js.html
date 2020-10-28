@@ -31,7 +31,8 @@
                 loadSettingsView: "loadSettingsView",
                 addAuthorizeUser: "addAuthorizeUser",
                 deleteAuthorizeUser: "deleteAuthorizeUser",
-                loadSettingsAuthorizationView: "loadSettingsAuthorizationView"
+                loadSettingsAuthorizationView: "loadSettingsAuthorizationView",
+                loadItemListView: "loadItemListView"
             }
         }
 
@@ -156,6 +157,14 @@
         static loadSettingsAuthorizationView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadSettingsAuthorizationView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadItemListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadItemListView)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

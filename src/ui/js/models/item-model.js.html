@@ -1,6 +1,6 @@
 <script>
     class Item {
-        uuid;
+        itemId;
         itemName;
         itemType;
         itemUnitOfMeasure;
@@ -9,7 +9,7 @@
         latestUpdateTime;
 
         constructor() {
-            this.uuid = "";
+            this.itemId = "";
             this.itemName = "";
             this.itemType = "";
             this.itemUnitOfMeasure = "";
@@ -26,8 +26,8 @@
             return Object.assign(new Item, itemData);
         }
 
-        withUUID(uuid) {
-            this.uuid = uuid;
+        withItemId(itemId) {
+            this.itemId = itemId;
             return this;
         }
 
