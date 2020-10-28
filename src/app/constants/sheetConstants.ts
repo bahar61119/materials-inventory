@@ -8,4 +8,8 @@ export class SheetConstants {
     static get SUPPLIER_SHEET_NAME() {
         return `Suppliers`;
     }
+
+    static get ITEMS_SHEET_NAME() {
+        return `Items`;
+    }
 }
