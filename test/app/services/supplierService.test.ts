@@ -5,6 +5,7 @@ import { DBError } from '../../../src/app/errors/dbError';
 import { SupplierError } from '../../../src/app/errors/supplierError';
 import { Supplier } from '../../../src/app/models/supplierModel';
 import { SupplierService } from "../../../src/app/services/supplierService";
+import { UserDBService } from '../../../src/app/services/userDBService';
 import { GenerateId } from '../../../src/app/utils/generateId';
 import { SheetMetadata } from '../../../src/app/utils/sheetMetadata';
 
@@ -12,7 +13,7 @@ describe("SupplierService Test", ()=>{
     console.error = jest.fn();
     describe("getSupplierFromRawData", ()=>{
         test('returns with valid supplierRawData', () => {
-            const supplierRawData = [1,"2", "3", "4", "5", "6", "7", "8"];
+            const supplierRawData = [1,"2", "3", "4", "5", "6", "7", "8", "9", "10"];
             const supplier = SupplierService.getSupplierFromRawData(supplierRawData);
             expect(supplier.supplierId).toBe("1");
             expect(supplier.supplierName).toBe("2");
@@ -22,13 +23,15 @@ describe("SupplierService Test", ()=>{
             expect(supplier.supplierContactNumber).toBe("6");
             expect(supplier.supplierEmail).toBe("7");
             expect(supplier.supplierAddress).toBe("8");
+            expect(supplier.latestUpdateByUser).toBe("9");
+            expect(supplier.latestUpdateTime).toBe("10");
         });
     });
 
     describe("getSupplierList", ()=>{
         test('returns with data', ()=>{
             const supplierRawDataList = [
-                [11,"12", "13", "14", "15", "16", "17", "18"]
+                [11,"12", "13", "14", "15", "16", "17", "18", "19", "10"]
             ];
             SheetDB.getSheetData = jest.fn().mockReturnValue(supplierRawDataList);
             const expectedResults = [
@@ -41,11 +44,13 @@ describe("SupplierService Test", ()=>{
                     .withSupplierContactNumber("16")
                     .withSupplierEmail("17")
                     .withSupplierAddress("18")
+                    .withLatestUpdateByUser("19")
+                    .withLatestUpdateTime("10")
             ];
             const actualResults = SupplierService.getSupplierList();
             expect(actualResults).toStrictEqual(expectedResults);
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(8));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(10));
         });
 
         test('throws error when db throws error', ()=>{
@@ -57,7 +62,7 @@ describe("SupplierService Test", ()=>{
             })
             .toThrowError(new Error(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
-            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(8));
+            expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(10));
         });
     });
 
@@ -126,7 +131,7 @@ describe("SupplierService Test", ()=>{
     describe("getSupplier", ()=>{
         test('returns with data', ()=>{
             const supplierRawDataList = [
-                [11,"12", "13", "14", "15", "16", "17", "18"]
+                [11,"12", "13", "14", "15", "16", "17", "18", "19", "10"]
             ];
             SheetDB.getSheetData = jest.fn().mockReturnValue(supplierRawDataList);
             const expectedResult = Supplier.of()
@@ -138,6 +143,8 @@ describe("SupplierService Test", ()=>{
                 .withSupplierContactNumber("16")
                 .withSupplierEmail("17")
                 .withSupplierAddress("18")
+                .withLatestUpdateByUser("19")
+                .withLatestUpdateTime("10")
             ;
             const actualResult = SupplierService.getSupplier("11");
             expect(actualResult).toStrictEqual(expectedResult);
@@ -146,7 +153,7 @@ describe("SupplierService Test", ()=>{
                 SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(1)
             );
             expect(SheetDB.getSheetData).toBeCalledWith(
-                SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withStartRow(2).withTotalColumn(8).withTotalRow(1)
+                SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withStartRow(2).withTotalColumn(10).withTotalRow(1)
             );
         });
 
@@ -187,12 +194,14 @@ describe("SupplierService Test", ()=>{
                 .withSupplierCompany("company")
                 .withSupplierContactNumber("contact_number")
                 .withSupplierEmail("email@email")
-                .withSupplierDesignation("designation");
+                .withSupplierDesignation("designation")
+                .withLatestUpdateByUser("user")
+                .withLatestUpdateTime("time");
             
             // when
             let results = SupplierService.getRowDataFromSupplier(supplier, true);
             let expectedResult = ["id", "name", "type", "company", 
-                "designation", "contact_number", "email@email", "address"];
+                "designation", "contact_number", "email@email", "address", "user", "time"];
             expect(results).toStrictEqual(expectedResult);
         });
 
@@ -206,12 +215,14 @@ describe("SupplierService Test", ()=>{
                 .withSupplierCompany("company")
                 .withSupplierContactNumber("contact_number")
                 .withSupplierEmail("email@email")
-                .withSupplierDesignation("designation");
+                .withSupplierDesignation("designation")
+                .withLatestUpdateByUser("user")
+                .withLatestUpdateTime("time");
             
             // when
             let results = SupplierService.getRowDataFromSupplier(supplier);
             let expectedResult = ["name", "type", "company", 
-                "designation", "contact_number", "email@email", "address"];
+                "designation", "contact_number", "email@email", "address", "user", "time"];
             expect(results).toStrictEqual(expectedResult);
         });
     });
@@ -222,6 +233,8 @@ describe("SupplierService Test", ()=>{
             let updateRow = jest.fn();
             SheetDB.updateRow = updateRow;
             SheetDB.getSheetData = getSheetData;
+            UserDBService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
+            Date.now = jest.fn().mockReturnValue(123);
 
             // given
             let supplier = Supplier.of()
@@ -239,11 +252,11 @@ describe("SupplierService Test", ()=>{
 
             // then
             let dbData = ["name", "type", "company", 
-                "designation", "contact_number", "email@email", "address"];
+                "designation", "contact_number", "email@email", "address", "email", "123"];
             let metaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
                 .withStartRow(3)
                 .withStartColumn(2)
-                .withTotalColumn(7)
+                .withTotalColumn(9)
                 .withTotalRow(1);
 
             expect(supplierId).toStrictEqual("2");
@@ -259,6 +272,8 @@ describe("SupplierService Test", ()=>{
             SheetDB.updateRow = updateRow;
             SheetDB.getSheetData = getSheetData;
             GenerateId.getUniqueId = jest.fn().mockReturnValue(uniqueId);
+            UserDBService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
+            Date.now = jest.fn().mockReturnValue(123);
 
             // given
             let supplier = Supplier.of()
@@ -275,11 +290,11 @@ describe("SupplierService Test", ()=>{
 
             // then
             let dbData = [uniqueId, "name", "type", "company", 
-                "designation", "contact_number", "email@email", "address"];
+                "designation", "contact_number", "email@email", "address", "email", "123"];
             let metaData = SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME)
                 .withStartRow(0)
                 .withStartColumn(1)
-                .withTotalColumn(8)
+                .withTotalColumn(10)
                 .withTotalRow(1);
 
             expect(supplierId).toStrictEqual(uniqueId);
