@@ -18,13 +18,15 @@ export class SheetDB {
         return spreadsheet;
     }
 
+    static getFile(id: string) {
+        return DriveApp.getFileById(id);
+    }
+
     static doesSpreadsheetExist(): boolean {
-        let id: string = DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID);
+        let id: string = SheetDB.getSpreadsheet().getId();
         if(!id) return false;
-        const spreadsheet = SpreadsheetApp.openById(id);
-        if(!spreadsheet) return false;
-        console.log("Spreadsheet: ");
-        console.log(spreadsheet.getName());
+        let file = SheetDB.getFile(id);
+        if(file.isTrashed()) return false;
         return true;
     }
 
