@@ -1,5 +1,5 @@
 export class Item implements ItemInterface {
-    uuid: string;
+    itemId: string;
     itemName: string;
     itemType: string;
     itemUnitOfMeasure: string;
@@ -8,7 +8,7 @@ export class Item implements ItemInterface {
     latestUpdateTime: string;
 
     constructor() {
-        this.uuid = "";
+        this.itemId = "";
         this.itemName = "";
         this.itemType = "";
         this.itemUnitOfMeasure = "";
@@ -25,8 +25,8 @@ export class Item implements ItemInterface {
         return Object.assign(new Item, itemData);
     }
 
-    withUUID(uuid: string) {
-        this.uuid = uuid;
+    withItemId(itemId: string) {
+        this.itemId = itemId;
         return this;
     }
 

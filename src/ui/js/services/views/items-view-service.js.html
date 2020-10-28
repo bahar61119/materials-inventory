@@ -1,0 +1,28 @@
+<script>
+    class ItemsViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${ItemsViewService.name}.${name}()`
+            return {
+                loadItemListView: functionName(ItemsViewService.loadItemListView.name)
+            }
+        }
+
+        static loadItemListView() {
+            console.log("Items Clicked");
+            ItemsViewService.clear();
+            API.loadItemListView(
+                html => {
+                    ItemsViewService.setHtml(html);
+                    // ItemsViewService.setData();
+                },
+                ItemsViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ItemsViewService.FunctionName.loadItemListView)
+                    .withHash(BrowserHistoryOptions.Url.ITEMS)
+            );
+        }
+    }
+</script>

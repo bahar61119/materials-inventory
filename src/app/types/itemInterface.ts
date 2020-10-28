@@ -1,5 +1,5 @@
 interface ItemInterface {
-    uuid: string;
+    itemId: string;
     itemName: string;
     itemType: string;
     itemUnitOfMeasure: string;
