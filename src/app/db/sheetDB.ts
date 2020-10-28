@@ -32,6 +32,10 @@ export class SheetDB {
         return DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID);
     }
 
+    static deleteSpreadsheetId() {
+        DB.getApplicationDB().delete(ApplicationDBKeys.SPREADSHEET_ID);
+    }
+
     static saveSpreadsheetId(id: string) {
         DB.getApplicationDB().put(ApplicationDBKeys.SPREADSHEET_ID, id);
     }
