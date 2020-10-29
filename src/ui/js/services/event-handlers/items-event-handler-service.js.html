@@ -1,7 +1,9 @@
 <script>
     class ItemsEventHandlerService {
         static inputEventHandler(event) {
-            
+            if(event.target.matches(`#${ElementId.Items.LIST_SEARCH}`)) {
+                ItemsService.search(); 
+            }
         }
 
         static clickEventHandler(event) {

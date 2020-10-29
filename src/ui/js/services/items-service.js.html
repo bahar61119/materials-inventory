@@ -1,0 +1,76 @@
+<script>
+    class ItemsService {
+        static #itemList = [];
+
+        static setItemListData() {
+            API.getItemList(
+                dataReturned => {
+                    ItemsService.#itemList = dataReturned.slice();
+                    ItemsService.search();
+                    if(ItemsService.#itemList.length === 0) {
+                        Alert.show(
+                            AlertOptions.of()
+                                .withTitle("No Items Found")
+                                .withMessage("Please add a new Item")
+                                .withType(AlertOptions.Type.WARNING)
+                        );
+
+                        ConfirmationModal.show(
+                            ConfirmationModalOptions.of()
+                                .withTitle("No Items Found")
+                                .withMessage(`Do you want to add new item?`)
+                                .withCallback(()=>{
+                                    Alert.hide();
+                                    // ItemsViewService.loadAddItemView();
+                                })
+                                .withType(ConfirmationModalOptions.Type.WARNING)
+                        );
+                    }
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Loading Items Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static search() {
+            let searchInput = document.getElementById(ElementId.Items.LIST_SEARCH).value;
+            let results = DataManipulation.filterData(searchInput, ItemsService.#itemList);
+            let table = document.getElementById(ElementId.Items.LIST_TABLE);
+            let template = ItemsService.getTemplate(ElementId.Items.LIST_ROW_TEMPLATE);
+
+            table.innerHTML = "";
+            results.forEach(result => {
+                let tr = template.cloneNode(true);
+                result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
+                Object.keys(result).forEach(column => {
+                    tr.querySelector(`.${column}`).textContent = result[column].toString();
+                });
+
+                let item = JSON.stringify({
+                    itemId: result.itemId,
+                    itemName: result.itemName
+                });
+
+                let deleteButton = tr.querySelector(`.${ElementClass.Items.DELETE_BUTTON}`);
+                deleteButton.dataset.item = item;
+
+                let editButton = tr.querySelector(`.${ElementClass.Items.EDIT_BUTTON}`);
+                editButton.dataset.item = item;
+                
+                table.appendChild(tr);
+            });
+        }
+
+        static getTemplate(templateId) {
+            let template = document.getElementById(templateId).content;
+            return template.cloneNode(true);
+        }
+    }
+</script>

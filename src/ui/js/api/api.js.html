@@ -32,7 +32,8 @@
                 addAuthorizeUser: "addAuthorizeUser",
                 deleteAuthorizeUser: "deleteAuthorizeUser",
                 loadSettingsAuthorizationView: "loadSettingsAuthorizationView",
-                loadItemListView: "loadItemListView"
+                loadItemListView: "loadItemListView",
+                getItemList: "getItemList"
             }
         }
 
@@ -165,6 +166,14 @@
         static loadItemListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadItemListView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static getItemList(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.getItemList)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

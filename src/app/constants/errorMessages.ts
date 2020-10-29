@@ -73,3 +73,9 @@ export class SettingsErrorMessage extends ErrorMessage {
         return `Email is already authorized`;
     }
 }
+
+export class ItemsErrorMessage extends ErrorMessage {
+    static get itemIdNotFound() {
+        return (itemId: string) => `Item id(${itemId}) not found`;
+    }
+}
