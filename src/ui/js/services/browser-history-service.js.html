@@ -15,8 +15,17 @@
         }
 
         static #executeFunctionByName(functionName, functionArguments) {
-            var tmpFunc = new Function(functionName);
-            tmpFunc(functionArguments);
+            let functionWithArgs = functionName + "(";
+            if(functionArguments) {
+                functionArguments.forEach(element => {
+                    functionWithArgs+= JSON.stringify(element);
+                    functionWithArgs+= ","
+                });
+                functionWithArgs = functionWithArgs.slice(0, -1);
+            }
+            functionWithArgs += ")";
+            var tmpFunc = new Function(functionWithArgs);
+            tmpFunc();
         }
     }
 </script>

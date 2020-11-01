@@ -75,7 +75,11 @@ export class SettingsErrorMessage extends ErrorMessage {
 }
 
 export class ItemsErrorMessage extends ErrorMessage {
-    static get itemIdNotFound() {
-        return (itemId: string) => `Item id(${itemId}) not found`;
+    static get itemNotFound() {
+        return `Item not found`;
+    }
+
+    static get itemDeleteError() {
+        return `Deleting supplier failed`;
     }
 }

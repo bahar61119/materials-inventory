@@ -8,5 +8,6 @@ export enum ViewFileNames {
     UPDATE_SUPPLIER = "src/ui/html/supplier/update-supplier",
     SETTINGS = "src/ui/html/settings/settings",
     SETTINGS_AUTHORIZATION = "src/ui/html/settings/settings-authorization",
-    ITEM_LIST = "src/ui/html/items/item-list"
+    ITEM_LIST = "src/ui/html/items/item-list",
+    UPDATE_ITEM = "src/ui/html/items/update-item"
 }
