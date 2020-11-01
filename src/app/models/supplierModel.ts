@@ -34,7 +34,7 @@ export class Supplier implements SupplierInterface {
         return Object.assign(new Supplier, supplierData);
     }
 
-    withSupplierId(supplierId: string) {
+    withSupplierId(supplierId: string | undefined) {
         this.supplierId = supplierId;
         return this;
     }
