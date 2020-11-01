@@ -1,4 +1,4 @@
-interface SupplierInterface {
+interface SupplierInterface extends EntityInterface {
     supplierId: string | undefined;
     supplierName: string;
     supplierType: string;

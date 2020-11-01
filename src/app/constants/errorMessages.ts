@@ -2,6 +2,14 @@ export class ErrorMessage {
     static get internalError(): Readonly<string> {
         return "We're sorry, a server error occurred. Please wait a bit and try again.";
     }
+
+    static get entityNotFound() {
+        return (entityName: string) => `${entityName} not found`;
+    }
+
+    static get entityDeleteError() {
+        return (entityName: string) => `${entityName} delete failed`;
+    }
 }
 
 export class SheetErrorMessage extends ErrorMessage {
@@ -80,6 +88,6 @@ export class ItemsErrorMessage extends ErrorMessage {
     }
 
     static get itemDeleteError() {
-        return `Deleting supplier failed`;
+        return `Deleting item failed`;
     }
 }

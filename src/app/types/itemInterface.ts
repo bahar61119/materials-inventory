@@ -1,4 +1,4 @@
-interface ItemInterface {
+interface ItemInterface extends EntityInterface {
     itemId: string;
     itemName: string;
     itemType: string;
