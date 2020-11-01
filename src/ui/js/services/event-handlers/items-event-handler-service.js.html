@@ -7,7 +7,70 @@
         }
 
         static clickEventHandler(event) {
+            let addButton = event.target.closest(`#${ElementId.Items.ADD_BUTTON}`);
+            let deleteButton = event.target.closest(`button.${ElementClass.Items.DELETE_BUTTON}`);
+            let editButton = event.target.closest(`button.${ElementClass.Items.EDIT_BUTTON}`);
+            let updateCancelButton = event.target.closest(`#${ElementId.Items.CANCEL_UPDATE_BUTTON}`);
+            let updateButton = event.target.closest(`#${ElementId.Items.UPDATE_BUTTON}`);
 
+            if(addButton) {
+                ItemsViewService.loadAddItemView();
+            } else if(deleteButton) {
+                ItemsEventHandlerService.#deleteItem(deleteButton);
+            } else if(editButton) {
+                ItemsEventHandlerService.#editItem(editButton);
+            } else if(updateButton) {
+                ItemsEventHandlerService.#update(updateButton);
+            } else if(updateCancelButton) {
+                ItemsEventHandlerService.#updateCancel(updateCancelButton);
+            }
+        }
+
+        static #deleteItem(deleteButton) {
+            let item = JSON.parse(deleteButton.dataset.item);
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Delete Item")
+                                .withMessage(`Are you sure you want to delete Item ${item.itemName} ?`)
+                                .withCallback(()=>ItemsService.deleteItem(item.itemId))
+                                .withType(ConfirmationModalOptions.Type.DANGER);
+                ConfirmationModal.show(options);
+        }
+
+        static #editItem(editButton) {
+            let item = JSON.parse(editButton.dataset.item);
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Edit Item")
+                                .withMessage(`Are you sure you want to edit Item ${item.itemName}?`)
+                                .withCallback(()=>ItemsViewService.loadEditItemView(item.itemId))
+                                .withType(ConfirmationModalOptions.Type.WARNING);
+                ConfirmationModal.show(options);
+        }
+
+        static #update(updateButton) {
+            let form = document.getElementsByClassName(`${ElementClass.Items.EDIT_FORM}`)[0];
+            let isValidForm = form.checkValidity();
+            if(!isValidForm) {
+                form.classList.add('was-validated');
+            } else {
+                let itemName = $(`#${ElementId.Items.ITEM_NAME}`).val();
+                let isEdit = updateButton.dataset.isEdit === "true"? true: false;
+                let options = ConfirmationModalOptions.of()
+                                    .withTitle("Update Item")
+                                    .withMessage(`Are you sure you want to update item ${itemName}?`)
+                                    .withCallback(()=>ItemsService.updateItem(isEdit))
+                                    .withType(ConfirmationModalOptions.Type.SUCCESS);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static #updateCancel(updateCancelButton) {
+            let itemName = $(`#${ElementId.Items.ITEM_NAME}`).val();
+            let options = ConfirmationModalOptions.of()
+                                .withTitle("Update Item")
+                                .withMessage(`Are you sure you want to cancel updating item ${itemName}?`)
+                                .withCallback(()=>ItemsViewService.loadItemListView())
+                                .withType(ConfirmationModalOptions.Type.WARNING);
+            ConfirmationModal.show(options);
         }
     }
 </script>

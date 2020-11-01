@@ -1,0 +1,81 @@
+<form class="container edit-item-form novalidate">
+    <div class="row">
+        <div class="shadow p-3 mb-5 bg-light rounded col-md-6 offset-md-3">
+            <h3 class="text-center">
+                <? if(data.isEdit) { ?>
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                    </svg>
+                    <p>Edit Item</p>
+                <? } else { ?>
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10zM13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg>
+                    <p>Add Item</p>
+                <? } ?>
+            </h3>
+
+            <? if(data.isEdit) { ?>
+            <div class="form-group">
+                <label for="item-id">Item ID</label>
+                <input type="text" class="form-control" disabled id="item-id" value=<?= data.item.itemId ?> >
+            </div>
+            <? } ?>
+            <div class="form-group required">
+                <label for="item-name" class="control-label">Item Name</label>
+                <input type="text" class="form-control" id="item-name" required value=<?= data.item.itemName ?> >
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid item name.
+                </div>
+            </div>
+            
+            <div class="form-group required">
+                <label for="item-type" class="control-label">Item Type</label>
+                <input type="text" class="form-control" id="item-type" required value=<?= data.item.itemType ?> >
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid item type.
+                </div>
+            </div>
+            
+            <div class="form-group required">
+                <label for="item-unit-of-measure" class="control-label">Unit Of Measure</label>
+                <input type="text" class="form-control" id="item-unit-of-measure" required value=<?= data.item.itemUnitOfMeasure ?> >
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid item unit of measure.
+                </div>
+            </div>
+            
+            <div class="form-group required">
+                <label for="item-description" class="control-label">Description</label>
+                <input type="text" class="form-control" id="item-description" required value=<?= data.item.itemDescription ?> >
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid item description.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-outline-success btn-block btn-lg" id="update-item-button" data-is-edit=<?= data.isEdit ?> >Update</button>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="cancel-update-item-button">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  
+</form>
+

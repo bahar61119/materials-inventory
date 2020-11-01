@@ -1,7 +1,7 @@
 <script>
     class ProfileViewService extends ViewService {
         static get FunctionName() {
-            let functionName = name => `${ProfileViewService.name}.${name}()`
+            let functionName = name => `${ProfileViewService.name}.${name}`
             return {
                 loadUpdateProfile: functionName(ProfileViewService.loadUpdateProfile.name),
             }

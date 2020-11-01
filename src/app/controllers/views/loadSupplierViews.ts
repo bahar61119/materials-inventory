@@ -20,7 +20,7 @@ function loadAddSupplierView() {
 
 function loadEditSupplierView(supplierId: string) {
   ProfileService.validateProfile();
-  let supplier = SupplierService.getSupplier(supplierId);
+  let supplier = SupplierService.getSupplier(String(supplierId));
   let data = {
     supplier,
     isEdit: true

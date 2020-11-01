@@ -33,7 +33,11 @@
                 deleteAuthorizeUser: "deleteAuthorizeUser",
                 loadSettingsAuthorizationView: "loadSettingsAuthorizationView",
                 loadItemListView: "loadItemListView",
-                getItemList: "getItemList"
+                getItemList: "getItemList",
+                loadEditItemView: "loadEditItemView",
+                loadAddItemView: "loadAddItemView",
+                updateItem: "updateItem",
+                deleteItem: "deleteItem"
             }
         }
 
@@ -174,6 +178,41 @@
         static getItemList(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.getItemList)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadEditItemView(itemId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadEditItemView)
+                .withData(itemId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadAddItemView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadAddItemView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteItem(itemId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteItem)
+                .withData(itemId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updateItem(item, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateItem)
+                .withData(item)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

@@ -72,5 +72,63 @@
             let template = document.getElementById(templateId).content;
             return template.cloneNode(true);
         }
+
+        static deleteItem(itemId) {
+            API.deleteItem(
+                itemId,
+                dataReturned => {
+                    ItemsService.setItemListData();
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Item Delete")
+                            .withMessage(`Item successfully deleted`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Item Delete Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static updateItem(isEdit = true) {
+            let item = ItemsService.#getItem(isEdit);
+            API.updateItem(
+                item,
+                dataReturned => {
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Item Update")
+                            .withMessage("Item updated successfully")
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Item Update Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+            
+        }
+
+        static #getItem(isEdit = true) {
+            return Item.of()
+                .withItemId(isEdit? $(`#${ElementId.Items.ITEM_ID}`).val(): '')
+                .withItemName($(`#${ElementId.Items.ITEM_NAME}`).val())
+                .withItemType($(`#${ElementId.Items.ITEM_TYPE}`).val())
+                .withItemUnitOfMeasure($(`#${ElementId.Items.ITEM_UNIT_OF_MEASURE}`).val())
+                .withItemDescription($(`#${ElementId.Items.ITEM_DESCRIPTION}`).val())
+        }
     }
 </script>

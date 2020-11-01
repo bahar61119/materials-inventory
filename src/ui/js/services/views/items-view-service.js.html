@@ -1,14 +1,15 @@
 <script>
     class ItemsViewService extends ViewService {
         static get FunctionName() {
-            let functionName = name => `${ItemsViewService.name}.${name}()`
+            let functionName = name => `${ItemsViewService.name}.${name}`
             return {
-                loadItemListView: functionName(ItemsViewService.loadItemListView.name)
+                loadItemListView: functionName(ItemsViewService.loadItemListView.name),
+                loadAddItemView: functionName(ItemsViewService.loadAddItemView.name),
+                loadEditItemView: functionName(ItemsViewService.loadEditItemView.name)
             }
         }
 
         static loadItemListView() {
-            console.log("Items Clicked");
             ItemsViewService.clear();
             API.loadItemListView(
                 html => {
@@ -22,6 +23,39 @@
                 BrowserHistoryOptions.of()
                     .withFunctionName(ItemsViewService.FunctionName.loadItemListView)
                     .withHash(BrowserHistoryOptions.Url.ITEMS)
+            );
+        }
+
+        static loadAddItemView() {
+            ItemsViewService.clear();
+            API.loadAddItemView(
+                ItemsViewService.setHtml,
+                ItemsViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ItemsViewService.FunctionName.loadAddItemView)
+                    .withHash(BrowserHistoryOptions.Url.ITEM_ADD)
+            );
+        }
+
+        static loadEditItemView(itemId) {
+            ItemsViewService.clear();
+            API.loadEditItemView(
+                itemId,
+                ItemsViewService.setHtml,
+                ItemsViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(ItemsViewService.FunctionName.loadEditItemView)
+                    .withFunctionArguments(itemId)
+                    .withParams({
+                        itemId
+                    })
+                    .withHash(BrowserHistoryOptions.Url.ITEM_EDIT)
             );
         }
     }

@@ -1,7 +1,7 @@
 <script>
     class SettingsViewService extends ViewService {
         static get FunctionName() {
-            let functionName = name => `${SettingsViewService.name}.${name}()`
+            let functionName = name => `${SettingsViewService.name}.${name}`
             return {
                 loadSettingsView: functionName(SettingsViewService.loadSettingsView.name),
             }

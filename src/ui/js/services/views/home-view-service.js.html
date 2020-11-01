@@ -1,7 +1,7 @@
 <script>
     class HomeViewService extends ViewService {
         static get FunctionName() {
-            let functionName = name => `${HomeViewService.name}.${name}()`
+            let functionName = name => `${HomeViewService.name}.${name}`
             return {
                 loadHomeView: functionName(HomeViewService.loadHomeView.name),
             }
