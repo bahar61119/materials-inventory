@@ -1,3 +1,4 @@
+import { Supplier } from '../../models/supplierModel';
 import { SupplierService } from '../../services/supplierService';
 
 export function getSupplierList() {
@@ -9,5 +10,5 @@ export function deleteSupplier(supplierId: string) {
 }
 
 export function updateSupplier(supplierData: any) {
-    return SupplierService.updateSupplier(supplierData);
+    return SupplierService.updateSupplier(Supplier.from(supplierData));
 }
