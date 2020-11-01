@@ -8,30 +8,30 @@ import { UserDBService } from './userDBService';
 
 export class BaseService {
     protected static getEntityList<T>(sheetName: string, entityName: string): Array<T> {
-        let numberOfFields = BaseService.getNumberOfFields(entityName);
+        let numberOfFields = this.getNumberOfFields(entityName);
         let sheetMetaData = SheetMetadata.of(sheetName)
                                 .withTotalColumn(numberOfFields);
-        const rawDataList = BaseService.getRawDataList(sheetMetaData);
+        const rawDataList = this.getRawDataList(sheetMetaData);
         let entityList = new Array<T>();
         rawDataList.forEach(rawData => {
-            entityList.push(BaseService.getEntityFromRawData(rawData, entityName));
+            entityList.push(this.getEntityFromRawData(rawData, entityName));
         })
         return entityList;
     }
 
     protected static getEntity<T>(id: string, sheetName: string, entityName: string): T {
-        let numberOfFields = BaseService.getNumberOfFields(entityName);
-        let index = BaseService.getIndex(id, sheetName, entityName);
+        let numberOfFields = this.getNumberOfFields(entityName);
+        let index = this.getIndex(id, sheetName, entityName);
         let sheetMetaData = SheetMetadata.of(sheetName)
                                     .withStartRow(index+2)
                                     .withTotalRow(1)
                                     .withTotalColumn(numberOfFields);
-        const rawData = BaseService.getRawDataList(sheetMetaData).flatMap(data => data);
-        return BaseService.getEntityFromRawData(rawData, entityName);
+        const rawData = this.getRawDataList(sheetMetaData).flatMap(data => data);
+        return this.getEntityFromRawData(rawData, entityName);
     }
 
     protected static deleteEntity(id: string, sheetName: string, entityName: string): string {
-        let index = BaseService.getIndex(id, sheetName, entityName);
+        let index = this.getIndex(id, sheetName, entityName);
         try {
             SheetDB.deleteRow(
             SheetMetadata.of(sheetName).withStartRow(index+2)
@@ -46,9 +46,9 @@ export class BaseService {
     static updateEntity<T extends Entity>(entity: T, entityIdName: string, sheetName: string, entityName: string): string {
         entity.withLatestUpdateByUser(UserDBService.getCurrentUser().email);
         entity.withLatestUpdateTime(Date.now().toString());
-        let numberOfFields = BaseService.getNumberOfFields(entityName);
+        let numberOfFields = this.getNumberOfFields(entityName);
         let isEdit = entity[entityIdName]? true: false;
-        let startRow = entity[entityIdName]? BaseService.getIndex(entity[entityIdName], sheetName, entityName) + 2: 0;
+        let startRow = entity[entityIdName]? this.getIndex(entity[entityIdName], sheetName, entityName) + 2: 0;
         let startColumn = isEdit? 2: 1;
         let totalColumn = isEdit? numberOfFields-1: numberOfFields;
         let sheetMetaData = SheetMetadata.of(sheetName)
@@ -58,7 +58,7 @@ export class BaseService {
             .withTotalColumn(totalColumn);
         let entityId = entity[entityIdName]? entity[entityIdName]: GenerateId.getUniqueId();
         entity[entityIdName] = entityId; 
-        let data = BaseService.getRowDataFromEntity(entity, entityIdName, !isEdit);
+        let data = this.getRowDataFromEntity(entity, entityIdName, !isEdit);
         SheetDB.updateRow(sheetMetaData, [data]);
         return entityId;
       }
@@ -66,7 +66,7 @@ export class BaseService {
     protected static getIndex(entityId: string, sheetName: string, entityName: string): number {
         entityId = entityId.toLowerCase();
         let condition = (id: string) => id === entityId;
-        let index = BaseService.getRawDataList(SheetMetadata.of(sheetName))
+        let index = this.getRawDataList(SheetMetadata.of(sheetName))
             .flatMap(itemId => itemId)
             .map(itemId => String(itemId).toLowerCase())
             .findIndex(condition);
