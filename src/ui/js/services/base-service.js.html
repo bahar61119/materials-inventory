@@ -1,0 +1,84 @@
+<script>
+    class BaseService {
+        static update(entity, entityName, api, isEdit = true) {
+            api(
+                entity,
+                dataReturned => {
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle(`Update ${entityName}`)
+                            .withMessage(`${entityName} updated successfully`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle(`${entityName}  Update Error`)
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static delete(id, entityName, api, success) {
+            api(
+                id,
+                dataReturned => {
+                    success();
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle(`${entityName} Delete`)
+                            .withMessage(`${entityName} successfully deleted`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle(`${entityName} Delete Error`)
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static search(dataList, idField, nameField, elementName) {
+            let searchInput = document.getElementById(ElementId[elementName].LIST_SEARCH).value;
+            let results = DataManipulation.filterData(searchInput, dataList);
+            let table = document.getElementById(ElementId[elementName].LIST_TABLE);
+            let template = BaseService.getTemplate(ElementId[elementName].LIST_ROW_TEMPLATE);
+
+            table.innerHTML = "";
+            results.forEach(result => {
+                let tr = template.cloneNode(true);
+                result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
+                Object.keys(result).forEach(column => {
+                    tr.querySelector(`.${column}`).textContent = result[column].toString();
+                });
+
+                let entity = JSON.stringify({
+                    id: result[idField],
+                    name: result[nameField]
+                });
+
+                let deleteButton = tr.querySelector(`.${ElementClass[elementName].DELETE_BUTTON}`);
+                deleteButton.dataset.entity = entity;
+
+                let editButton = tr.querySelector(`.${ElementClass[elementName].EDIT_BUTTON}`);
+                editButton.dataset.entity = entity;
+                
+                table.appendChild(tr);
+            });
+        }
+
+        static getTemplate(templateId) {
+            let template = document.getElementById(templateId).content;
+            return template.cloneNode(true);
+        }
+    }
+</script>
