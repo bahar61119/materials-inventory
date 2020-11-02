@@ -40,56 +40,11 @@
         }
 
         static searchSupplier() {
-            let searchInput = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_SEARCH).value;
-            let results = DataManipulation.filterData(searchInput, SupplierService.#supplierList);
-            let supplierListTable = document.getElementById(ElementId.Supplier.SUPPLIER_LIST_TABLE);
-            let template = SupplierService.getTemplate(ElementId.Supplier.SUPPLIER_LIST_ROW_TEMPLATE);
-
-            supplierListTable.innerHTML = "";
-            results.forEach(result => {
-                let tr = template.cloneNode(true);
-                result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
-                Object.keys(result).forEach(column => {
-                    tr.querySelector(`.${column}`).textContent = result[column].toString();
-                });
-
-                let entity = JSON.stringify({
-                    id: result.supplierId,
-                    name: result.supplierName
-                });
-
-                let deleteButton = tr.querySelector(`.${ElementClass.Supplier.DELETE_BUTTON}`);
-                deleteButton.dataset.entity = entity;
-
-                let editButton = tr.querySelector(`.${ElementClass.Supplier.EDIT_BUTTON}`);
-                editButton.dataset.entity = entity;
-                
-                supplierListTable.appendChild(tr);
-            });
+            BaseService.search(SupplierService.#supplierList, "supplierId", "supplierName", "Supplier");
         }
 
         static deleteSupplier(supplierId) {
-            API.deleteSupplier(
-                supplierId,
-                dataReturned => {
-                    SupplierService.setDataForSupplierSearch();
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Supplier Delete")
-                            .withMessage(`Supplier (ID: ${supplierId}) Deleted successfully`)
-                            .withType(AlertOptions.Type.SUCCESS)
-                    );
-                },
-                error => {
-                    console.error(error);
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Supplier Delete Error")
-                            .withMessage(error.message)
-                            .withType(AlertOptions.Type.DANGER)
-                    );
-                }
-            );
+            BaseService.delete(supplierId, "Supplier", API.deleteSupplier, SupplierService.setDataForSupplierSearch);
         }
 
         static editSupplier(supplierId) {
@@ -98,32 +53,7 @@
 
         static updateSupplier(isEdit = true) {
             let supplier = SupplierService.#getSupplier(isEdit);
-            API.updateSupplier(
-                supplier,
-                dataReturned => {
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Supplier Update")
-                            .withMessage("Supplier Updated successfully")
-                            .withType(AlertOptions.Type.SUCCESS)
-                    );
-                },
-                error => {
-                    console.error(error);
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Supplier Update Error")
-                            .withMessage(error.message)
-                            .withType(AlertOptions.Type.DANGER)
-                    );
-                }
-            );
-            
-        }
-
-        static getTemplate(templateId) {
-            let template = document.getElementById(templateId).content;
-            return template.cloneNode(true);
+            BaseService.update(supplier, "Supplier", API.updateSupplier, isEdit);
         }
 
         static #getSupplier(isEdit = true) {

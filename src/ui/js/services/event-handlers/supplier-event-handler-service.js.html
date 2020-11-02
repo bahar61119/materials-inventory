@@ -1,17 +1,17 @@
 <script>
     class SupplierEventHandlerService extends BaseEventHandlerService {
         static inputEventHandler(event) {
-            if(event.target.matches(`#${ElementId.Supplier.SUPPLIER_LIST_SEARCH}`)) {
+            if(event.target.matches(`#${ElementId.Supplier.LIST_SEARCH}`)) {
                 SupplierService.searchSupplier(); 
             }
         }
 
         static clickEventHandler(event) {
-            let addButton = event.target.closest(`#${ElementId.Supplier.ADD_SUPPLIER_BUTTON}`);
+            let addButton = event.target.closest(`#${ElementId.Supplier.ADD_BUTTON}`);
             let deleteButton = event.target.closest(`button.${ElementClass.Supplier.DELETE_BUTTON}`);
             let editButton = event.target.closest(`button.${ElementClass.Supplier.EDIT_BUTTON}`);
-            let updateCancelButton = event.target.closest(`#${ElementId.Supplier.CANCEL_UPDATE_SUPPLIER_BUTTON}`);
-            let updateButton = event.target.closest(`#${ElementId.Supplier.UPDATE_SUPPLIER_BUTTON}`);
+            let updateCancelButton = event.target.closest(`#${ElementId.Supplier.CANCEL_UPDATE_BUTTON}`);
+            let updateButton = event.target.closest(`#${ElementId.Supplier.UPDATE_BUTTON}`);
 
             if(addButton) {
                 SuppliersViewService.loadAddSupplierView();
@@ -20,9 +20,9 @@
             } else if(editButton) {
                 this.edit(editButton, SupplierService.editSupplier);
             } else if(updateCancelButton) {
-                this.updateCancel(updateCancelButton, ElementId.Supplier.SUPPLIER_NAME, SuppliersViewService.loadSupplierListView);
+                this.updateCancel(ElementId.Supplier.SUPPLIER_NAME, SuppliersViewService.loadSupplierListView);
             } else if(updateButton) {
-                this.update(updateButton, ElementClass.Supplier.EDIT_SUPPLIER_FORM, ElementId.Supplier.SUPPLIER_NAME, SupplierService.updateSupplier);
+                this.update(updateButton, ElementClass.Supplier.EDIT_FORM, ElementId.Supplier.SUPPLIER_NAME, SupplierService.updateSupplier);
             }
         }
     }

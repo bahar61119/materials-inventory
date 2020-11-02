@@ -21,7 +21,7 @@
                                 .withMessage(`Do you want to add new item?`)
                                 .withCallback(()=>{
                                     Alert.hide();
-                                    // ItemsViewService.loadAddItemView();
+                                    ItemsViewService.loadAddItemView();
                                 })
                                 .withType(ConfirmationModalOptions.Type.WARNING)
                         );
@@ -40,86 +40,16 @@
         }
 
         static search() {
-            let searchInput = document.getElementById(ElementId.Items.LIST_SEARCH).value;
-            let results = DataManipulation.filterData(searchInput, ItemsService.#itemList);
-            let table = document.getElementById(ElementId.Items.LIST_TABLE);
-            let template = ItemsService.getTemplate(ElementId.Items.LIST_ROW_TEMPLATE);
-
-            table.innerHTML = "";
-            results.forEach(result => {
-                let tr = template.cloneNode(true);
-                result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
-                Object.keys(result).forEach(column => {
-                    tr.querySelector(`.${column}`).textContent = result[column].toString();
-                });
-
-                let entity = JSON.stringify({
-                    id: result.itemId,
-                    name: result.itemName
-                });
-
-                let deleteButton = tr.querySelector(`.${ElementClass.Items.DELETE_BUTTON}`);
-                deleteButton.dataset.entity = entity;
-
-                let editButton = tr.querySelector(`.${ElementClass.Items.EDIT_BUTTON}`);
-                editButton.dataset.entity = entity;
-                
-                table.appendChild(tr);
-            });
-        }
-
-        static getTemplate(templateId) {
-            let template = document.getElementById(templateId).content;
-            return template.cloneNode(true);
+            BaseService.search(ItemsService.#itemList, "itemId", "itemName", "Items");
         }
 
         static deleteItem(itemId) {
-            API.deleteItem(
-                itemId,
-                dataReturned => {
-                    ItemsService.setItemListData();
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Item Delete")
-                            .withMessage(`Item successfully deleted`)
-                            .withType(AlertOptions.Type.SUCCESS)
-                    );
-                },
-                error => {
-                    console.error(error);
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Item Delete Error")
-                            .withMessage(error.message)
-                            .withType(AlertOptions.Type.DANGER)
-                    );
-                }
-            );
+            BaseService.delete(itemId, "Item", API.deleteItem, ItemsService.setItemListData);
         }
 
         static updateItem(isEdit = true) {
             let item = ItemsService.#getItem(isEdit);
-            API.updateItem(
-                item,
-                dataReturned => {
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Item Update")
-                            .withMessage("Item updated successfully")
-                            .withType(AlertOptions.Type.SUCCESS)
-                    );
-                },
-                error => {
-                    console.error(error);
-                    Alert.show(
-                        AlertOptions.of()
-                            .withTitle("Item Update Error")
-                            .withMessage(error.message)
-                            .withType(AlertOptions.Type.DANGER)
-                    );
-                }
-            );
-            
+            BaseService.update(item, "Item", API.updateItem, isEdit);
         }
 
         static #getItem(isEdit = true) {
