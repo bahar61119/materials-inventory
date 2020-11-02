@@ -53,16 +53,16 @@
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
                 });
 
-                let item = JSON.stringify({
-                    itemId: result.itemId,
-                    itemName: result.itemName
+                let entity = JSON.stringify({
+                    id: result.itemId,
+                    name: result.itemName
                 });
 
                 let deleteButton = tr.querySelector(`.${ElementClass.Items.DELETE_BUTTON}`);
-                deleteButton.dataset.item = item;
+                deleteButton.dataset.entity = entity;
 
                 let editButton = tr.querySelector(`.${ElementClass.Items.EDIT_BUTTON}`);
-                editButton.dataset.item = item;
+                editButton.dataset.entity = entity;
                 
                 table.appendChild(tr);
             });
