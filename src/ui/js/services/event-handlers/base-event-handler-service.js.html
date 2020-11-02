@@ -1,0 +1,50 @@
+<script>
+    class BaseEventHandlerService {
+        static updateCancel(nameElementId, confirmFunction) {
+            let name = $(`#${nameElementId}`).val();
+            let options = ConfirmationModalOptions.of()
+                                .withTitle("Update")
+                                .withMessage(`Are you sure you want to cancel updating ${name}?`)
+                                .withCallback(()=>confirmFunction())
+                                .withType(ConfirmationModalOptions.Type.WARNING);
+            ConfirmationModal.show(options);
+        }
+
+        static update(updateButton, formId, nameElementId, confirmFunction) {
+            let form = document.getElementsByClassName(`${formId}`)[0];
+            let isValidForm = form.checkValidity();
+            if(!isValidForm) {
+                form.classList.add('was-validated');
+            } else {
+                let name = $(`#${nameElementId}`).val();
+                let isEdit = updateButton.dataset.isEdit === "true"? true: false;
+                let options = ConfirmationModalOptions.of()
+                                    .withTitle("Update")
+                                    .withMessage(`Are you sure you want to update ${name}?`)
+                                    .withCallback(()=>confirmFunction(isEdit))
+                                    .withType(ConfirmationModalOptions.Type.SUCCESS);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static edit(editButton, confirmFunction) {
+            let entity = JSON.parse(editButton.dataset.entity);
+            let options = ConfirmationModalOptions.of()
+                            .withTitle("Edit")
+                            .withMessage(`Are you sure you want to edit ${entity.name}?`)
+                            .withCallback(()=>confirmFunction(entity.id))
+                            .withType(ConfirmationModalOptions.Type.WARNING);
+            ConfirmationModal.show(options);
+        }
+
+        static delete(deleteButton, confirmFunction) {
+            let entity = JSON.parse(deleteButton.dataset.entity);
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Delete")
+                                .withMessage(`Are you sure you want to delete ${entity.name} ?`)
+                                .withCallback(()=>confirmFunction(entity.id))
+                                .withType(ConfirmationModalOptions.Type.DANGER);
+                ConfirmationModal.show(options);
+        }
+    }
+</script>
