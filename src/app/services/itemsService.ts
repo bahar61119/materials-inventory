@@ -1,8 +1,8 @@
 import { SheetConstants } from '../constants/sheetConstants';
 import { Item } from '../models/itemModel';
-import { BaseService } from './BaseService';
+import { EntityService } from './entityService';
 
-export class ItemsService extends BaseService {
+export class ItemsService extends EntityService {
   static getItemList(): Array<Item> {
     return ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
   }
