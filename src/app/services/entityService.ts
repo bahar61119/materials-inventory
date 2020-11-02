@@ -6,8 +6,8 @@ import { SheetMetadata } from '../utils/sheetMetadata';
 import { EntityFactory } from './entityFactory';
 import { UserDBService } from './userDBService';
 
-export class BaseService {
-    protected static getEntityList<T>(sheetName: string, entityName: string): Array<T> {
+export class EntityService {
+    public static getEntityList<T>(sheetName: string, entityName: string): Array<T> {
         let numberOfFields = this.getNumberOfFields(entityName);
         let sheetMetaData = SheetMetadata.of(sheetName)
                                 .withTotalColumn(numberOfFields);
@@ -19,7 +19,7 @@ export class BaseService {
         return entityList;
     }
 
-    protected static getEntity<T>(id: string, sheetName: string, entityName: string): T {
+    public static getEntity<T>(id: string, sheetName: string, entityName: string): T {
         let numberOfFields = this.getNumberOfFields(entityName);
         let index = this.getIndex(id, sheetName, entityName);
         let sheetMetaData = SheetMetadata.of(sheetName)
@@ -30,7 +30,7 @@ export class BaseService {
         return this.getEntityFromRawData(rawData, entityName);
     }
 
-    protected static deleteEntity(id: string, sheetName: string, entityName: string): string {
+    public static deleteEntity(id: string, sheetName: string, entityName: string): string {
         let index = this.getIndex(id, sheetName, entityName);
         try {
             SheetDB.deleteRow(
@@ -43,7 +43,7 @@ export class BaseService {
         }
     }
 
-    static updateEntity<T extends Entity>(entity: T, entityIdName: string, sheetName: string, entityName: string): string {
+    public static updateEntity<T extends Entity>(entity: T, entityIdName: string, sheetName: string, entityName: string): string {
         entity.withLatestUpdateByUser(UserDBService.getCurrentUser().email);
         entity.withLatestUpdateTime(Date.now().toString());
         let numberOfFields = this.getNumberOfFields(entityName);
@@ -58,12 +58,12 @@ export class BaseService {
             .withTotalColumn(totalColumn);
         let entityId = entity[entityIdName]? entity[entityIdName]: GenerateId.getUniqueId();
         entity[entityIdName] = entityId; 
-        let data = this.getRowDataFromEntity(entity, entityIdName, !isEdit);
+        let data = this.getRawDataFromEntity(entity, entityIdName, !isEdit);
         SheetDB.updateRow(sheetMetaData, [data]);
         return entityId;
       }
 
-    protected static getIndex(entityId: string, sheetName: string, entityName: string): number {
+    public static getIndex(entityId: string, sheetName: string, entityName: string): number {
         entityId = entityId.toLowerCase();
         let condition = (id: string) => id === entityId;
         let index = this.getRawDataList(SheetMetadata.of(sheetName))
@@ -78,7 +78,7 @@ export class BaseService {
         return index;
     }
 
-    protected static getRawDataList(sheetMetaData: SheetMetadata): Array<any> {
+    public static getRawDataList(sheetMetaData: SheetMetadata): Array<any> {
         try {
         return SheetDB.getSheetData(sheetMetaData);
         } catch(error) {
@@ -87,7 +87,7 @@ export class BaseService {
         }
     }
 
-    protected static getRowDataFromEntity<T>(entity: T, idName: string, withId: boolean = false): Array<any> {
+    public static getRawDataFromEntity<T>(entity: T, idName: string, withId: boolean = false): Array<any> {
         let data: Array<any> = [];
         let supplierKeys = Object.keys(entity);
         supplierKeys.forEach( (key: any) => {
@@ -98,7 +98,7 @@ export class BaseService {
         return data;
     }
 
-    protected static getEntityFromRawData(rawData: Array<any>, entityName: string): any{
+    public static getEntityFromRawData(rawData: Array<any>, entityName: string): any{
         let entity = EntityFactory.getEntity(entityName);
         let keys = Object.keys(entity);
         keys.forEach( (key: any, index: number) => {
@@ -107,7 +107,7 @@ export class BaseService {
         return entity;
     }
 
-    protected static getNumberOfFields(entityName: string) {
+    public static getNumberOfFields(entityName: string) {
         return Object.keys(EntityFactory.getEntity(entityName)).length;
     }
 }

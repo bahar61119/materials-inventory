@@ -1,20 +1,20 @@
-import { ErrorMessage, SupplierErrorMessage } from '../../../src/app/constants/errorMessages';
+import { ErrorMessage } from '../../../src/app/constants/errorMessages';
 import { SheetConstants } from '../../../src/app/constants/sheetConstants';
 import { SheetDB } from '../../../src/app/db/sheetDB';
 import { DBError } from '../../../src/app/errors/dbError';
 import { SupplierError } from '../../../src/app/errors/supplierError';
 import { Supplier } from '../../../src/app/models/supplierModel';
-import { SupplierService } from "../../../src/app/services/supplierService";
 import { UserDBService } from '../../../src/app/services/userDBService';
 import { GenerateId } from '../../../src/app/utils/generateId';
 import { SheetMetadata } from '../../../src/app/utils/sheetMetadata';
+import { EntityService } from '../../../src/app/services/entityService';
 
-describe("SupplierService Test", ()=>{
+describe("EntityService Test", ()=>{
     console.error = jest.fn();
-    describe("getSupplierFromRawData", ()=>{
-        test('returns with valid supplierRawData', () => {
-            const supplierRawData = [1,"2", "3", "4", "5", "6", "7", "8", "9", "10"];
-            const supplier = SupplierService.getSupplierFromRawData(supplierRawData);
+    describe("getEntityFromRawData", ()=>{
+        test('returns with valid rawData', () => {
+            const supplierRawDataList = [1,"2", "3", "4", "5", "6", "7", "8", "9", "10"];
+            const supplier = EntityService.getEntityFromRawData(supplierRawDataList, Supplier.name);
             expect(supplier.supplierId).toBe("1");
             expect(supplier.supplierName).toBe("2");
             expect(supplier.supplierType).toBe("3");
@@ -28,7 +28,7 @@ describe("SupplierService Test", ()=>{
         });
     });
 
-    describe("getSupplierList", ()=>{
+    describe("getEntityList", ()=>{
         test('returns with data', ()=>{
             const supplierRawDataList = [
                 [11,"12", "13", "14", "15", "16", "17", "18", "19", "10"]
@@ -47,7 +47,7 @@ describe("SupplierService Test", ()=>{
                     .withLatestUpdateByUser("19")
                     .withLatestUpdateTime("10")
             ];
-            const actualResults = SupplierService.getSupplierList();
+            const actualResults = EntityService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             expect(actualResults).toStrictEqual(expectedResults);
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
             expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME).withTotalColumn(10));
@@ -58,7 +58,7 @@ describe("SupplierService Test", ()=>{
                 throw new DBError("Error thrown at getSheetData");
             });
             expect(() => {
-                SupplierService.getSupplierList();
+                EntityService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             })
             .toThrowError(new Error(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
@@ -66,14 +66,14 @@ describe("SupplierService Test", ()=>{
         });
     });
 
-    describe("deleteSupplier", ()=>{
+    describe("deleteEntity", ()=>{
         test("throws error when db throws error", ()=>{
             SheetDB.getSheetData = jest.fn().mockImplementation(() => {
                 throw new DBError("Error thrown at getSheetData");
             });
             SheetDB.deleteRow = jest.fn();
             expect(() => {
-                SupplierService.deleteSupplier("1");
+                EntityService.deleteEntity("1", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             })
             .toThrowError(new Error(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
@@ -87,9 +87,9 @@ describe("SupplierService Test", ()=>{
                     [[1], [2], [3], [4], [6], [7]]
                 );
             expect(() => {
-                SupplierService.deleteSupplier("10");
+                EntityService.deleteEntity("0", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             })
-            .toThrowError(new SupplierError(SupplierErrorMessage.supplierIdNotFound("10")));
+            .toThrowError(new Error(ErrorMessage.entityNotFound(Supplier.name)));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
             expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
             expect(SheetDB.deleteRow).toBeCalledTimes(0);
@@ -104,9 +104,9 @@ describe("SupplierService Test", ()=>{
                 throw new Error("Unknown Error");
             });
             expect(() => {
-                SupplierService.deleteSupplier("1");
+                EntityService.deleteEntity("1", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             })
-            .toThrowError(new SupplierError(SupplierErrorMessage.supplierDeleteError("1")));
+            .toThrowError(new Error(ErrorMessage.entityDeleteError(Supplier.name)));
 
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
             expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
@@ -120,7 +120,7 @@ describe("SupplierService Test", ()=>{
             let deleteRow = jest.fn();
             SheetDB.getSheetData = getSheetData;
             SheetDB.deleteRow = deleteRow;
-            SupplierService.deleteSupplier("5");
+            EntityService.deleteEntity("5", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             expect(getSheetData).toBeCalledTimes(1);
             expect(getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
             expect(deleteRow).toBeCalledTimes(1);
@@ -128,7 +128,7 @@ describe("SupplierService Test", ()=>{
         });
     });
 
-    describe("getSupplier", ()=>{
+    describe("getEntity", ()=>{
         test('returns with data', ()=>{
             const supplierRawDataList = [
                 [11,"12", "13", "14", "15", "16", "17", "18", "19", "10"]
@@ -146,7 +146,7 @@ describe("SupplierService Test", ()=>{
                 .withLatestUpdateByUser("19")
                 .withLatestUpdateTime("10")
             ;
-            const actualResult = SupplierService.getSupplier("11");
+            const actualResult = EntityService.getEntity("11", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             expect(actualResult).toStrictEqual(expectedResult);
             expect(SheetDB.getSheetData).toBeCalledTimes(2);
             expect(SheetDB.getSheetData).toBeCalledWith(
@@ -163,9 +163,9 @@ describe("SupplierService Test", ()=>{
                     [[1], [2], [3], [4], [6], [7]]
                 );
             expect(() => {
-                SupplierService.getSupplier("10");
+                EntityService.getEntity("10", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             })
-            .toThrowError(new SupplierError(SupplierErrorMessage.supplierIdNotFound("10")));
+            .toThrowError(new Error(ErrorMessage.entityNotFound(Supplier.name)));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
             expect(SheetDB.getSheetData).toBeCalledWith(SheetMetadata.of(SheetConstants.SUPPLIER_SHEET_NAME));
         });
@@ -175,7 +175,7 @@ describe("SupplierService Test", ()=>{
                 throw new DBError("Error thrown at getSheetData");
             });
             expect(() => {
-                SupplierService.getSupplier("11");
+                EntityService.getEntity("11", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
             })
             .toThrowError(new SupplierError(ErrorMessage.internalError));
             expect(SheetDB.getSheetData).toBeCalledTimes(1);
@@ -183,7 +183,7 @@ describe("SupplierService Test", ()=>{
         });
     });
 
-    describe(`getRowDataFromSupplier`, ()=>{
+    describe(`getRawDataFromEntity`, ()=>{
         test(`returns raw data from supplier`, ()=>{
             // given
             let supplier = Supplier.of()
@@ -199,7 +199,7 @@ describe("SupplierService Test", ()=>{
                 .withLatestUpdateTime("time");
             
             // when
-            let results = SupplierService.getRowDataFromSupplier(supplier, true);
+            let results = EntityService.getRawDataFromEntity(supplier, "supplierId", true);
             let expectedResult = ["id", "name", "type", "company", 
                 "designation", "contact_number", "email@email", "address", "user", "time"];
             expect(results).toStrictEqual(expectedResult);
@@ -220,14 +220,14 @@ describe("SupplierService Test", ()=>{
                 .withLatestUpdateTime("time");
             
             // when
-            let results = SupplierService.getRowDataFromSupplier(supplier);
+            let results = EntityService.getRawDataFromEntity(supplier, "supplierId", false);
             let expectedResult = ["name", "type", "company", 
                 "designation", "contact_number", "email@email", "address", "user", "time"];
             expect(results).toStrictEqual(expectedResult);
         });
     });
 
-    describe(`updateSupplier`, ()=>{
+    describe(`updateEntity`, ()=>{
         test(`edit supplier`, ()=>{
             let getSheetData = jest.fn().mockReturnValue([["1"],["2"],["3"]]);
             let updateRow = jest.fn();
@@ -248,7 +248,7 @@ describe("SupplierService Test", ()=>{
                 .withSupplierDesignation("designation");
 
             // when
-            let supplierId = SupplierService.updateSupplier(supplier);
+            let supplierId = EntityService.updateEntity(supplier, "supplierId", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
 
             // then
             let dbData = ["name", "type", "company", 
@@ -286,7 +286,7 @@ describe("SupplierService Test", ()=>{
                 .withSupplierDesignation("designation");
 
             // when
-            let supplierId = SupplierService.updateSupplier(supplier);
+            let supplierId = EntityService.updateEntity(supplier, "supplierId", SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
 
             // then
             let dbData = [uniqueId, "name", "type", "company", 

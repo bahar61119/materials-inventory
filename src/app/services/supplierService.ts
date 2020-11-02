@@ -1,8 +1,8 @@
 import { Supplier } from "../models/supplierModel";
 import { SheetConstants } from '../constants/sheetConstants';
-import { BaseService } from './BaseService';
+import { EntityService } from './entityService';
 
-export class SupplierService extends BaseService{
+export class SupplierService extends EntityService {
   static getSupplierList(): Array<Supplier> {
     return this.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
   }
