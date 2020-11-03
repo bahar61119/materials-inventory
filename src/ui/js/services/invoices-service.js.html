@@ -53,16 +53,14 @@
         }
 
         static #getInvoice(isEdit = true) {
-            let invoiceIssueDate = $(`#${ElementId.Invoices.INVOICE_ISSUE_DATE}`).val();
-            let invoiceReceivedDate = $(`#${ElementId.Invoices.INVOICE_RECEIVED_DATE}`).val();
             return Invoice.of()
                 .withInvoiceId(isEdit? $(`#${ElementId.Invoices.INVOICE_ID}`).val(): '')
                 .withInvoiceName($(`#${ElementId.Invoices.INVOICE_NAME}`).val())
                 .withInvoiceReferenceNumber($(`#${ElementId.Invoices.INVOICE_REFERENCE_NUMBER}`).val())
                 .withInvoiceSupplierId($(`#${ElementId.Invoices.INVOICE_SUPPLIER_ID}`).val())
                 .withInvoiceTotalAmount($(`#${ElementId.Invoices.INVOICE_TOTAL_AMOUNT}`).val())
-                .withInvoiceIssueDate(invoiceIssueDate? (new Date(invoiceIssueDate)).getTime().toString(): '')
-                .withInvoiceReceivedDate(invoiceReceivedDate? (new Date(invoiceReceivedDate)).getTime().toString(): '')
+                .withInvoiceIssueDate($(`#${ElementId.Invoices.INVOICE_ISSUE_DATE}`).val())
+                .withInvoiceReceivedDate($(`#${ElementId.Invoices.INVOICE_RECEIVED_DATE}`).val())
                 .withInvoiceRemark($(`#${ElementId.Invoices.INVOICE_REMARK}`).val())
                 .withInvoiceFile($(`#${ElementId.Invoices.INVOICE_FILE}`).val())
         }

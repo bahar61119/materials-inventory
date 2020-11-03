@@ -111,4 +111,9 @@ export class EntityService {
     public static getNumberOfFields(entityName: string) {
         return Object.keys(EntityFactory.getEntity(entityName)).length;
     }
+
+    public static convertDateString(date: string, format: string) {
+        if(!date) return date;
+        return Utilities.formatDate(new Date(date) , "GMT", format);
+    }
 }
