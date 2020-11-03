@@ -37,7 +37,13 @@
                 loadEditItemView: "loadEditItemView",
                 loadAddItemView: "loadAddItemView",
                 updateItem: "updateItem",
-                deleteItem: "deleteItem"
+                deleteItem: "deleteItem",
+                loadInvoiceListView: "loadInvoiceListView",
+                getInvoiceList: "getInvoiceList",
+                loadAddInvoiceView: "loadAddInvoiceView",
+                loadEditInvoiceView: "loadEditInvoiceView",
+                updateInvoice: "updateInvoice",
+                deleteInvoice: "deleteInvoice"
             }
         }
 
@@ -213,6 +219,57 @@
             API.call(
                 APIOptions.of(API.NAME.updateItem)
                 .withData(item)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadInvoiceListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadInvoiceListView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static getInvoiceList(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.getInvoiceList)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadEditInvoiceView(invoiceId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadEditInvoiceView)
+                .withData(invoiceId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadAddInvoiceView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadAddInvoiceView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteInvoice(invoiceId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteInvoice)
+                .withData(invoiceId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updateInvoice(invoice, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateInvoice)
+                .withData(invoice)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

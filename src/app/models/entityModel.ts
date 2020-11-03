@@ -1,4 +1,5 @@
+import { Invoice } from './invoiceModel'
 import { Item } from './itemModel'
 import { Supplier } from "./supplierModel"
 
-export type Entity = Supplier|Item
+export type Entity = Supplier|Item|Invoice;

@@ -12,4 +12,8 @@ export class SheetConstants {
     static get ITEMS_SHEET_NAME() {
         return `Items`;
     }
+
+    static get INVOICES_SHEET_NAME() {
+        return `Invoices`;
+    }
 }

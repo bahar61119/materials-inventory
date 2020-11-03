@@ -1,5 +1,6 @@
 import { SheetConstants } from '../constants/sheetConstants';
 import { SheetDB } from '../db/sheetDB';
+import { Invoice } from '../models/invoiceModel';
 import { Item } from '../models/itemModel';
 import { Supplier } from '../models/supplierModel';
 import { SheetMetadata } from '../utils/sheetMetadata';
@@ -9,6 +10,7 @@ export class ApplicationDBService {
         ApplicationDBService.prepareSpreadsheet();
         ApplicationDBService.prepareSuppliersSheet();
         ApplicationDBService.prepareItemsSheet();
+        ApplicationDBService.prepareInvoicesSheet();
     }
 
     static prepareSpreadsheet() {
@@ -26,6 +28,10 @@ export class ApplicationDBService {
 
     static prepareItemsSheet() {
         ApplicationDBService.prepareSheet(SheetConstants.ITEMS_SHEET_NAME, Item.of());
+    }
+
+    static prepareInvoicesSheet() {
+        ApplicationDBService.prepareSheet(SheetConstants.INVOICES_SHEET_NAME, Invoice.of());
     }
 
     private static prepareSheet(sheetName: string, modelObject: any) {

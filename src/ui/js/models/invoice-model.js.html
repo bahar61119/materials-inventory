@@ -1,0 +1,92 @@
+<script>
+    class Invoice {
+        invoiceId;
+        invoiceName;
+        invoiceReferenceNumber;
+        invoiceSupplierId;
+        invoiceTotalAmount;
+        invoiceIssueDate;
+        invoiceReceivedDate;
+        invoiceRemark;
+        invoiceFile;
+        latestUpdateByUser;
+        latestUpdateTime;
+
+        constructor() {
+            this.invoiceId = '';
+            this.invoiceName = '';
+            this.invoiceReferenceNumber = '';
+            this.invoiceSupplierId = '';
+            this.invoiceTotalAmount = 0;
+            this.invoiceIssueDate = '';
+            this.invoiceReceivedDate = '';
+            this.invoiceRemark = '';
+            this.invoiceFile = '';
+            this.latestUpdateByUser = '';
+            this.latestUpdateTime = '';
+        }
+
+        static of() {
+            return new Invoice();
+        }
+
+        static from() {
+            return Object.assign(new Invoice, invoiceData);
+        }
+
+        withInvoiceId(invoiceId) {
+            this.invoiceId = invoiceId;
+            return this;
+        }
+
+        withInvoiceName(invoiceName) {
+            this.invoiceName = invoiceName;
+            return this;
+        }
+
+        withInvoiceReferenceNumber(invoiceReferenceNumber) {
+            this.invoiceReferenceNumber = invoiceReferenceNumber;
+            return this;
+        }
+
+        withInvoiceSupplierId(invoiceSupplierId) {
+            this.invoiceSupplierId = invoiceSupplierId;
+            return this;
+        }
+
+        withInvoiceTotalAmount(invoiceTotalAmount) {
+            this.invoiceTotalAmount = invoiceTotalAmount;
+            return this;
+        }
+
+        withInvoiceIssueDate(invoiceIssueDate) {
+            this.invoiceIssueDate = invoiceIssueDate;
+            return this;
+        }
+
+        withInvoiceReceivedDate(invoiceReceivedDate) {
+            this.invoiceReceivedDate = invoiceReceivedDate;
+            return this;
+        }
+
+        withInvoiceRemark(invoiceRemark) {
+            this.invoiceRemark = invoiceRemark;
+            return this;
+        }
+
+        withInvoiceFile(invoiceFile) {
+            this.invoiceFile = invoiceFile;
+            return this;
+        }
+
+        withLatestUpdateByUser(latestUpdateByUser) {
+            this.latestUpdateByUser = latestUpdateByUser;
+            return this;
+        }
+
+        withLatestUpdateTime(latestUpdateTime) {
+            this.latestUpdateTime = latestUpdateTime;
+            return this;
+        }
+    }
+</script>

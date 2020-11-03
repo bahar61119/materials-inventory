@@ -1,0 +1,63 @@
+<script>
+    class InvoicesViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${InvoicesViewService.name}.${name}`
+            return {
+                loadInvoiceListView: functionName(InvoicesViewService.loadInvoiceListView.name),
+                loadAddInvoiceView: functionName(InvoicesViewService.loadAddInvoiceView.name),
+                loadEditInvoiceView: functionName(InvoicesViewService.loadEditInvoiceView.name)
+            }
+        }
+
+        static loadInvoiceListView() {
+            InvoicesViewService.clear();
+            API.loadInvoiceListView(
+                html => {
+                    InvoicesViewService.setHtml(html);
+                    InvoicesService.setInvoiceListData();
+                },
+                InvoicesViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(InvoicesViewService.FunctionName.loadInvoiceListView)
+                    .withHash(BrowserHistoryOptions.Url.INVOICES)
+            );
+        }
+
+        static loadAddInvoiceView() {
+            InvoicesViewService.clear();
+            API.loadAddInvoiceView(
+                InvoicesViewService.setHtml,
+                InvoicesViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(InvoicesViewService.FunctionName.loadAddInvoiceView)
+                    .withHash(BrowserHistoryOptions.Url.INVOICE_ADD)
+            );
+        }
+
+        static loadEditInvoiceView(invoiceId) {
+            InvoicesViewService.clear();
+            API.loadEditInvoiceView(
+                invoiceId,
+                InvoicesViewService.setHtml,
+                InvoicesViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(InvoicesViewService.FunctionName.loadEditInvoiceView)
+                    .withFunctionArguments(invoiceId)
+                    .withParams({
+                        invoiceId
+                    })
+                    .withHash(BrowserHistoryOptions.Url.INVOICE_EDIT)
+            );
+        }
+
+    }
+</script>
