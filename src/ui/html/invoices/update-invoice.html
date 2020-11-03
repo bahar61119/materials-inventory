@@ -57,12 +57,12 @@
 
             <div class="form-group required">
                 <label for="invoice-total-amount" class="control-label">Total Amount</label>
-                <input type="number" class="form-control" id="invoice-total-amount" required value=<?= data.invoice.invoiceTotalAmount ?> >
+                <input type="number" class="form-control" id="invoice-total-amount" required min="1" value=<?= data.invoice.invoiceTotalAmount ?> >
                 <div class="valid-feedback">
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please provide a valid invoice total amount.
+                    Please provide a valid total amount.
                 </div>
             </div>
 
@@ -73,7 +73,7 @@
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please provide a valid invoice issue date.
+                    Please provide a valid invoice issued date.
                 </div>
             </div>
 
