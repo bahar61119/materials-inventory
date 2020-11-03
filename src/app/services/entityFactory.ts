@@ -1,5 +1,6 @@
 import { ErrorMessage } from '../constants/errorMessages';
 import { Entity } from '../models/entityModel';
+import { Invoice } from '../models/invoiceModel';
 import { Item } from '../models/itemModel';
 import { Supplier } from '../models/supplierModel';
 
@@ -10,6 +11,8 @@ export class EntityFactory {
                 return Item.of();
             case Supplier.name:
                 return Supplier.of();
+            case Invoice.name:
+                return Invoice.of();
             default:
                 console.error("Entity class not found");
                 throw new Error(ErrorMessage.internalError);

@@ -7,6 +7,7 @@
             Navbar.#profileUpdateLinkClickEvent();
             Navbar.#settingsLinkClickEvent();
             Navbar.#itemsLinkClickEvent();
+            Navbar.#invoicesLinkClickEvent();
         }
 
         static #activeStatusEvent() {
@@ -41,6 +42,10 @@
 
         static #itemsLinkClickEvent() {
             $(`#${ElementId.Navbar.ITEMS_LINK}`).bind("click", ItemsViewService.loadItemListView);
+        }
+
+        static #invoicesLinkClickEvent() {
+            $(`#${ElementId.Navbar.INVOICES_LINK}`).bind("click", InvoicesViewService.loadInvoiceListView);
         }
     }
 </script>
