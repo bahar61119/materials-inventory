@@ -3,9 +3,10 @@ interface InvoiceInterface extends EntityInterface {
     invoiceName: string;
     invoiceReferenceNumber: string;
     invoiceSupplierId: string;
-    invoiceTotalAmount: number;
+    invoiceCurrency: string;
+    invoiceAmount: number;
     invoiceIssueDate: string;
     invoiceReceivedDate: string;
-    invoiceRemark: string;
+    invoiceDescription: string;
     invoiceFile: string;
 }

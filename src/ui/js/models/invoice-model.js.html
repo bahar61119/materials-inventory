@@ -4,10 +4,11 @@
         invoiceName;
         invoiceReferenceNumber;
         invoiceSupplierId;
-        invoiceTotalAmount;
+        invoiceCurrency;
+        invoiceAmount;
         invoiceIssueDate;
         invoiceReceivedDate;
-        invoiceRemark;
+        invoiceDescription;
         invoiceFile;
         latestUpdateByUser;
         latestUpdateTime;
@@ -17,10 +18,11 @@
             this.invoiceName = '';
             this.invoiceReferenceNumber = '';
             this.invoiceSupplierId = '';
-            this.invoiceTotalAmount = 0;
+            this.invoiceCurrency = '';
+            this.invoiceAmount = 0;
             this.invoiceIssueDate = '';
             this.invoiceReceivedDate = '';
-            this.invoiceRemark = '';
+            this.invoiceDescription = '';
             this.invoiceFile = '';
             this.latestUpdateByUser = '';
             this.latestUpdateTime = '';
@@ -54,8 +56,13 @@
             return this;
         }
 
-        withInvoiceTotalAmount(invoiceTotalAmount) {
-            this.invoiceTotalAmount = invoiceTotalAmount;
+        withInvoiceCurrency(invoiceCurrency) {
+            this.invoiceCurrency = invoiceCurrency;
+            return this;
+        }
+
+        withInvoiceAmount(invoiceAmount) {
+            this.invoiceAmount = invoiceAmount;
             return this;
         }
 
@@ -69,8 +76,8 @@
             return this;
         }
 
-        withInvoiceRemark(invoiceRemark) {
-            this.invoiceRemark = invoiceRemark;
+        withInvoiceDescription(invoiceDescription) {
+            this.invoiceDescription = invoiceDescription;
             return this;
         }
 

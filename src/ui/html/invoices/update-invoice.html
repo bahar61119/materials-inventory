@@ -56,13 +56,24 @@
             </div>
 
             <div class="form-group required">
-                <label for="invoice-total-amount" class="control-label">Total Amount</label>
-                <input type="number" class="form-control" id="invoice-total-amount" required min="1" value=<?= data.invoice.invoiceTotalAmount ?> >
+                <label for="invoice-currency" class="control-label">Currency</label>
+                <input type="text" class="form-control" id="invoice-currency" required min="1" value=<?= data.invoice.invoiceCurrency ?> >
                 <div class="valid-feedback">
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please provide a valid total amount.
+                    Please provide a valid currency.
+                </div>
+            </div>
+
+            <div class="form-group required">
+                <label for="invoice-amount" class="control-label">Amount</label>
+                <input type="number" class="form-control" id="invoice-amount" required min="1" value=<?= data.invoice.invoiceAmount ?> >
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+                <div class="invalid-feedback">
+                    Please provide a valid amount.
                 </div>
             </div>
 
@@ -89,13 +100,13 @@
             </div>
             
             <div class="form-group">
-                <label for="invoice-remark" class="control-label">Remarks</label>
-                <textarea class="form-control" id="invoice-remark" rows="3"><?= data.invoice.invoiceRemark ?></textarea>
+                <label for="invoice-description" class="control-label">Description</label>
+                <textarea class="form-control" id="invoice-description" rows="3"><?= data.invoice.invoiceDescription ?></textarea>
                 <div class="valid-feedback">
                     Looks good!
                 </div>
                 <div class="invalid-feedback">
-                    Please provide a valid invoice remarks.
+                    Please provide a valid invoice description.
                 </div>
             </div>
 

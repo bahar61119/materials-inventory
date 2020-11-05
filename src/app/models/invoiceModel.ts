@@ -3,10 +3,11 @@ export class Invoice implements InvoiceInterface {
     invoiceName: string;
     invoiceReferenceNumber: string;
     invoiceSupplierId: string;
-    invoiceTotalAmount: number;
+    invoiceCurrency: string;
+    invoiceAmount: number;
     invoiceIssueDate: string;
     invoiceReceivedDate: string;
-    invoiceRemark: string;
+    invoiceDescription: string;
     invoiceFile: string;
     latestUpdateByUser: string;
     latestUpdateTime: string;
@@ -16,10 +17,11 @@ export class Invoice implements InvoiceInterface {
         this.invoiceName = '';
         this.invoiceReferenceNumber = '';
         this.invoiceSupplierId = '';
-        this.invoiceTotalAmount = 0;
+        this.invoiceCurrency = '';
+        this.invoiceAmount = 0;
         this.invoiceIssueDate = '';
         this.invoiceReceivedDate = '';
-        this.invoiceRemark = '';
+        this.invoiceDescription = '';
         this.invoiceFile = '';
         this.latestUpdateByUser = '';
         this.latestUpdateTime = '';
@@ -53,8 +55,13 @@ export class Invoice implements InvoiceInterface {
         return this;
     }
 
-    withInvoiceTotalAmount(invoiceTotalAmount: number) {
-        this.invoiceTotalAmount = invoiceTotalAmount;
+    withInvoiceCurrency(invoiceCurrency: string) {
+        this.invoiceCurrency = invoiceCurrency;
+        return this;
+    }
+
+    withInvoiceAmount(invoiceAmount: number) {
+        this.invoiceAmount = invoiceAmount;
         return this;
     }
 
@@ -68,8 +75,8 @@ export class Invoice implements InvoiceInterface {
         return this;
     }
 
-    withInvoiceRemark(invoiceRemark: string) {
-        this.invoiceRemark = invoiceRemark;
+    withInvoiceDescription(invoiceDescription: string) {
+        this.invoiceDescription = invoiceDescription;
         return this;
     }
 
