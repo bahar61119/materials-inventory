@@ -3,7 +3,7 @@
         invoiceId;
         invoiceName;
         invoiceReferenceNumber;
-        invoiceSupplierId;
+        invoiceSupplier;
         invoiceCurrency;
         invoiceAmount;
         invoiceIssueDate;
@@ -17,7 +17,7 @@
             this.invoiceId = '';
             this.invoiceName = '';
             this.invoiceReferenceNumber = '';
-            this.invoiceSupplierId = '';
+            this.invoiceSupplier = '';
             this.invoiceCurrency = '';
             this.invoiceAmount = 0;
             this.invoiceIssueDate = '';
@@ -51,8 +51,8 @@
             return this;
         }
 
-        withInvoiceSupplierId(invoiceSupplierId) {
-            this.invoiceSupplierId = invoiceSupplierId;
+        withInvoiceSupplier(invoiceSupplier) {
+            this.invoiceSupplier = invoiceSupplier;
             return this;
         }
 

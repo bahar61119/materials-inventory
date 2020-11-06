@@ -2,7 +2,7 @@ export class Invoice implements InvoiceInterface {
     invoiceId: string;
     invoiceName: string;
     invoiceReferenceNumber: string;
-    invoiceSupplierId: string;
+    invoiceSupplier: string;
     invoiceCurrency: string;
     invoiceAmount: number;
     invoiceIssueDate: string;
@@ -16,7 +16,7 @@ export class Invoice implements InvoiceInterface {
         this.invoiceId = '';
         this.invoiceName = '';
         this.invoiceReferenceNumber = '';
-        this.invoiceSupplierId = '';
+        this.invoiceSupplier = '';
         this.invoiceCurrency = '';
         this.invoiceAmount = 0;
         this.invoiceIssueDate = '';
@@ -50,8 +50,8 @@ export class Invoice implements InvoiceInterface {
         return this;
     }
 
-    withInvoiceSupplierId(invoiceSupplierId: string) {
-        this.invoiceSupplierId = invoiceSupplierId;
+    withInvoiceSupplier(invoiceSupplier: string) {
+        this.invoiceSupplier = invoiceSupplier;
         return this;
     }
 
