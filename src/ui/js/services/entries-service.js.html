@@ -1,0 +1,72 @@
+<script>
+    class EntriesService {
+        static #entryList = [];
+
+        static setEntryListData() {
+            API.getEntryList(
+                dataReturned => {
+                    EntriesService.#entryList = dataReturned.slice();
+                    EntriesService.search();
+                    if(EntriesService.#entryList.length === 0) {
+                        Alert.show(
+                            AlertOptions.of()
+                                .withTitle("Not Found")
+                                .withMessage("Please add a new entry")
+                                .withType(AlertOptions.Type.WARNING)
+                        );
+
+                        ConfirmationModal.show(
+                            ConfirmationModalOptions.of()
+                                .withTitle("Not Found")
+                                .withMessage(`Do you want to add new entry?`)
+                                .withCallback(()=>{
+                                    Alert.hide();
+                                    EntriesViewService.loadAddEntryView();
+                                })
+                                .withType(ConfirmationModalOptions.Type.WARNING)
+                        );
+                    }
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Loading Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static search() {
+            BaseService.search(EntriesService.#entryList, "entryId", "entryItem", "Entries");
+        }
+
+        static deleteEntry(entryId) {
+            BaseService.delete(entryId, "Entry", API.deleteEntry, EntriesService.setEntryListData);
+        }
+
+        static updateEntry(isEdit = true) {
+            let entry = EntriesService.#getEntry(isEdit);
+            BaseService.update(entry, "Entry", API.updateEntry, isEdit);
+        }
+
+        static #getEntry(isEdit = true) {
+            let entry = Entry.of();
+            entry.entryId = isEdit? $(`#${ElementId.Entries.ENTRY_ID}`).val(): '';
+            entry.entryItem = $(`#${ElementId.Entries.ENTRY_ITEM}`).val();
+            entry.entryInvoice = $(`#${ElementId.Entries.ENTRY_INVOICE}`).val();
+            entry.entrySupplier = $(`#${ElementId.Entries.ENTRY_SUPPLIER}`).val();
+            entry.entryUnit = $(`#${ElementId.Entries.ENTRY_UNIT}`).val();
+            entry.entryUnitPrice = $(`#${ElementId.Entries.ENTRY_UNIT_PRICE}`).val();
+            entry.entryQuantity = $(`#${ElementId.Entries.ENTRY_QUANTITY}`).val();
+            entry.entryAmount = $(`#${ElementId.Entries.ENTRY_AMOUNT}`).val();
+            entry.entryStatus = $(`#${ElementId.Entries.ENTRY_STATUS}`).val();
+            entry.entryExpectedDeliveryDate = $(`#${ElementId.Entries.ENTRY_EXPECTED_DELIVERY_DATE}`).val();
+            entry.entryDeliveryDate = $(`#${ElementId.Entries.ENTRY_DELIVERY_DATE}`).val();
+            entry.entryDescription = $(`#${ElementId.Entries.ENTRY_DESCRIPTION}`).val();
+            return entry;
+        }
+    }
+</script>

@@ -1,0 +1,53 @@
+<script>
+    class Entry {
+        entryId;
+        entryItem;
+        entryInvoice;
+        entrySupplier;
+        entryUnit;
+        entryUnitPrice;
+        entryQuantity;
+        entryAmount;
+        entryStatus;
+        entryExpectedDeliveryDate;
+        entryDeliveryDate;
+        entryDescription;
+        latestUpdateByUser;
+        latestUpdateTime;
+
+        constructor() {
+            this.entryId = '';
+            this.entryItem = '';
+            this.entryInvoice = '';
+            this.entrySupplier = '';
+            this.entryUnit = '';
+            this.entryUnitPrice = 0;
+            this.entryQuantity = '';
+            this.entryAmount = 0;
+            this.entryStatus = '';
+            this.entryExpectedDeliveryDate = '';
+            this.entryDeliveryDate = '';
+            this.entryDescription = '';
+            this.latestUpdateByUser = '';
+            this.latestUpdateTime = '';
+        }
+
+        static of() {
+            return new Entry();
+        }
+
+        static from(entryData) {
+            return Object.assign(new Entry, entryData)
+        }
+
+        withLatestUpdateByUser(latestUpdateByUser) {
+            this.latestUpdateByUser = latestUpdateByUser;
+            return this;
+        }
+
+        withLatestUpdateTime(latestUpdateTime) {
+            this.latestUpdateTime = latestUpdateTime;
+            return this;
+        }
+    }
+</script>
