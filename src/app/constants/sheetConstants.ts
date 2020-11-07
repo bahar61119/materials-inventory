@@ -20,4 +20,8 @@ export class SheetConstants {
     static get ENTRIES_SHEET_NAME() {
         return `Entries`;
     }
+
+    static get PAYMENTS_SHEET_NAME() {
+        return `Payments`;
+    }
 }

@@ -1,0 +1,50 @@
+<script>
+    class Payment {
+        paymentId;
+        paymentInvoice;
+        paymentSupplier;
+        paymentMethod;
+        paymentAmount;
+        paymentStatus;
+        paymentDueDate;
+        paymentDate;
+        paymentDescription;
+        paymentFile;
+        latestUpdateByUser;
+        latestUpdateTime;
+
+        constructor() {
+            this.paymentId = '';
+            this.paymentInvoice = '';
+            this.paymentSupplier = '';
+            this.paymentMethod = '';
+            this.paymentAmount = 0;
+            this.paymentStatus = '';
+            this.paymentDueDate = '';
+            this.paymentDate = '';
+            this.paymentDescription = '';
+            this.paymentFile = '';
+            this.latestUpdateByUser = '';
+            this.latestUpdateTime = '';
+        }
+
+
+        static of(){
+            return new Payment();
+        }
+
+        static from(entryData) {
+            return Object.assign(new Payment, entryData)
+        }
+
+        withLatestUpdateByUser(latestUpdateByUser) {
+            this.latestUpdateByUser = latestUpdateByUser;
+            return this;
+        }
+
+        withLatestUpdateTime(latestUpdateTime) {
+            this.latestUpdateTime = latestUpdateTime;
+            return this;
+        }
+    }
+</script>

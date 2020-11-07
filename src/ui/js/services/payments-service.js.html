@@ -1,0 +1,70 @@
+<script>
+    class PaymentsService {
+        static #paymentList = [];
+
+        static setPaymentListData() {
+            API.getPaymentList(
+                dataReturned => {
+                    PaymentsService.#paymentList = dataReturned.slice();
+                    PaymentsService.search();
+                    if(PaymentsService.#paymentList.length === 0) {
+                        Alert.show(
+                            AlertOptions.of()
+                                .withTitle("Not Found")
+                                .withMessage("Please add a new payment")
+                                .withType(AlertOptions.Type.WARNING)
+                        );
+
+                        ConfirmationModal.show(
+                            ConfirmationModalOptions.of()
+                                .withTitle("Not Found")
+                                .withMessage(`Do you want to add new payment?`)
+                                .withCallback(()=>{
+                                    Alert.hide();
+                                    PaymentsViewService.loadAddPaymentView();
+                                })
+                                .withType(ConfirmationModalOptions.Type.WARNING)
+                        );
+                    }
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Loading Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static search() {
+            BaseService.search(PaymentsService.#paymentList, "paymentId", "paymentInvoice", "Payments");
+        }
+
+        static deletePayment(paymentId) {
+            BaseService.delete(paymentId, "Payment", API.deletePayment, PaymentsService.setPaymentListData);
+        }
+
+        static updatePayment(isEdit = true) {
+            let payment = PaymentsService.#getPayment(isEdit);
+            BaseService.update(payment, "Payment", API.updatePayment, isEdit);
+        }
+
+        static #getPayment(isEdit = true) {
+            let payment = Payment.of();
+            payment.paymentId = isEdit? $(`#${ElementId.Payments.PAYMENT_ID}`).val(): '';
+            payment.paymentInvoice = $(`#${ElementId.Payments.PAYMENT_INVOICE}`).val();
+            payment.paymentSupplier = $(`#${ElementId.Payments.PAYMENT_SUPPLIER}`).val();
+            payment.paymentMethod = $(`#${ElementId.Payments.PAYMENT_METHOD}`).val();
+            payment.paymentAmount = $(`#${ElementId.Payments.PAYMENT_AMOUNT}`).val();
+            payment.paymentStatus = $(`#${ElementId.Payments.PAYMENT_STATUS}`).val();
+            payment.paymentDueDate = $(`#${ElementId.Payments.PAYMENT_DUE_DATE}`).val();
+            payment.paymentDate = $(`#${ElementId.Payments.PAYMENT_DATE}`).val();
+            payment.paymentDescription = $(`#${ElementId.Payments.PAYMENT_DESCRIPTION}`).val();
+            payment.paymentFile = $(`#${ElementId.Payments.PAYMENT_FILE}`).val();
+            return payment;
+        }
+    }
+</script>

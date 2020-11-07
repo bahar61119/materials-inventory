@@ -1,0 +1,63 @@
+<script>
+    class PaymentsViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${PaymentsViewService.name}.${name}`
+            return {
+                loadPaymentListView: functionName(PaymentsViewService.loadPaymentListView.name),
+                loadAddPaymentView: functionName(PaymentsViewService.loadAddPaymentView.name),
+                loadEditPaymentView: functionName(PaymentsViewService.loadEditPaymentView.name)
+            }
+        }
+
+        static loadPaymentListView() {
+            PaymentsViewService.clear();
+            API.loadPaymentListView(
+                html => {
+                    PaymentsViewService.setHtml(html);
+                    PaymentsService.setPaymentListData();
+                },
+                PaymentsViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(PaymentsViewService.FunctionName.loadPaymentListView)
+                    .withHash(BrowserHistoryOptions.Url.PAYMENTS)
+            );
+        }
+
+        static loadAddPaymentView() {
+            PaymentsViewService.clear();
+            API.loadAddPaymentView(
+                PaymentsViewService.setHtml,
+                PaymentsViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(PaymentsViewService.FunctionName.loadAddPaymentView)
+                    .withHash(BrowserHistoryOptions.Url.PAYMENT_ADD)
+            );
+        }
+
+        static loadEditPaymentView(paymentId) {
+            PaymentsViewService.clear();
+            API.loadEditPaymentView(
+                paymentId,
+                PaymentsViewService.setHtml,
+                PaymentsViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(PaymentsViewService.FunctionName.loadEditPaymentView)
+                    .withFunctionArguments(paymentId)
+                    .withParams({
+                        paymentId
+                    })
+                    .withHash(BrowserHistoryOptions.Url.PAYMENT_EDIT)
+            );
+        }
+
+    }
+</script>

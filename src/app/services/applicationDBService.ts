@@ -3,6 +3,7 @@ import { SheetDB } from '../db/sheetDB';
 import { Entry } from '../models/entryModel';
 import { Invoice } from '../models/invoiceModel';
 import { Item } from '../models/itemModel';
+import { Payment } from '../models/paymentModel';
 import { Supplier } from '../models/supplierModel';
 import { SheetMetadata } from '../utils/sheetMetadata';
 
@@ -13,6 +14,7 @@ export class ApplicationDBService {
         ApplicationDBService.prepareItemsSheet();
         ApplicationDBService.prepareInvoicesSheet();
         ApplicationDBService.prepareEntriesSheet();
+        ApplicationDBService.preparePaymentsSheet();
     }
 
     static prepareSpreadsheet() {
@@ -38,6 +40,10 @@ export class ApplicationDBService {
 
     static prepareEntriesSheet() {
         ApplicationDBService.prepareSheet(SheetConstants.ENTRIES_SHEET_NAME, Entry.of());
+    }
+
+    static preparePaymentsSheet() {
+        ApplicationDBService.prepareSheet(SheetConstants.PAYMENTS_SHEET_NAME, Payment.of());
     }
 
     private static prepareSheet(sheetName: string, modelObject: any) {
