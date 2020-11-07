@@ -9,6 +9,7 @@
             Navbar.#itemsLinkClickEvent();
             Navbar.#invoicesLinkClickEvent();
             Navbar.#entriesLinkClickEvent();
+            Navbar.#paymentsLinkClickEvent();
         }
 
         static #activeStatusEvent() {
@@ -51,6 +52,10 @@
 
         static #entriesLinkClickEvent() {
             $(`#${ElementId.Navbar.ENTRIES_LINK}`).bind("click", EntriesViewService.loadEntryListView);
+        }
+
+        static #paymentsLinkClickEvent() {
+            $(`#${ElementId.Navbar.PAYMENTS_LINK}`).bind("click", PaymentsViewService.loadPaymentListView);
         }
     }
 </script>

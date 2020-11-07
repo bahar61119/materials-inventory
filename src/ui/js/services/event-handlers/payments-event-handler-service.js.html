@@ -1,0 +1,29 @@
+<script>
+    class PaymentsEventHandlerService extends BaseEventHandlerService {
+        static inputEventHandler(event) {
+            if(event.target.matches(`#${ElementId.Payments.LIST_SEARCH}`)) {
+                PaymentsService.search(); 
+            }
+        }
+
+        static clickEventHandler(event) {
+            let addButton = event.target.closest(`#${ElementId.Payments.ADD_BUTTON}`);
+            let deleteButton = event.target.closest(`button.${ElementClass.Payments.DELETE_BUTTON}`);
+            let editButton = event.target.closest(`button.${ElementClass.Payments.EDIT_BUTTON}`);
+            let updateCancelButton = event.target.closest(`#${ElementId.Payments.CANCEL_UPDATE_BUTTON}`);
+            let updateButton = event.target.closest(`#${ElementId.Payments.UPDATE_BUTTON}`);
+
+            if(addButton) {
+                PaymentsViewService.loadAddPaymentView();
+            } else if(deleteButton) {
+                this.delete(deleteButton, PaymentsService.deletePayment);
+            } else if(editButton) {
+                this.edit(editButton, PaymentsViewService.loadEditPaymentView)
+            } else if(updateButton) {
+                this.update(updateButton, ElementClass.Payments.EDIT_FORM, ElementId.Payments.ENTRY_ITEM, PaymentsService.updatePayment);
+            } else if(updateCancelButton) {
+                this.updateCancel(ElementId.Payments.ENTRY_ITEM, PaymentsViewService.loadPaymentListView);
+            }
+        }
+    }
+</script>

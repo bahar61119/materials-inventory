@@ -49,7 +49,13 @@
                 loadAddEntryView: "loadAddEntryView",
                 loadEditEntryView: "loadEditEntryView",
                 updateEntry: "updateEntry",
-                deleteEntry: "deleteEntry"
+                deleteEntry: "deleteEntry",
+                loadPaymentListView: "loadPaymentListView",
+                getPaymentList: "getPaymentList",
+                loadAddPaymentView: "loadAddPaymentView",
+                loadEditPaymentView: "loadEditPaymentView",
+                updatePayment: "updatePayment",
+                deletePayment: "deletePayment"
             }
         }
 
@@ -280,7 +286,7 @@
                 .withFailure(failureHandler)
             );
         }
-        
+
         static loadEntryListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadEntryListView)
@@ -327,6 +333,57 @@
             API.call(
                 APIOptions.of(API.NAME.updateEntry)
                 .withData(entry)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadPaymentListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadPaymentListView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static getPaymentList(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.getPaymentList)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadEditPaymentView(paymentId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadEditPaymentView)
+                .withData(paymentId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadAddPaymentView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadAddPaymentView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deletePayment(paymentId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deletePayment)
+                .withData(paymentId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updatePayment(payment, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updatePayment)
+                .withData(payment)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );
