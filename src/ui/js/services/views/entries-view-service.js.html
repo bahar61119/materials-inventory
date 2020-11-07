@@ -1,0 +1,64 @@
+<script>
+    class EntriesViewService extends ViewService {
+        static get FunctionName() {
+            let functionName = name => `${EntriesViewService.name}.${name}`
+            return {
+                loadEntryListView: functionName(EntriesViewService.loadEntryListView.name),
+                loadAddEntryView: functionName(EntriesViewService.loadAddEntryView.name),
+                loadEditEntryView: functionName(EntriesViewService.loadEditEntryView.name)
+            }
+        }
+
+        static loadEntryListView() {
+            console.log("Entries clicked");
+            EntriesViewService.clear();
+            API.loadEntryListView(
+                html => {
+                    EntriesViewService.setHtml(html);
+                    EntriesService.setEntryListData();
+                },
+                EntriesViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(EntriesViewService.FunctionName.loadEntryListView)
+                    .withHash(BrowserHistoryOptions.Url.ENTRIES)
+            );
+        }
+
+        static loadAddEntryView() {
+            EntriesViewService.clear();
+            API.loadAddEntryView(
+                EntriesViewService.setHtml,
+                EntriesViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(EntriesViewService.FunctionName.loadAddEntryView)
+                    .withHash(BrowserHistoryOptions.Url.ENTRY_ADD)
+            );
+        }
+
+        static loadEditEntryView(entryId) {
+            EntriesViewService.clear();
+            API.loadEditEntryView(
+                entryId,
+                EntriesViewService.setHtml,
+                EntriesViewService.errorHandler
+            );
+
+            BrowserHistory.setHistory(
+                BrowserHistoryOptions.of()
+                    .withFunctionName(EntriesViewService.FunctionName.loadEditEntryView)
+                    .withFunctionArguments(entryId)
+                    .withParams({
+                        entryId
+                    })
+                    .withHash(BrowserHistoryOptions.Url.ENTRY_EDIT)
+            );
+        }
+
+    }
+</script>

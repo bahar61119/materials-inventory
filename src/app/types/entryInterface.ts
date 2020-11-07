@@ -3,9 +3,9 @@ interface EntryInterface extends EntityInterface {
     entryItem: string;
     entryInvoice: string;
     entrySupplier: string;
-    entryQuantity: string;
     entryUnit: string;
     entryUnitPrice: number;
+    entryQuantity: string;
     entryAmount: number;
     entryStatus: string;
     entryExpectedDeliveryDate: string;

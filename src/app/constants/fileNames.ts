@@ -11,5 +11,7 @@ export enum ViewFileNames {
     ITEM_LIST = "src/ui/html/items/item-list",
     UPDATE_ITEM = "src/ui/html/items/update-item",
     INVOICE_LIST = "src/ui/html/invoices/invoice-list",
-    UPDATE_INVOICE = "src/ui/html/invoices/update-invoice"
+    UPDATE_INVOICE = "src/ui/html/invoices/update-invoice",
+    ENTRY_LIST = "src/ui/html/entries/entry-list",
+    UPDATE_ENTRY = "src/ui/html/entries/update-entry"
 }

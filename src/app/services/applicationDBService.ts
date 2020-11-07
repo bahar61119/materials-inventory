@@ -1,5 +1,6 @@
 import { SheetConstants } from '../constants/sheetConstants';
 import { SheetDB } from '../db/sheetDB';
+import { Entry } from '../models/entryModel';
 import { Invoice } from '../models/invoiceModel';
 import { Item } from '../models/itemModel';
 import { Supplier } from '../models/supplierModel';
@@ -11,6 +12,7 @@ export class ApplicationDBService {
         ApplicationDBService.prepareSuppliersSheet();
         ApplicationDBService.prepareItemsSheet();
         ApplicationDBService.prepareInvoicesSheet();
+        ApplicationDBService.prepareEntriesSheet();
     }
 
     static prepareSpreadsheet() {
@@ -32,6 +34,10 @@ export class ApplicationDBService {
 
     static prepareInvoicesSheet() {
         ApplicationDBService.prepareSheet(SheetConstants.INVOICES_SHEET_NAME, Invoice.of());
+    }
+
+    static prepareEntriesSheet() {
+        ApplicationDBService.prepareSheet(SheetConstants.ENTRIES_SHEET_NAME, Entry.of());
     }
 
     private static prepareSheet(sheetName: string, modelObject: any) {

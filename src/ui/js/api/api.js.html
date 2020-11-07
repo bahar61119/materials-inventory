@@ -43,7 +43,13 @@
                 loadAddInvoiceView: "loadAddInvoiceView",
                 loadEditInvoiceView: "loadEditInvoiceView",
                 updateInvoice: "updateInvoice",
-                deleteInvoice: "deleteInvoice"
+                deleteInvoice: "deleteInvoice",
+                loadEntryListView: "loadEntryListView",
+                getEntryList: "getEntryList",
+                loadAddEntryView: "loadAddEntryView",
+                loadEditEntryView: "loadEditEntryView",
+                updateEntry: "updateEntry",
+                deleteEntry: "deleteEntry"
             }
         }
 
@@ -270,6 +276,57 @@
             API.call(
                 APIOptions.of(API.NAME.updateInvoice)
                 .withData(invoice)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+        
+        static loadEntryListView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadEntryListView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static getEntryList(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.getEntryList)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadEditEntryView(entryId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadEditEntryView)
+                .withData(entryId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static loadAddEntryView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.loadAddEntryView)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteEntry(entryId, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteEntry)
+                .withData(entryId)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updateEntry(entry, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateEntry)
+                .withData(entry)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

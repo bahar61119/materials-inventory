@@ -3,9 +3,9 @@ export class Entry implements EntryInterface {
     entryItem: string;
     entryInvoice: string;
     entrySupplier: string;
-    entryQuantity: string;
     entryUnit: string;
     entryUnitPrice: number;
+    entryQuantity: string;
     entryAmount: number;
     entryStatus: string;
     entryExpectedDeliveryDate: string;
@@ -19,9 +19,9 @@ export class Entry implements EntryInterface {
         this.entryItem = '';
         this.entryInvoice = '';
         this.entrySupplier = '';
-        this.entryQuantity = '';
         this.entryUnit = '';
         this.entryUnitPrice = 0;
+        this.entryQuantity = '';
         this.entryAmount = 0;
         this.entryStatus = '';
         this.entryExpectedDeliveryDate = '';
@@ -36,7 +36,7 @@ export class Entry implements EntryInterface {
     }
 
     public static from(entryData: object) {
-        Object.assign(new Entry, entryData)
+        return Object.assign(new Entry, entryData)
     }
 
     withLatestUpdateByUser(latestUpdateByUser: string) {
