@@ -4,6 +4,8 @@
             let tabLink = event.target.closest(`a.${ElementClass.Settings.TAB_LINK}`);
             let authorizationAddButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_ADD_BUTTON}`);
             let authorizationDeleteButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_DELETE_BUTTON}`);
+            let tabAddButton = event.target.closest(`button.${ElementClass.Settings.TAB_ADD_BUTTON}`);
+            let tabDeleteButton = event.target.closest(`button.${ElementClass.Settings.TAB_DELETE_BUTTON}`);
 
             if(tabLink) {
                 SettingsEventHandlerService.#tabLink(tabLink);
@@ -11,8 +13,11 @@
                 SettingsEventHandlerService.#addAuthorizeUser(authorizationAddButton);
             } else if(authorizationDeleteButton) {
                 SettingsEventHandlerService.#deleteAuthorizeUser(authorizationDeleteButton);
+            } else if(tabAddButton) {
+                SettingsEventHandlerService.#add(tabAddButton);
+            } else if(tabDeleteButton) {
+                SettingsEventHandlerService.#delete(tabDeleteButton);
             }
-            
         }
 
         static #tabLink(tabLink) {
@@ -43,6 +48,34 @@
                             .withTitle("Remove User")
                             .withMessage(`Are you sure you want to remove user (${authorizeUser})? `)
                             .withCallback(()=>SettingsService.deleteAuthorizeUser(authorizeUser))
+                            .withType(ConfirmationModalOptions.Type.DANGER);
+            ConfirmationModal.show(options);
+        }
+
+        static #add(tabAddButton) {
+            let form = document.getElementsByClassName(`${ElementClass.Settings.TAB_FORM}`)[0];
+            let isValidForm = form.checkValidity();
+            if(!isValidForm) {
+                form.classList.add('was-validated');
+            } else {
+                let tab = tabAddButton.dataset.tab;
+                let value = $(`#${ElementId.Settings.TAB_CONTENT_VALUE}`).val();
+                let options = ConfirmationModalOptions.of()
+                                .withTitle("Add")
+                                .withMessage(`Are you sure you want to add (${value}) ?`)
+                                .withCallback(()=>SettingsService.updateSetting(tab, value))
+                                .withType(ConfirmationModalOptions.Type.SUCCESS);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static #delete(tabDeleteButton) {
+            let tab = tabDeleteButton.dataset.tab;
+            let value = tabDeleteButton.dataset.value;
+            let options = ConfirmationModalOptions.of()
+                            .withTitle("Remove")
+                            .withMessage(`Are you sure you want to remove (${value})? `)
+                            .withCallback(()=>SettingsService.deleteSetting(tab, value))
                             .withType(ConfirmationModalOptions.Type.DANGER);
             ConfirmationModal.show(options);
         }

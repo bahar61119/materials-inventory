@@ -23,6 +23,7 @@
                 }
             );
         }
+
         static deleteAuthorizeUser(authorizeUserEmail) {
             API.deleteAuthorizeUser(
                 authorizeUserEmail,
@@ -40,6 +41,56 @@
                     Alert.show(
                         AlertOptions.of()
                             .withTitle("Remove Authorize User Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static updateSetting(tab, value) {
+            let data = { tab, value };
+            API.updateSetting(
+                data,
+                dataReturned => {
+                    SettingsViewService.loadSettingsTabView(tab);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Add")
+                            .withMessage(`Successfully added (${value})`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Add Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static deleteSetting(tab, value) {
+            let data = { tab, value };
+            API.deleteSetting(
+                data,
+                dataReturned => {
+                    SettingsViewService.loadSettingsTabView(tab);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Remove")
+                            .withMessage(`Successfully removed (${value})`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Remove Error")
                             .withMessage(error.message)
                             .withType(AlertOptions.Type.DANGER)
                     );

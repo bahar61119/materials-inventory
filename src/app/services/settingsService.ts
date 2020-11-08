@@ -2,7 +2,7 @@ import { ApplicationDBKeys } from '../constants/applicationDBKeys';
 import { SettingsErrorMessage } from '../constants/errorMessages';
 import { DB } from '../db/db';
 import { SettingsError } from '../errors/settingsError';
-import { KeyValue } from '../models/keyValueModel';
+import { SettingValue } from '../models/keyValueModel';
 import { UserDBService } from './userDBService';
 
 export class SettingsService {
@@ -41,27 +41,27 @@ export class SettingsService {
         return values? values: new Array<string>();
     }
 
-    static update(setting: KeyValue): KeyValue {
-        this.validateSettingsKey(setting.key);
-        if(!setting.value || (typeof setting.value == "string")) {
+    static update(setting: SettingValue): SettingValue {
+        this.validateSettingsKey(setting.tab);
+        if(!setting.value || (typeof setting.value !== "string")) {
             throw new SettingsError(SettingsErrorMessage.invalidSettingsValue);
         }
 
-        let values: Set<string> = new Set<string>(this.getList(setting.key));
+        let values: Set<string> = new Set<string>(this.getList(setting.tab));
         values.add(setting.value);
-        DB.getApplicationDB().put(setting.key, Array.from(values));
+        DB.getApplicationDB().put(setting.tab, Array.from(values));
         return setting;
     }
 
-    static delete(setting: KeyValue): KeyValue {
-        this.validateSettingsKey(setting.key);
-        if(!setting.value || (typeof setting.value == "string")) {
+    static delete(setting: SettingValue): SettingValue {
+        this.validateSettingsKey(setting.tab);
+        if(!setting.value || (typeof setting.value !== "string")) {
             throw new SettingsError(SettingsErrorMessage.invalidSettingsValue);
         }
 
-        let values: Set<string> = new Set<string>(this.getList(setting.key));
+        let values: Set<string> = new Set<string>(this.getList(setting.tab));
         values.delete(setting.value);
-        DB.getApplicationDB().put(setting.key, Array.from(values));
+        DB.getApplicationDB().put(setting.tab, Array.from(values));
         return setting;
     }
 

@@ -42,6 +42,8 @@
                 deleteAuthorizeUser: "deleteAuthorizeUser",
                 loadSettingsAuthorizationView: "loadSettingsAuthorizationView",
                 loadSettingsTabView: "loadSettingsTabView",
+                updateSetting: "updateSetting",
+                deleteSetting: "deleteSetting",
 
                 // Items
                 loadItemListView: "loadItemListView",
@@ -227,6 +229,24 @@
             API.call(
                 APIOptions.of(API.NAME.loadSettingsTabView)
                 .withData(tab)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static updateSetting(data, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateSetting)
+                .withData(data)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteSetting(data, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.deleteSetting)
+                .withData(data)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );
