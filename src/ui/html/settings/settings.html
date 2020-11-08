@@ -19,8 +19,8 @@
         </div>
     </div>
     <div class="col-9">
-      <div class="tab-content" id="settings-tab-content">
-        <? for(const key in data.settingsTabs) { ?>
+      <div class="tab-content">
+        <!-- <? for(const key in data.settingsTabs) { ?>
             <? if(key === data.settingsActiveTab) { ?>
                 <div class="tab-pane fade show active" id=<?= key ?> role="tabpanel" aria-labelledby=<?= `${key}-tab` ?> >
                     <?!= data.authorizationContents ?> 
@@ -30,7 +30,10 @@
                 <div class="tab-pane fade show" id=<?= key ?> role="tabpanel" aria-labelledby=<?= `${key}-tab` ?> >
                 </div>
             <? } ?>
-        <? } ?>
+        <? } ?> -->
+        <div class="tab-pane fade show active" id="settings-tab-content" role="tabpanel" >
+            <?!= data.authorizationContents ?> 
+        </div>
     </div>
     </div>
   </div>

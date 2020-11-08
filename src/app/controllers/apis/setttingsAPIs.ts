@@ -1,4 +1,4 @@
-import { KeyValue } from '../../models/keyValueModel';
+import { SettingValue } from '../../models/keyValueModel';
 import { SettingsService } from '../../services/settingsService';
 
 export function addAuthorizeUser(authorizeUser: string) {
@@ -10,9 +10,9 @@ export function deleteAuthorizeUser(authorizeUser: string) {
 }
 
 export function updateSetting(setting: any) {
-    return SettingsService.update(KeyValue.from(setting));
+    return SettingsService.update(SettingValue.from(setting));
 }
 
 export function deleteSetting(setting: any) {
-    return SettingsService.delete(KeyValue.from(setting));
+    return SettingsService.delete(SettingValue.from(setting));
 }

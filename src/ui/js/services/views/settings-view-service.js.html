@@ -25,7 +25,7 @@
         static loadSettingsAuthorizationView() {
             API.loadSettingsAuthorizationView(
                 html => {
-                    SettingsViewService.setHtml(html, ElementId.Settings.AUTHORIZATION);
+                    SettingsViewService.setHtml(html, ElementId.Settings.TAB_CONTENT);
                 },
                 SettingsViewService.errorHandler
             );
@@ -35,7 +35,7 @@
             API.loadSettingsTabView(
                 tab,
                 html => {
-                    SettingsViewService.setHtml(html, tab);
+                    SettingsViewService.setHtml(html, ElementId.Settings.TAB_CONTENT);
                 },
                 SettingsViewService.errorHandler
             );
