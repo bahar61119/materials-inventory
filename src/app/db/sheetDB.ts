@@ -2,7 +2,7 @@ import { SheetMetaDataInterface } from "../types/sheetMetadataInterface";
 import { SheetErrorMessage } from "../constants/errorMessages";
 import { DBError } from '../errors/dbError';
 import { DB } from './db';
-import { ApplicationDBKeys } from '../utils/applicationDBKeys';
+import { ApplicationDBKeys } from '../constants/applicationDBKeys';
 
 export class SheetDB {
     static createSpreadsheet(name: string): GoogleAppsScript.Spreadsheet.Spreadsheet {

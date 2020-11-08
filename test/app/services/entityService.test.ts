@@ -6,7 +6,7 @@ import { SupplierError } from '../../../src/app/errors/supplierError';
 import { Supplier } from '../../../src/app/models/supplierModel';
 import { UserDBService } from '../../../src/app/services/userDBService';
 import { GenerateId } from '../../../src/app/utils/generateId';
-import { SheetMetadata } from '../../../src/app/utils/sheetMetadata';
+import { SheetMetadata } from '../../../src/app/models/sheetMetadata';
 import { EntityService } from '../../../src/app/services/entityService';
 
 describe("EntityService Test", ()=>{

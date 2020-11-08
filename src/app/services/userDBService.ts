@@ -2,8 +2,8 @@ import { UserErrorMessage } from '../constants/errorMessages';
 import { DB } from "../db/db";
 import { UserError } from '../errors/userError';
 import { User } from '../models/userModel';
-import { ApplicationDBKeys } from '../utils/applicationDBKeys';
-import { UserDBKeys } from '../utils/userDBKeys';
+import { ApplicationDBKeys } from '../constants/applicationDBKeys';
+import { UserDBKeys } from '../constants/userDBKeys';
 
 type Users = { [key: string]: User };
 export class UserDBService {
