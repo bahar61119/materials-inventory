@@ -1,4 +1,5 @@
 import { SettingsTabs } from '../../constants/appConstants';
+import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
 import { ViewFileNames } from '../../constants/fileNames';
 import { ProfileService } from "../../services/profileService";
 import { SettingsService } from '../../services/settingsService';
@@ -7,9 +8,10 @@ import { loadView } from './loadView';
 
 export function loadSettingsView() {
     ProfileService.validateProfile(true);
-    let authorizationContents = loadSettingsAuthorizationView();
+    let authorizationContents = loadSettingsTabView(ApplicationDBKeys.AUTHORIZED_USERS);
     let settingsTabs = SettingsTabs;
-    return loadView(ViewFileNames.SETTINGS, {authorizationContents, settingsTabs});
+    let settingsActiveTab = ApplicationDBKeys.AUTHORIZED_USERS;
+    return loadView(ViewFileNames.SETTINGS, {authorizationContents, settingsTabs, settingsActiveTab});
 }
 
 export function loadSettingsAuthorizationView() {
@@ -21,6 +23,9 @@ export function loadSettingsAuthorizationView() {
 
 export function loadSettingsTabView(key: string) {
     ProfileService.validateProfile(true);
+    if(key === ApplicationDBKeys.AUTHORIZED_USERS) {
+        return loadSettingsAuthorizationView();
+    }
     let settingsTabValues = SettingsService.getList(key);
     let settingsTabTitle = SettingsTabs[key];
     let settingsTabKey = key;
