@@ -1,5 +1,5 @@
 import { SheetDB } from "../../../src/app/db/sheetDB";
-import { SheetMetadata } from "../../../src/app/utils/sheetMetadata";
+import { SheetMetadata } from "../../../src/app/models/sheetMetadata";
 import { SheetErrorMessage } from "../../../src/app/constants/errorMessages";
 import { DBError } from '../../../src/app/errors/dbError';
 

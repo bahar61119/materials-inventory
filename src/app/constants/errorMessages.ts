@@ -80,6 +80,14 @@ export class SettingsErrorMessage extends ErrorMessage {
     static get emailExists() {
         return `Email is already authorized`;
     }
+
+    static get invalidSettingsKey() {
+        return `Invalid settings key`;
+    }
+    
+    static get invalidSettingsValue() {
+        return `Invalid settings value`;
+    }
 }
 
 export class ItemsErrorMessage extends ErrorMessage {

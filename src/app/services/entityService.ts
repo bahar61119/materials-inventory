@@ -2,7 +2,7 @@ import { ErrorMessage } from '../constants/errorMessages';
 import { SheetDB } from '../db/sheetDB';
 import { Entity } from '../models/entityModel';
 import { GenerateId } from '../utils/generateId';
-import { SheetMetadata } from '../utils/sheetMetadata';
+import { SheetMetadata } from '../models/sheetMetadata';
 import { EntityFactory } from './entityFactory';
 import { UserDBService } from './userDBService';
 

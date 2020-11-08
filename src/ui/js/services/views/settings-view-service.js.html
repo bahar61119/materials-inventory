@@ -30,5 +30,15 @@
                 SettingsViewService.errorHandler
             );
         }
+
+        static loadSettingsTabView(tab) {
+            API.loadSettingsTabView(
+                tab,
+                html => {
+                    SettingsViewService.setHtml(html, tab);
+                },
+                SettingsViewService.errorHandler
+            );
+        }
     }
 </script>

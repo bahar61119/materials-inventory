@@ -1,14 +1,24 @@
 <script>
     class SettingsEventHandlerService {
         static clickEventHandler(event) {
+            let tabLink = event.target.closest(`a.${ElementClass.Settings.TAB_LINK}`);
             let authorizationAddButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_ADD_BUTTON}`);
             let authorizationDeleteButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_DELETE_BUTTON}`);
 
-            if(authorizationAddButton) {
+            if(tabLink) {
+                SettingsEventHandlerService.#tabLink(tabLink);
+            } else if(authorizationAddButton) {
                 SettingsEventHandlerService.#addAuthorizeUser(authorizationAddButton);
             } else if(authorizationDeleteButton) {
                 SettingsEventHandlerService.#deleteAuthorizeUser(authorizationDeleteButton);
             }
+            
+        }
+
+        static #tabLink(tabLink) {
+            let tab = tabLink.dataset.settingsTab;
+            console.log("clicked: "+ tab);
+            SettingsViewService.loadSettingsTabView(tab);
         }
 
         static #addAuthorizeUser(authorizationAddButton) {

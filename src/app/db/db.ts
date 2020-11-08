@@ -49,6 +49,11 @@ export class DB {
             throw new DBError(ErrorMessage.internalError);
         }
     }
+
+    exists(key: string): boolean {
+        let keys: Set<string> = new Set<string>(this.dbService.getKeys());
+        return keys.has(key);
+    }
     
     delete(key: string): void {
         try {

@@ -5,7 +5,7 @@ import { Invoice } from '../models/invoiceModel';
 import { Item } from '../models/itemModel';
 import { Payment } from '../models/paymentModel';
 import { Supplier } from '../models/supplierModel';
-import { SheetMetadata } from '../utils/sheetMetadata';
+import { SheetMetadata } from '../models/sheetMetadata';
 
 export class ApplicationDBService {
     static prepareDatabase() {
