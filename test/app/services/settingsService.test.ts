@@ -2,21 +2,21 @@
 import { SettingsErrorMessage } from '../../../src/app/constants/errorMessages';
 import { SettingsError } from '../../../src/app/errors/settingsError';
 import { SettingsService } from '../../../src/app/services/settingsService';
-import { UserDBService } from "../../../src/app/services/userDBService";
+import { UserService } from "../../../src/app/services/userService";
 
 describe("SettingsService", ()=>{
     describe("addAuthorizeUser", ()=>{
         beforeEach(()=>{
-            UserDBService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
-            UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
-            UserDBService.addToWhiteList = jest.fn();
+            UserService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
+            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
+            UserService.addToWhiteList = jest.fn();
         });
 
         test("success", ()=>{
             SettingsService.addAuthorizeUser("email@user.com");
-            expect(UserDBService.getAdminUserEmail).toBeCalledTimes(1);
-            expect(UserDBService.doesWhiteListedUser).toBeCalledTimes(1);
-            expect(UserDBService.addToWhiteList).toBeCalledTimes(1);
+            expect(UserService.getAdminUserEmail).toBeCalledTimes(1);
+            expect(UserService.doesWhiteListedUser).toBeCalledTimes(1);
+            expect(UserService.addToWhiteList).toBeCalledTimes(1);
         });
 
         test("throw error, when user is admin", ()=>{
@@ -27,7 +27,7 @@ describe("SettingsService", ()=>{
         });
 
         test("throw error, when user is already authorized", ()=>{
-            UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
+            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
             expect(() => {
                 SettingsService.addAuthorizeUser("user");
             })
@@ -36,16 +36,16 @@ describe("SettingsService", ()=>{
     });
     describe("deleteAuthorizeUser", ()=>{
         beforeEach(()=>{
-            UserDBService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
-            UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
-            UserDBService.removeFromWhiteList = jest.fn();
+            UserService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
+            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
+            UserService.removeFromWhiteList = jest.fn();
         });
 
         test("success", ()=>{
             SettingsService.deleteAuthorizeUser("email@user.com");
-            expect(UserDBService.getAdminUserEmail).toBeCalledTimes(1);
-            expect(UserDBService.doesWhiteListedUser).toBeCalledTimes(1);
-            expect(UserDBService.removeFromWhiteList).toBeCalledTimes(1);
+            expect(UserService.getAdminUserEmail).toBeCalledTimes(1);
+            expect(UserService.doesWhiteListedUser).toBeCalledTimes(1);
+            expect(UserService.removeFromWhiteList).toBeCalledTimes(1);
         });
 
         test("throw error, when user is admin", ()=>{
@@ -56,7 +56,7 @@ describe("SettingsService", ()=>{
         });
 
         test("throw error, when user is not authorized", ()=>{
-            UserDBService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
+            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
             expect(() => {
                 SettingsService.deleteAuthorizeUser("user");
             })

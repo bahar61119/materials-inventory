@@ -4,7 +4,7 @@ import { Entity } from '../models/entityModel';
 import { GenerateId } from '../utils/generateId';
 import { SheetMetadata } from '../models/sheetMetadata';
 import { EntityFactory } from './entityFactory';
-import { UserDBService } from './userDBService';
+import { UserService } from './userService';
 
 export class EntityService {
     public static getEntityList<T>(sheetName: string, entityName: string): Array<T> {
@@ -44,7 +44,7 @@ export class EntityService {
     }
 
     public static updateEntity<T extends Entity>(entity: T, entityIdName: string, sheetName: string, entityName: string): string {
-        entity.withLatestUpdateByUser(UserDBService.getCurrentUser().email);
+        entity.withLatestUpdateByUser(UserService.getCurrentUser().email);
         entity.withLatestUpdateTime(Date.now().toString());
         let numberOfFields = this.getNumberOfFields(entityName);
         let isEdit = entity[entityIdName]? true: false;

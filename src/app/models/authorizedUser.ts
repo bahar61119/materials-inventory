@@ -6,6 +6,14 @@ export class AuthorizedUser implements AuthorizedUserInterface {
 
     constructor() {
         this.email = '';
-        this.role = UserRole.BASIC;
+        this.role = UserRole.EDITOR;
+    }
+
+    static of(): AuthorizedUser {
+        return new AuthorizedUser();
+    }
+
+    static from(authorizeUserData: object): AuthorizedUser {
+        return Object.assign(new AuthorizedUser, authorizeUserData);
     }
 }

@@ -1,11 +1,11 @@
 import { AppConstant } from '../../constants/appConstants';
 import { ViewFileNames } from "../../constants/fileNames";
-import { UserDBService } from '../../services/userDBService';
+import { UserService } from '../../services/userService';
 import { loadAppView } from './loadAppViews';
 
 export function loadIndexView() {
     const htmlService = HtmlService.createTemplateFromFile(ViewFileNames.INDEX);
-    if(!UserDBService.doesCurrentUserExist()) {
+    if(!UserService.doesCurrentUserExist()) {
         htmlService.bodyContent = loadAppView(ViewFileNames.PROFILE_UPDATE);
     } else {
         htmlService.bodyContent = loadAppView(ViewFileNames.HOME);

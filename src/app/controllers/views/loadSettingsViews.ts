@@ -3,7 +3,7 @@ import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
 import { ViewFileNames } from '../../constants/fileNames';
 import { ProfileService } from "../../services/profileService";
 import { SettingsService } from '../../services/settingsService';
-import { UserDBService } from '../../services/userDBService';
+import { UserService } from '../../services/userService';
 import { loadView } from './loadView';
 
 export function loadSettingsView() {
@@ -17,8 +17,10 @@ export function loadSettingsView() {
 export function loadSettingsAuthorizationView() {
     ProfileService.validateProfile(true);
     let authorizedUsers = SettingsService.getAuthorizedUserList();
-    let adminUser = UserDBService.getAdminUserEmail();
-    return loadView(ViewFileNames.SETTINGS_AUTHORIZATION, {authorizedUsers, adminUser});
+    console.log(authorizedUsers);
+    let systemUser = UserService.getSystemUserEmail();
+    let userRoles = SettingsService.getUserRoleList();
+    return loadView(ViewFileNames.SETTINGS_AUTHORIZATION, {authorizedUsers, systemUser, userRoles});
 }
 
 export function loadSettingsTabView(key: string) {

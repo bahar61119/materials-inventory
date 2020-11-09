@@ -4,7 +4,7 @@ import { SheetDB } from '../../../src/app/db/sheetDB';
 import { DBError } from '../../../src/app/errors/dbError';
 import { SupplierError } from '../../../src/app/errors/supplierError';
 import { Supplier } from '../../../src/app/models/supplierModel';
-import { UserDBService } from '../../../src/app/services/userDBService';
+import { UserService } from '../../../src/app/services/userService';
 import { GenerateId } from '../../../src/app/utils/generateId';
 import { SheetMetadata } from '../../../src/app/models/sheetMetadata';
 import { EntityService } from '../../../src/app/services/entityService';
@@ -233,7 +233,7 @@ describe("EntityService Test", ()=>{
             let updateRow = jest.fn();
             SheetDB.updateRow = updateRow;
             SheetDB.getSheetData = getSheetData;
-            UserDBService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
+            UserService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
             Date.now = jest.fn().mockReturnValue(123);
 
             // given
@@ -272,7 +272,7 @@ describe("EntityService Test", ()=>{
             SheetDB.updateRow = updateRow;
             SheetDB.getSheetData = getSheetData;
             GenerateId.getUniqueId = jest.fn().mockReturnValue(uniqueId);
-            UserDBService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
+            UserService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
             Date.now = jest.fn().mockReturnValue(123);
 
             // given
