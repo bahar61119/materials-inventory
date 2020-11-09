@@ -14,8 +14,8 @@ describe("ProfileService", ()=>{
                 .withEmail('email');
             UserService.validateUser = jest.fn();
             UserService.doesCurrentUserExist = jest.fn().mockReturnValue(false);
-            UserService.getAdminUserEmail = jest.fn().mockReturnValue('admin');
-            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
+            UserService.getSystemUserEmail = jest.fn().mockReturnValue('admin');
+            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(true);
             UserService.doesUserExist = jest.fn().mockReturnValue(false);
             UserService.addUser = jest.fn().mockReturnValue(User.of().withUUID('uuid'));
             UserService.addCurrentUser = jest.fn();
@@ -55,7 +55,7 @@ describe("ProfileService", ()=>{
             expect(UserService.updateCurrentUser).toBeCalledTimes(1);
         });
 
-        test("success, when current user is admin user", ()=>{
+        test("success, when current user is system user", ()=>{
             let user = User.of()
                 .withUUID('uuid')
                 .withFirstName('firstName')
@@ -71,7 +71,7 @@ describe("ProfileService", ()=>{
         });
         
         test("throws error, when user is not whitelisted", ()=>{
-            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
+            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(false);
             let user = User.of()
                 .withUUID('uuid')
                 .withFirstName('firstName')
@@ -116,22 +116,22 @@ describe("ProfileService", ()=>{
                 .withEmail('email');
             UserService.doesCurrentUserExist = jest.fn().mockReturnValue(true);
             UserService.getCurrentUser = jest.fn().mockReturnValue(user);
-            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(true);
-            UserService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
+            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(true);
+            UserService.isAdminUser = jest.fn().mockReturnValue(true);
         });
 
         test("success", ()=>{
             ProfileService.validateProfile();
             expect(UserService.getCurrentUser).toBeCalledTimes(1);
-            expect(UserService.doesWhiteListedUser).toBeCalledTimes(1);
+            expect(UserService.doesAuthorizeUser).toBeCalledTimes(1);
         });
 
         test("success, when user is admin", ()=>{
-            UserService.doesWhiteListedUser = jest.fn().mockReturnValue(false);
-            UserService.getAdminUserEmail = jest.fn().mockReturnValue("email");
+            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(false);
+            UserService.isAdminUser = jest.fn().mockReturnValue(true);
             ProfileService.validateProfile();
             expect(UserService.getCurrentUser).toBeCalledTimes(1);
-            expect(UserService.doesWhiteListedUser).toBeCalledTimes(1);
+            expect(UserService.doesAuthorizeUser).toBeCalledTimes(1);
         });
 
         test("throw error, when user not exists", ()=>{
@@ -153,6 +153,7 @@ describe("ProfileService", ()=>{
         });
 
         test("throw error, when user is not admin", ()=>{
+            UserService.isAdminUser = jest.fn().mockReturnValue(false);
             expect(() => {
                 ProfileService.validateProfile(true);
             })
@@ -168,7 +169,7 @@ describe("ProfileService", ()=>{
                 .withLastName('lastName')
                 .withEmail('email');
             UserService.getCurrentUser = jest.fn().mockReturnValue(user);
-            UserService.getAdminUserEmail = jest.fn().mockReturnValue("admin");
+            UserService.getSystemUserEmail = jest.fn().mockReturnValue("admin");
             UserService.deleteUser = jest.fn();
             UserService.deleteCurrentUser = jest.fn();
         });
@@ -176,20 +177,20 @@ describe("ProfileService", ()=>{
         test("success", ()=>{
             ProfileService.deleteProfile();
             expect(UserService.getCurrentUser).toBeCalledTimes(1);
-            expect(UserService.getAdminUserEmail).toBeCalledTimes(1);
+            expect(UserService.getSystemUserEmail).toBeCalledTimes(1);
             expect(UserService.deleteUser).toBeCalledTimes(1);
             expect(UserService.deleteUser).toBeCalledWith("email");
             expect(UserService.deleteCurrentUser).toBeCalledTimes(1);
         });
 
         test("throw error, when user is admin", ()=>{
-            UserService.getAdminUserEmail = jest.fn().mockReturnValue("email");
+            UserService.getSystemUserEmail = jest.fn().mockReturnValue("email");
             expect(() => {
                 ProfileService.deleteProfile();
             })
-            .toThrowError(new ProfileError(ProfileErrorMessage.adminProfile));
+            .toThrowError(new ProfileError(ProfileErrorMessage.systemUserProfile));
             expect(UserService.getCurrentUser).toBeCalledTimes(1);
-            expect(UserService.getAdminUserEmail).toBeCalledTimes(1);
+            expect(UserService.getSystemUserEmail).toBeCalledTimes(1);
             expect(UserService.deleteUser).toBeCalledTimes(0);
             expect(UserService.deleteCurrentUser).toBeCalledTimes(0);
         });

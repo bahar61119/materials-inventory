@@ -7,10 +7,10 @@ import { UserDBKeys } from '../constants/userDBKeys';
 import { AuthorizedUser } from '../models/authorizedUser';
 import { UserRole } from '../constants/userRoles';
 
-type Users = { [key: string]: User };
-type AuthorizedUsers = { [key: string]: AuthorizedUser };
+export type Users = { [key: string]: User };
+export type AuthorizedUsers = { [key: string]: AuthorizedUser };
 export class UserService {
-    private static getAuthorizedUsers(): AuthorizedUsers {
+    static getAuthorizedUsers(): AuthorizedUsers {
         let authorizeUsers = DB.getApplicationDB().get(ApplicationDBKeys.AUTHORIZED_USERS, <AuthorizedUsers>{});
         return authorizeUsers? authorizeUsers: {};
     }
@@ -234,7 +234,7 @@ export class UserService {
         return Utilities.getUuid();
     }
 
-    private static getUsers(): Users {
+    static getUsers(): Users {
         let users = DB.getApplicationDB().get(ApplicationDBKeys.USERS, <Users>{}); 
         return users? users: {};
     }

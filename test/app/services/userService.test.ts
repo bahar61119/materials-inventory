@@ -1,6 +1,8 @@
 import { UserErrorMessage } from '../../../src/app/constants/errorMessages';
+import { UserRole } from '../../../src/app/constants/userRoles';
 import { DB } from '../../../src/app/db/db';
 import { UserError } from "../../../src/app/errors/userError";
+import { AuthorizedUser } from '../../../src/app/models/authorizedUser';
 import { User } from '../../../src/app/models/userModel';
 import { UserService } from '../../../src/app/services/userService';
 
@@ -342,47 +344,57 @@ describe("UserService Test", ()=>{
         });
     });
 
-    describe("addToWhiteList", ()=>{
+    describe("addAuthorizeUser", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
             DB.getApplicationDB = jest.fn().mockReturnValue({put});
-            UserService.getWhiteListUsers = jest.fn().mockReturnValue([]);
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue([]);
+            UserService.getSystemUserEmail = jest.fn().mockReturnValue("admin");
         });
 
         test("success", ()=>{
-            let userEmail = UserService.addToWhiteList("email");
-            expect(userEmail).toBe("email");
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "email";
+            authorizeUser.role = UserRole.ADMIN;
+            UserService.addAuthorizeUser(authorizeUser);
             expect(DB.getApplicationDB().put).toBeCalledTimes(1);
         });
 
         test("throws error when user exists", ()=>{
-            UserService.getWhiteListUsers = jest.fn().mockReturnValue(["email"]);
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "email";
+            authorizeUser.role = UserRole.ADMIN;
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue({"email":authorizeUser});
             expect(() => {
-                UserService.addToWhiteList("email");
+                UserService.addAuthorizeUser(authorizeUser);
             })
-            .toThrowError(new UserError(UserErrorMessage.userAlreadyExists));
+            .toThrowError(new UserError(UserErrorMessage.userAlreadyAuthorized));
         });
     });
 
-    describe("removeFromWhiteList", ()=>{
+    describe("removeAuthorizeUser", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
             DB.getApplicationDB = jest.fn().mockReturnValue({put});
-            UserService.getWhiteListUsers = jest.fn().mockReturnValue(new Set(["email"]));
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "email";
+            authorizeUser.role = UserRole.ADMIN;
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue({"email":authorizeUser});
+            UserService.getSystemUserEmail = jest.fn().mockReturnValue("admin");
         });
 
         test("success", ()=>{
-            let userEmail = UserService.removeFromWhiteList("email");
+            let userEmail = UserService.removeAuthorizeUser("email");
             expect(userEmail).toBe("email");
             expect(DB.getApplicationDB().put).toBeCalledTimes(1);
         });
 
         test("throws error when user don't exists", ()=>{
-            UserService.getWhiteListUsers = jest.fn().mockReturnValue(new Set());
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue({});
             expect(() => {
-                UserService.removeFromWhiteList("email");
+                UserService.removeAuthorizeUser("email");
             })
-            .toThrowError(new UserError(UserErrorMessage.userNotFound));
+            .toThrowError(new UserError(UserErrorMessage.userNotAuthorized));
         });
     });
 });
