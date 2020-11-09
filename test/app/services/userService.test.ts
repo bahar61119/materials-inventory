@@ -360,7 +360,7 @@ describe("UserService Test", ()=>{
             expect(DB.getApplicationDB().put).toBeCalledTimes(1);
         });
 
-        test("throws error when user exists", ()=>{
+        test("throws error when user authorized", ()=>{
             let authorizeUser = AuthorizedUser.of();
             authorizeUser.email = "email";
             authorizeUser.role = UserRole.ADMIN;
@@ -369,6 +369,57 @@ describe("UserService Test", ()=>{
                 UserService.addAuthorizeUser(authorizeUser);
             })
             .toThrowError(new UserError(UserErrorMessage.userAlreadyAuthorized));
+        });
+
+        test("throws error when user is system user", ()=>{
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "admin";
+            authorizeUser.role = UserRole.ADMIN;
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue({"admin":authorizeUser});
+            expect(() => {
+                UserService.addAuthorizeUser(authorizeUser);
+            })
+            .toThrowError(new UserError(UserErrorMessage.userAlreadyAuthorized));
+        });
+    });
+
+    describe("updateAuthorizeUser", ()=>{
+        beforeEach(()=>{
+            let put = jest.fn();
+            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "email";
+            authorizeUser.role = UserRole.ADMIN;
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue({"email":authorizeUser});
+            UserService.getSystemUserEmail = jest.fn().mockReturnValue("admin");
+        });
+
+        test("success", ()=>{
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "email";
+            authorizeUser.role = UserRole.ADMIN;
+            UserService.updateAuthorizeUser(authorizeUser);
+            expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+        });
+
+        test("throws error when user is not authorized", ()=>{
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "anotherEmail";
+            authorizeUser.role = UserRole.ADMIN;
+            expect(() => {
+                UserService.updateAuthorizeUser(authorizeUser);
+            })
+            .toThrowError(new UserError(UserErrorMessage.userNotAuthorized));
+        });
+
+        test("throws error when user is system user", ()=>{
+            let authorizeUser = AuthorizedUser.of();
+            authorizeUser.email = "admin";
+            authorizeUser.role = UserRole.ADMIN;
+            expect(() => {
+                UserService.updateAuthorizeUser(authorizeUser);
+            })
+            .toThrowError(new UserError(UserErrorMessage.systemUserUpdatedError));
         });
     });
 
@@ -395,6 +446,14 @@ describe("UserService Test", ()=>{
                 UserService.removeAuthorizeUser("email");
             })
             .toThrowError(new UserError(UserErrorMessage.userNotAuthorized));
+        });
+
+        test("throws error when user is system user", ()=>{
+            UserService.getAuthorizedUsers = jest.fn().mockReturnValue({});
+            expect(() => {
+                UserService.removeAuthorizeUser("admin");
+            })
+            .toThrowError(new UserError(UserErrorMessage.systemUserRemoveError));
         });
     });
 });
