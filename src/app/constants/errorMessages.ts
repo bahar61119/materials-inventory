@@ -41,6 +41,22 @@ export class UserErrorMessage extends ErrorMessage {
         return `User Already Exists`
     }
 
+    static get userAlreadyAuthorized() {
+        return `User Already Authorized`
+    }
+
+    static get userNotAuthorized() {
+        return `User Is No Authorized`
+    }
+
+    static get systemUserUpdatedError() {
+        return `System user cannot be updated`
+    }
+
+    static get systemUserRemoveError() {
+        return `System user cannot be removed`
+    }
+
     static get validationError() {
         return (value: String) => `${value} is required`;
     }
@@ -59,8 +75,8 @@ export class ProfileErrorMessage extends ErrorMessage {
         return `Email is registered with another user`;
     }
 
-    static get adminProfile() {
-        return `Admin user cannot delete profile`
+    static get systemUserProfile() {
+        return `System user cannot delete profile`
     }
 
     static get adminProfileRequired() {

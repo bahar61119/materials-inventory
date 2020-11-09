@@ -39,6 +39,7 @@
                 // Settings
                 loadSettingsView: "loadSettingsView",
                 addAuthorizeUser: "addAuthorizeUser",
+                updateAuthorizeUser: "updateAuthorizeUser",
                 deleteAuthorizeUser: "deleteAuthorizeUser",
                 loadSettingsAuthorizationView: "loadSettingsAuthorizationView",
                 loadSettingsTabView: "loadSettingsTabView",
@@ -199,19 +200,28 @@
             );
         }
 
-        static addAuthorizeUser(authorizeUserEmail, successHandler = ()=>{}, failureHandler = ()=>{}) {
+        static addAuthorizeUser(authorizeUser, successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.addAuthorizeUser)
-                .withData(authorizeUserEmail)
+                .withData(authorizeUser)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );
         }
 
-        static deleteAuthorizeUser(authorizeUserEmail, successHandler = ()=>{}, failureHandler = ()=>{}) {
+        static updateAuthorizeUser(authorizeUser, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.updateAuthorizeUser)
+                .withData(authorizeUser)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static deleteAuthorizeUser(email, successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.deleteAuthorizeUser)
-                .withData(authorizeUserEmail)
+                .withData(email)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

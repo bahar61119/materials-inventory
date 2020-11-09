@@ -1,37 +1,33 @@
 import { ApplicationDBKeys } from '../constants/applicationDBKeys';
 import { SettingsErrorMessage } from '../constants/errorMessages';
+import { UserRole } from '../constants/userRoles';
 import { DB } from '../db/db';
 import { SettingsError } from '../errors/settingsError';
+import { AuthorizedUser } from '../models/authorizedUser';
 import { SettingValue } from '../models/keyValueModel';
-import { UserDBService } from './userDBService';
+import { UserService } from './userService';
 
 export class SettingsService {
-    static getAuthorizedUserList() {
-        return UserDBService.getWhiteListUsers();
+    static getUserRoleList() {
+        return [UserRole.ADMIN, UserRole.EDITOR];
     }
 
-    static addAuthorizeUser(authorizeUser: string) {
-        if( authorizeUser === UserDBService.getAdminUserEmail() ||
-            UserDBService.doesWhiteListedUser(authorizeUser)) {
-            throw new SettingsError(SettingsErrorMessage.emailExists);
-        } 
+    static getAuthorizedUserList() {
+        return UserService.getAuthorizeUserList();
+    }
 
-        UserDBService.addToWhiteList(authorizeUser);
-
+    static addAuthorizeUser(authorizeUser: AuthorizedUser): AuthorizedUser {
+        UserService.addAuthorizeUser(authorizeUser);
         return authorizeUser;
     }
 
-    static deleteAuthorizeUser(authorizeUser: string) {
-        if(authorizeUser === UserDBService.getAdminUserEmail()) {
-            throw new SettingsError(SettingsErrorMessage.adminDeleteError);
-        }
+    static updateAuthorizeUser(authorizeUser: AuthorizedUser): AuthorizedUser {
+        UserService.updateAuthorizeUser(authorizeUser);
+        return authorizeUser;
+    }
 
-        if(!UserDBService.doesWhiteListedUser(authorizeUser)) {
-            throw new SettingsError(SettingsErrorMessage.emailNotFound);
-        }
-
-        UserDBService.removeFromWhiteList(authorizeUser);
-
+    static deleteAuthorizeUser(authorizeUser: string): string {
+        UserService.removeAuthorizeUser(authorizeUser);
         return authorizeUser;
     }
 

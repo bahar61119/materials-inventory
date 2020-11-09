@@ -1,13 +1,13 @@
 import { ViewFileNames } from '../../constants/fileNames';
 import { User } from '../../models/userModel';
 import { ProfileService } from '../../services/profileService';
-import { UserDBService } from '../../services/userDBService';
+import { UserService } from '../../services/userService';
 import { loadView } from './loadView';
 
 export function loadProfileUpdateView() {
     let user: User = User.of();
-    if(UserDBService.doesCurrentUserExist()) {
-        user = UserDBService.getCurrentUser();
+    if(UserService.doesCurrentUserExist()) {
+        user = UserService.getCurrentUser();
     }
     let isAdmin = ProfileService.isAdminProfile();
     return loadView(ViewFileNames.PROFILE_UPDATE, {user, isAdmin});

@@ -1,71 +1,70 @@
 import { ProfileErrorMessage } from '../constants/errorMessages';
 import { ProfileError } from '../errors/profileError';
 import { User } from '../models/userModel';
-import { UserDBService } from './userDBService';
+import { UserService } from './userService';
 
 export class ProfileService {
     static updateProfile(user: User): User {
-        let userExits = UserDBService.doesCurrentUserExist();
-        UserDBService.validateUser(user, !userExits);
-        let isAdminUser = user.email === UserDBService.getAdminUserEmail();
+        let userExits = UserService.doesCurrentUserExist();
+        UserService.validateUser(user, !userExits);
+        let isSystemUser = user.email === UserService.getSystemUserEmail();
 
-        if(!isAdminUser) {
-            if(!UserDBService.doesWhiteListedUser(user.email)) {
+        if(!isSystemUser) {
+            if(!UserService.doesAuthorizeUser(user.email)) {
                 throw new ProfileError(ProfileErrorMessage.notAuthorized);
             }
     
-            if(!userExits && UserDBService.doesUserExist(user.email)) {
+            if(!userExits && UserService.doesUserExist(user.email)) {
                 throw new ProfileError(ProfileErrorMessage.emailExists);
             }
         }
 
         if(!userExits) {
-            user = UserDBService.addUser(user);
-            UserDBService.addCurrentUser(user.email);
+            user = UserService.addUser(user);
+            UserService.addCurrentUser(user.email);
         } else {
-            let currentUserInformation = UserDBService.getCurrentUser();
-            user = UserDBService.updateUser(user,currentUserInformation.email);
-            UserDBService.updateCurrentUser();
+            let currentUserInformation = UserService.getCurrentUser();
+            user = UserService.updateUser(user,currentUserInformation.email);
+            UserService.updateCurrentUser();
         }
         
         return user;
     }
 
     static deleteProfile(): User {
-        let user = UserDBService.getCurrentUser();
-        if(user.email === UserDBService.getAdminUserEmail()) {
-            throw new ProfileError(ProfileErrorMessage.adminProfile);
+        let user = UserService.getCurrentUser();
+        if(user.email === UserService.getSystemUserEmail()) {
+            throw new ProfileError(ProfileErrorMessage.systemUserProfile);
         }
-        UserDBService.deleteUser(user.email);
-        UserDBService.deleteCurrentUser();
+        UserService.deleteUser(user.email);
+        UserService.deleteCurrentUser();
         return user;
     }
 
     static validateProfile(adminRequired = false) {
-        if(!UserDBService.doesCurrentUserExist()){
+        if(!UserService.doesCurrentUserExist()){
             throw new ProfileError(ProfileErrorMessage.profileNotFound);
         }
 
-        let user = UserDBService.getCurrentUser();
-        let isAdmin = user.email === UserDBService.getAdminUserEmail();
+        let user = UserService.getCurrentUser();
+        let isAdmin = UserService.isAdminUser();
 
         if(adminRequired) {
             if(!isAdmin) {
                 throw new ProfileError(ProfileErrorMessage.adminProfileRequired);
             }
         } else {
-            let userWhitelisted = UserDBService.doesWhiteListedUser(user.email);
-            if(!isAdmin && !userWhitelisted) {
+            let authorizedUser = UserService.doesAuthorizeUser(user.email);
+            if(!isAdmin && !authorizedUser) {
                 throw new ProfileError(ProfileErrorMessage.notAuthorized);
             }
         }
     }
 
     static isAdminProfile() {
-        if(!UserDBService.doesCurrentUserExist()) {
+        if(!UserService.doesCurrentUserExist()) {
             return false;
         }
-        let user = UserDBService.getCurrentUser();
-        return user.email === UserDBService.getAdminUserEmail();
+        return UserService.isAdminUser();
     }
 }

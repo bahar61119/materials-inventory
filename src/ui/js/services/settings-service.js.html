@@ -1,14 +1,15 @@
 <script>
     class SettingsService {
-        static addAuthorizeUser(authorizeUserEmail) {
+        static addAuthorizeUser(email, role) {
+            let authorizeUser = {email, role};
             API.addAuthorizeUser(
-                authorizeUserEmail,
+                authorizeUser,
                 dataReturned => {
                     SettingsViewService.loadSettingsAuthorizationView();
                     Alert.show(
                         AlertOptions.of()
                             .withTitle("Add Authorize User")
-                            .withMessage(`Successfully added authorize user(${authorizeUserEmail})`)
+                            .withMessage(`Successfully added authorize user(${email})`)
                             .withType(AlertOptions.Type.SUCCESS)
                     );
                 },
@@ -24,15 +25,40 @@
             );
         }
 
-        static deleteAuthorizeUser(authorizeUserEmail) {
+        static updateAuthorizeUser(email, role) {
+            let authorizeUser = {email, role};
+            API.updateAuthorizeUser(
+                authorizeUser,
+                dataReturned => {
+                    SettingsViewService.loadSettingsAuthorizationView();
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Update Authorize User")
+                            .withMessage(`Successfully updated authorize user(${email})`)
+                            .withType(AlertOptions.Type.SUCCESS)
+                    );
+                },
+                error => {
+                    console.error(error);
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Add Authorize User Error")
+                            .withMessage(error.message)
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            );
+        }
+
+        static deleteAuthorizeUser(email) {
             API.deleteAuthorizeUser(
-                authorizeUserEmail,
+                email,
                 dataReturned => {
                     SettingsViewService.loadSettingsAuthorizationView();
                     Alert.show(
                         AlertOptions.of()
                             .withTitle("Remove Authorize User")
-                            .withMessage(`Successfully removed authorize user(${authorizeUserEmail})`)
+                            .withMessage(`Successfully removed authorize user(${email})`)
                             .withType(AlertOptions.Type.SUCCESS)
                     );
                 },
