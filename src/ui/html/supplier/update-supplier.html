@@ -1,20 +1,21 @@
 <form class="container edit-supplier-form novalidate">
     <div class="row">
-        <div class="shadow p-3 mb-5 bg-light rounded col-md-6 offset-md-3">
-            <h3 class="text-center">
+        <div class="col-md-8 offset-md-2">
+            <h1 class="text-center">
                 <? if(data.isEdit) { ?>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </svg>
-                    <p>Edit Supplier</p>
+                    Edit Supplier
                 <? } else { ?>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10zM13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                     </svg>
-                    <p>Add Supplier</p>
+                    Add Supplier
                 <? } ?>
-            </h3>
+            </h1>
+            <hr/>
 
             <? if(data.isEdit) { ?>
             <div class="form-group">
@@ -23,7 +24,7 @@
             </div>
             <? } ?>
             <div class="form-group required">
-                <label for="supplier-name" class="control-label">Supplier Name</label>
+                <label for="supplier-name" class="control-label h5">Supplier Name</label>
                 <input type="text" class="form-control" id="supplier-name" required value=<?= data.supplier.supplierName ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -34,7 +35,7 @@
             </div>
             
             <div class="form-group required">
-                <label for="supplier-type" class="control-label">Supplier Type</label>
+                <label for="supplier-type" class="control-label h5">Supplier Type</label>
                 <input type="text" class="form-control" id="supplier-type" required value=<?= data.supplier.supplierType ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -45,7 +46,7 @@
             </div>
             
             <div class="form-group required">
-                <label for="supplier-company" class="control-label">Company</label>
+                <label for="supplier-company" class="control-label h5">Company</label>
                 <input type="text" class="form-control" id="supplier-company" required value=<?= data.supplier.supplierCompany ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -56,7 +57,7 @@
             </div>
             
             <div class="form-group required">
-                <label for="supplier-designation" class="control-label">Designation</label>
+                <label for="supplier-designation" class="control-label h5">Designation</label>
                 <input type="text" class="form-control" id="supplier-designation" required value=<?= data.supplier.supplierDesignation ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -67,7 +68,7 @@
             </div>
             
             <div class="form-group required">
-                <label for="supplier-contact-number" class="control-label">Contact Number</label>
+                <label for="supplier-contact-number" class="control-label h5">Contact Number</label>
                 <input type="text" class="form-control" id="supplier-contact-number" required value=<?= data.supplier.supplierContactNumber ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -78,7 +79,7 @@
             </div>
             
             <div class="form-group">
-                <label for="supplier-email" class="control-label">Email</label>
+                <label for="supplier-email" class="control-label h5">Email</label>
                 <input type="email" class="form-control" id="supplier-email" value=<?= data.supplier.supplierEmail ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -89,7 +90,7 @@
             </div>
             
             <div class="form-group required">
-                <label for="supplier-address" class="control-label">Address</label>
+                <label for="supplier-address" class="control-label h5">Address</label>
                 <textarea class="form-control" id="supplier-address" rows="3" required><?= data.supplier.supplierAddress ?></textarea>
                 <div class="valid-feedback">
                     Looks good!
@@ -109,6 +110,6 @@
             </div>
         </div>
     </div>
-  
+    <br/>
 </form>
 
