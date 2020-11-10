@@ -19,76 +19,77 @@
 
             <? if(data.isEdit) { ?>
             <div class="form-group">
-                <label for="supplier-id">Supplier ID</label>
+                <label for="supplier-id" class="control-label h5">Supplier ID</label>
                 <input type="text" class="form-control" disabled id="supplier-id" value=<?= data.supplier.supplierId ?> >
             </div>
             <? } ?>
-            <div class="form-group required">
-                <label for="supplier-name" class="control-label h5">Supplier Name</label>
-                <input type="text" class="form-control" id="supplier-name" required value=<?= data.supplier.supplierName ?> >
-                <div class="valid-feedback">
-                    Looks good!
+
+            <div class="row">
+                <div class="form-group required col">
+                    <label for="supplier-name" class="control-label h5">Supplier Name</label>
+                    <input type="text" class="form-control" id="supplier-name" required value=<?= data.supplier.supplierName ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier name.
+                    </div>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier name.
-                </div>
-            </div>
-            
-            <div class="form-group required">
-                <label for="supplier-type" class="control-label h5">Supplier Type</label>
-                <input type="text" class="form-control" id="supplier-type" required value=<?= data.supplier.supplierType ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier type.
-                </div>
-            </div>
-            
-            <div class="form-group required">
-                <label for="supplier-company" class="control-label h5">Company</label>
-                <input type="text" class="form-control" id="supplier-company" required value=<?= data.supplier.supplierCompany ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier company.
+                <div class="form-group required col">
+                    <label for="supplier-type" class="control-label h5">Supplier Type</label>
+                    <input type="text" class="form-control" id="supplier-type" required value=<?= data.supplier.supplierType ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier type.
+                    </div>
                 </div>
             </div>
-            
-            <div class="form-group required">
-                <label for="supplier-designation" class="control-label h5">Designation</label>
-                <input type="text" class="form-control" id="supplier-designation" required value=<?= data.supplier.supplierDesignation ?> >
-                <div class="valid-feedback">
-                    Looks good!
+            <div class="row">
+                <div class="form-group required col">
+                    <label for="supplier-company" class="control-label h5">Company</label>
+                    <input type="text" class="form-control" id="supplier-company" required value=<?= data.supplier.supplierCompany ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier company.
+                    </div>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier designation.
-                </div>
-            </div>
-            
-            <div class="form-group required">
-                <label for="supplier-contact-number" class="control-label h5">Contact Number</label>
-                <input type="text" class="form-control" id="supplier-contact-number" required value=<?= data.supplier.supplierContactNumber ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier contact number.
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="supplier-email" class="control-label h5">Email</label>
-                <input type="email" class="form-control" id="supplier-email" value=<?= data.supplier.supplierEmail ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier email.
+                <div class="form-group required col">
+                    <label for="supplier-designation" class="control-label h5">Designation</label>
+                    <input type="text" class="form-control" id="supplier-designation" required value=<?= data.supplier.supplierDesignation ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier designation.
+                    </div>
                 </div>
             </div>
-            
+            <div class="row">
+                <div class="form-group required col">
+                    <label for="supplier-contact-number" class="control-label h5">Contact Number</label>
+                    <input type="text" class="form-control" id="supplier-contact-number" required value=<?= data.supplier.supplierContactNumber ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier contact number.
+                    </div>
+                </div>
+                <div class="form-group col">
+                    <label for="supplier-email" class="control-label h5">Email</label>
+                    <input type="email" class="form-control" id="supplier-email" value=<?= data.supplier.supplierEmail ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier email.
+                    </div>
+                </div>
+            </div>
             <div class="form-group required">
                 <label for="supplier-address" class="control-label h5">Address</label>
                 <textarea class="form-control" id="supplier-address" rows="3" required><?= data.supplier.supplierAddress ?></textarea>
