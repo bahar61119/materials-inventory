@@ -11,7 +11,6 @@ export class InvoiceService extends EntityService{
         let invoiceList: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
         let supplierList: Array<Supplier> = SupplierService.getSupplierList();
         let supplierMap = Utils.arrayToObject(supplierList, "supplierId"); 
-        console.log("SupplierMap: "+ JSON.stringify(supplierMap));
         return invoiceList.map((invoice: Invoice) => {
             invoice.invoiceIssueDate = InvoiceService.convertDateString(invoice.invoiceIssueDate, InvoiceService.DATE_FORMAT);
             invoice.invoiceReceivedDate = InvoiceService.convertDateString(invoice.invoiceReceivedDate, InvoiceService.DATE_FORMAT);
