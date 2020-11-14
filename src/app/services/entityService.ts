@@ -99,7 +99,6 @@ export class EntityService {
     }
 
     public static getEntityFromRawData(rawData: Array<any>, entityName: string): any{
-        console.log(entityName+": "+JSON.stringify(rawData));
         let entity = EntityFactory.getEntity(entityName);
         let keys = Object.keys(entity);
         keys.forEach( (key: any, index: number) => {
