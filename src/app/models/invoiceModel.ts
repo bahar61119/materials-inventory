@@ -35,56 +35,6 @@ export class Invoice implements InvoiceInterface {
         return Object.assign(new Invoice, invoiceData);
     }
 
-    withInvoiceId(invoiceId: string) {
-        this.invoiceId = invoiceId;
-        return this;
-    }
-
-    withInvoiceName(invoiceName: string) {
-        this.invoiceName = invoiceName;
-        return this;
-    }
-
-    withInvoiceReferenceNumber(invoiceReferenceNumber: string) {
-        this.invoiceReferenceNumber = invoiceReferenceNumber;
-        return this;
-    }
-
-    withInvoiceSupplier(invoiceSupplier: string) {
-        this.invoiceSupplier = invoiceSupplier;
-        return this;
-    }
-
-    withInvoiceCurrency(invoiceCurrency: string) {
-        this.invoiceCurrency = invoiceCurrency;
-        return this;
-    }
-
-    withInvoiceAmount(invoiceAmount: number) {
-        this.invoiceAmount = invoiceAmount;
-        return this;
-    }
-
-    withInvoiceIssueDate(invoiceIssueDate: string) {
-        this.invoiceIssueDate = invoiceIssueDate;
-        return this;
-    }
-
-    withInvoiceReceivedDate(invoiceReceivedDate: string) {
-        this.invoiceReceivedDate = invoiceReceivedDate;
-        return this;
-    }
-
-    withInvoiceDescription(invoiceDescription: string) {
-        this.invoiceDescription = invoiceDescription;
-        return this;
-    }
-
-    withInvoiceFile(invoiceFile: string) {
-        this.invoiceFile = invoiceFile;
-        return this;
-    }
-
     withLatestUpdateByUser(latestUpdateByUser: string) {
         this.latestUpdateByUser = latestUpdateByUser;
         return this;
