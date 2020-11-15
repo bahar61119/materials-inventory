@@ -54,8 +54,9 @@
             let template = BaseService.getTemplate(ElementId[elementName].LIST_ROW_TEMPLATE);
 
             table.innerHTML = "";
-            results.forEach(result => {
+            results.forEach((result,index) => {
                 let tr = template.cloneNode(true);
+                tr.querySelector(`.${ElementClass.SERIAL_NUMBER}`).textContent = ""+(index+1);
                 result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
                 Object.keys(result).forEach(column => {
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
