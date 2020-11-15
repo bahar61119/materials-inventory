@@ -7,6 +7,7 @@
         }
 
         static clickEventHandler(event) {
+            this.#filterClickEventHandler(event);
             let addButton = event.target.closest(`#${ElementId.Invoices.ADD_BUTTON}`);
             let deleteButton = event.target.closest(`button.${ElementClass.Invoices.DELETE_BUTTON}`);
             let editButton = event.target.closest(`button.${ElementClass.Invoices.EDIT_BUTTON}`);
@@ -24,6 +25,40 @@
             } else if(updateCancelButton) {
                 this.updateCancel(ElementId.Invoices.INVOICE_NAME, InvoicesViewService.loadInvoiceListView);
             }
+        }
+
+        static #filterClickEventHandler(event) {
+            let filterButton = event.target.closest(`#${ElementId.Invoices.FILTER_BUTTON}`);
+            let clearButton = event.target.closest(`#${ElementId.Invoices.FILTER_CLEAR_BUTTON}`);
+
+            if(filterButton) {
+                this.#filterInvoices(filterButton);
+            } else if(clearButton) {
+                this.#filterClearInvoices(clearButton);
+            }
+        }
+
+        static #filterInvoices(filterButton) {
+            let filter = FilterInvoice.of();
+            filter.supplier = $(`#${ElementId.Invoices.FILTER_SUPPLIER}`).val();
+            filter.dateType = $(`#${ElementId.Invoices.FILTER_DATE_TYPE}`).val();
+            filter.fromDate = $(`#${ElementId.Invoices.FILTER_FROM_DATE}`).val();
+            filter.toDate = $(`#${ElementId.Invoices.FILTER_TO_DATE}`).val();
+
+            if (filter.fromDate && filter.toDate && filter.fromDate > filter.toDate) {
+                Alert.show(
+                    AlertOptions.of()
+                        .withTitle("Date Selection Error")
+                        .withMessage("'From Date' needs to be earlier than 'To Date'")
+                        .withType(AlertOptions.Type.WARNING)
+                );
+            } else {
+                InvoicesService.filterInvoices(filter);
+            }
+        }
+
+        static #filterClearInvoices(clearButton) {
+            InvoicesService.clearFilterInvoices();
         }
     }
 </script>
