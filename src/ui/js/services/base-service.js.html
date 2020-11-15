@@ -57,7 +57,8 @@
             results.forEach((result,index) => {
                 let tr = template.cloneNode(true);
                 tr.querySelector(`.${ElementClass.SERIAL_NUMBER}`).textContent = ""+(index+1);
-                result.latestUpdateTime = new Date(parseInt(result.latestUpdateTime));
+                let date = new Date(parseInt(result.latestUpdateTime));
+                result.latestUpdateTime = date.toLocaleString({ timeZone: 'UTC' });
                 Object.keys(result).forEach(column => {
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
                 });
@@ -87,10 +88,12 @@
         static initializeDataTable() {
             let table = $('#data-table').DataTable( {
                 scrollX: true,
+                fixedHeader: true,
                 fixedColumns: {
-                    leftColumns: 2,
+                    leftColumns: 1,
                     rightColumns: 2
-                }
+                },
+                select: true
             } );
         }
     }
