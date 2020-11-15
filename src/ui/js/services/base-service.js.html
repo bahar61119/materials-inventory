@@ -75,11 +75,23 @@
                 
                 table.appendChild(tr);
             });
+
+            BaseService.initializeDataTable();
         }
 
         static getTemplate(templateId) {
             let template = document.getElementById(templateId).content;
             return template.cloneNode(true);
+        }
+
+        static initializeDataTable() {
+            let table = $('#data-table').DataTable( {
+                scrollX: true,
+                fixedColumns: {
+                    leftColumns: 2,
+                    rightColumns: 2
+                }
+            } );
         }
     }
 </script>
