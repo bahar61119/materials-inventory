@@ -1,5 +1,6 @@
 <script>
     class BaseService {
+        static #dataTable = null;
         static update(entity, entityName, api, isEdit = true) {
             api(
                 entity,
@@ -48,6 +49,8 @@
         }
 
         static search(dataList, idField, nameField, elementName) {
+            BaseService.destroyDataTable();
+            
             let searchInput = document.getElementById(ElementId[elementName].LIST_SEARCH).value;
             let results = DataManipulation.filterData(searchInput, dataList);
             let table = document.getElementById(ElementId[elementName].LIST_TABLE);
@@ -90,6 +93,13 @@
                 select: true,
                 searching: false
             } );
+            BaseService.#dataTable = table;
+        }
+
+        static destroyDataTable() {
+            if(BaseService.#dataTable) {
+                BaseService.#dataTable.destroy();
+            }
         }
     }
 </script>
