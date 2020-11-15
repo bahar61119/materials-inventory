@@ -50,7 +50,7 @@
 
         static search(dataList, idField, nameField, elementName) {
             BaseService.destroyDataTable();
-            
+
             let searchInput = document.getElementById(ElementId[elementName].LIST_SEARCH).value;
             let results = DataManipulation.filterData(searchInput, dataList);
             let table = document.getElementById(ElementId[elementName].LIST_TABLE);
@@ -60,11 +60,13 @@
             results.forEach((result,index) => {
                 let tr = template.cloneNode(true);
                 tr.querySelector(`.${ElementClass.SERIAL_NUMBER}`).textContent = ""+(index+1);
-                let date = new Date(parseInt(result.latestUpdateTime));
-                result.latestUpdateTime = date.toLocaleString({ timeZone: 'UTC' });
+                
                 Object.keys(result).forEach(column => {
                     tr.querySelector(`.${column}`).textContent = result[column].toString();
                 });
+
+                let date = new Date(parseInt(result.latestUpdateTime));
+                tr.querySelector(`.latestUpdateTime`).textContent = date.toLocaleString();
 
                 let entity = JSON.stringify({
                     id: result[idField],
