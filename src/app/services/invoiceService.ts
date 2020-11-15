@@ -24,13 +24,9 @@ export class InvoiceService extends EntityService{
 
     static getInvoice(invoiceId: string) {
         let invoice: Invoice = InvoiceService.getEntity(invoiceId, SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
-        let supplier: Supplier = SupplierService.getSupplier(invoice.invoiceSupplier);
         invoice.invoiceIssueDate = InvoiceService.convertDateString(invoice.invoiceIssueDate, InvoiceService.DATE_FORMAT);
         invoice.invoiceReceivedDate = InvoiceService.convertDateString(invoice.invoiceReceivedDate, InvoiceService.DATE_FORMAT);
-        return {
-            ...invoice,
-            invoiceSupplierName: supplier.supplierName
-        };
+        return invoice;
     }
 
     static updateInvoice(invoice: Invoice): string {

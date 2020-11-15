@@ -1,11 +1,13 @@
 <script>
     class InvoicesService {
         static #invoiceList = [];
+        static #filteredInvoiceList = [];
 
         static setInvoiceListData() {
             API.getInvoiceList(
                 dataReturned => {
                     InvoicesService.#invoiceList = dataReturned.slice();
+                    InvoicesService.#filteredInvoiceList = [...InvoicesService.#invoiceList];
                     InvoicesService.search();
                     if(InvoicesService.#invoiceList.length === 0) {
                         Alert.show(
@@ -40,7 +42,7 @@
         }
 
         static search() {
-            BaseService.search(InvoicesService.#invoiceList, "invoiceId", "invoiceName", "Invoices");
+            BaseService.search(InvoicesService.#filteredInvoiceList, "invoiceId", "invoiceName", "Invoices");
         }
 
         static deleteInvoice(invoiceId) {
@@ -50,6 +52,50 @@
         static updateInvoice(isEdit = true) {
             let invoice = InvoicesService.#getInvoice(isEdit);
             BaseService.update(invoice, "Invoice", API.updateInvoice, isEdit);
+        }
+
+        static filterInvoices(filter) {
+            InvoicesService.#filteredInvoiceList = InvoicesService.#getFilteredData(filter);
+            InvoicesService.search();
+        }
+
+        static #getFilteredData(filter) {
+            let filteredData = [...InvoicesService.#invoiceList];
+            if(filter.supplier !== 'all') {
+                filteredData = filteredData.filter(invoice => invoice.invoiceSupplier === filter.supplier);
+            }
+            if(filter.fromDate) {
+                if(filter.dateType === 'all') {
+                    filteredData = filteredData.filter(invoice => {
+                        console.log("invoiceIssueDate:" + invoice.invoiceIssueDate);
+                        console.log("fromDate:" + filter.fromDate);
+                        console.log("greaterThanEqual:"+ (invoice.invoiceIssueDate >= filter.fromDate));
+                        return invoice.invoiceIssueDate >= filter.fromDate;
+                    });
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate >= filter.fromDate);
+                } else if(filter.dateType === "invoiceIssueDate") {
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate >= filter.fromDate);
+                } else {
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate >= filter.fromDate);
+                }
+            }
+            if(filter.toDate) {
+                if(filter.dateType === 'all') {
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate <= filter.toDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate <= filter.toDate);
+                } else if(filter.dateType === "invoiceIssueDate") {
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate <= filter.toDate);
+                } else {
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate <= filter.toDate);
+                }
+            }
+            return filteredData;
+        }
+
+        static clearFilterInvoices() {
+            $(`#${ElementId.Invoices.LIST_SEARCH}`).val("");
+            InvoicesService.#filteredInvoiceList = [...InvoicesService.#invoiceList];
+            InvoicesService.search();
         }
 
         static #getInvoice(isEdit = true) {

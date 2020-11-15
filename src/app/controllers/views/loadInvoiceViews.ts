@@ -9,7 +9,11 @@ import { loadView } from './loadView';
 
 function loadInvoiceListView() {
     ProfileService.validateProfile();
-    return loadView(ViewFileNames.INVOICE_LIST);
+    let suppliers = SupplierService.getSupplierList();
+    let data = {
+        suppliers
+    }
+    return loadView(ViewFileNames.INVOICE_LIST, data);
 }
 
 function loadAddInvoiceView() {
