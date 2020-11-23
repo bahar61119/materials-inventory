@@ -1,0 +1,31 @@
+<script>
+    class FileUploadViewService extends ViewService {
+        static showThumbnail(files) {
+            let fileList = document.getElementById("selected-file");
+            fileList.innerHTML = "";
+            if (files.length) {
+                let template = BaseService.getTemplate("selected-file-template")
+
+                const src = URL.createObjectURL(files[0]);
+                
+                const img = template.querySelector("img");
+                img.setAttribute("src", src);
+                img.setAttribute("onload", () => URL.revokeObjectURL(src));
+
+                const info = template.querySelector("p");
+                info.innerHTML = "Size: " + FileUploadViewService.getFileSizeText(files[0].size);
+                
+                fileList.appendChild(template);
+            }
+        }
+
+        static getFileSizeText(size) {
+            let output = size + " Bytes";
+            const multiples = ["KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+            for (let multiple = 0, approx = size / 1024; approx > 1; approx /= 1024, multiple++) {
+                output = approx.toFixed(3) + " " + multiples[multiple] + " (" + size + " bytes)";
+            }
+            return output;
+        }
+    }
+</script>

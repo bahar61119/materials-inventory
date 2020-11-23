@@ -1,6 +1,6 @@
 <form class="container edit-invoice-form novalidate">
     <div class="row">
-        <div class="col-md-8 offset-md-2">
+        <div class="col-md-12">
             <h1 class="text-center">
                 <? if(data.isEdit) { ?>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -179,14 +179,31 @@
             </div>
 
             <div class="form-group">
-                <label for="invoice-file" class="control-label h5">Invoice File</label>
-                <input type="text" class="form-control" id="invoice-file" value=<?= data.invoice.invoiceFile ?> >
-                <div class="valid-feedback">
-                    Looks good!
+                <label for="invoice-file" class="control-label h5">Invoice Receipt</label>
+                <div class="row" id="invoice-file-block">
+                    <? if (!data.invoice.invoiceFile) { ?>
+                        <div class="col-10">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="invoice-file" aria-describedby="invoice-file">
+                                <label class="custom-file-label" for="invoice-file">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-outline-success btn-block" id="upload-file-button">Upload</button>
+                        </div>
+                    <? } ?>
+                    <? if (data.invoice.invoiceFile) { ?>
+                        <div class="col-10">
+                            <a href=<?= `https://drive.google.com/file/d/${data.invoice.invoiceFile}/view` ?> target="_blank">
+                                <img src=<?= `https://drive.google.com/uc?export=view&id=${data.invoice.invoiceFile}` ?> alt="..." class="rounded img-fluid img-thumbnail">
+                            </a>
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-outline-danger btn-block" id="remove-file-button">Remove</button>
+                        </div>
+                    <? } ?>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid invoice file.
-                </div>
+                <div id="selected-file" class="row mt-2"></div>
             </div>
 
             <div class="row">
@@ -202,4 +219,34 @@
     </div>
   
 </form>
+
+<template id="show-file-template">
+    <div class="col-10">
+        <a href="https://drive.google.com/file/d/1Ma693ZNsz00G7w_XFac9nhX_TRIjihOe/view" target="_blank">
+            <img src="https://drive.google.com/uc?export=view&id=1Ma693ZNsz00G7w_XFac9nhX_TRIjihOe" alt="..." class="rounded img-fluid img-thumbnail">
+        </a>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-outline-danger btn-block" id="remove-file-button">Remove</button>
+    </div>
+</template>
+<template id="upload-file-template">
+    <div class="col-10">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="invoice-file" aria-describedby="invoice-file">
+            <label class="custom-file-label" for="invoice-file">Choose file</label>
+        </div>
+    </div>
+    <div class="col-2">
+        <button type="button" class="btn btn-outline-success btn-block" id="upload-file-button">Upload</button>
+    </div>
+</template>
+<template id="selected-file-template">
+    <div class="col-10">
+        <img src="" alt="..." class="rounded img-fluid img-thumbnail">
+    </div>
+    <div class="col-2">
+        <p class="h5 text-warning"></p>
+    </div>
+</template>
 

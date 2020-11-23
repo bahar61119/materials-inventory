@@ -4,6 +4,10 @@
             if(event.target.matches(`#${ElementId.Invoices.LIST_SEARCH}`)) {
                 InvoicesService.search(); 
             }
+
+            if(event.target.matches(`#invoice-file`)) {
+                FileUploadViewService.showThumbnail(event.target.files); 
+            }
         }
 
         static clickEventHandler(event) {
