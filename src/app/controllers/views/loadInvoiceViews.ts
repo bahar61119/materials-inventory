@@ -32,6 +32,7 @@ function loadAddInvoiceView() {
 function loadEditInvoiceView(invoiceId: string) {
     ProfileService.validateProfile();
     let invoice = InvoiceService.getInvoice(String(invoiceId));
+    invoice.invoiceFile = "1Ma693ZNsz00G7w_XFac9nhX_TRIjihOe";
     let suppliers = SupplierService.getSupplierList();
     let currencies = SettingsService.getList(ApplicationDBKeys.CURRENCIES);
     let data = {

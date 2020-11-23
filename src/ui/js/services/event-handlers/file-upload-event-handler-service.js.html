@@ -1,0 +1,13 @@
+<script>
+    class FileUploadEventHandlerService {
+        static inputEventHandler() {
+            $('input[type="file"]').change(function(e){
+                if (e.target.files.length) {
+                    $('.custom-file-label').html(e.target.files[0].name);
+                } else {
+                    $('.custom-file-label').html("Choose file");
+                }
+            });
+        }
+    }
+</script>
