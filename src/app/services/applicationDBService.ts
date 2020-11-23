@@ -6,6 +6,8 @@ import { Item } from '../models/itemModel';
 import { Payment } from '../models/paymentModel';
 import { Supplier } from '../models/supplierModel';
 import { SheetMetadata } from '../models/sheetMetadata';
+import { FolderNames } from '../constants/driveConstants';
+import { Drive } from '../db/drive';
 
 export class ApplicationDBService {
     static prepareDatabase() {
@@ -15,6 +17,20 @@ export class ApplicationDBService {
         ApplicationDBService.prepareInvoicesSheet();
         ApplicationDBService.prepareEntriesSheet();
         ApplicationDBService.preparePaymentsSheet();
+        ApplicationDBService.prepareFolders();
+    }
+
+    private static prepareFolders() {
+        ApplicationDBService.prepareFolder(FolderNames.ROOT);
+        ApplicationDBService.prepareFolder(FolderNames.INVOICES, FolderNames.ROOT);
+        ApplicationDBService.prepareFolder(FolderNames.PAYMENTS, FolderNames.ROOT);
+    }
+
+    private static prepareFolder(folder: FolderNames, parentFolder: FolderNames | null = null) {
+        if(!Drive.doesFolderExist(folder)) {
+            let folderId = Drive.createFolder(folder, parentFolder);
+            Drive.saveFolderId(folderId, folder);
+        }
     }
 
     static prepareSpreadsheet() {

@@ -115,3 +115,17 @@ export class ItemsErrorMessage extends ErrorMessage {
         return `Deleting item failed`;
     }
 }
+
+export class DriveErrorMessage extends ErrorMessage {
+    static get invalidFolder() {
+        return "Invalid Folder";
+    }
+
+    static get folderNotFound() {
+        return "Folder not found";
+    }
+
+    static folderNotFoundWith(folderId: string) {
+        return `Folder with id ${folderId} not found`;
+    }
+}
