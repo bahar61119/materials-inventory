@@ -1,0 +1,43 @@
+<script>
+    class FileService {
+        static uploadFile(file, successCallback) {
+            let reader = FileService.#getFileReader(file, successCallback);
+            reader.readAsDataURL(file);
+        }
+
+        static #getFileReader(file, successCallback) {
+            let reader = new FileReader();
+            reader.onloadend = event => {
+                let fileUploadRequest = {
+                    fileName: file.name,
+                    fileSize: file.size,
+                    fileType: file.type,
+                    fileData: event.target.result
+                }
+
+                API.uploadFile(
+                    fileUploadRequest,
+                    fileId => {
+                        successCallback(fileId);
+                        Alert.show(
+                                AlertOptions.of()
+                                    .withTitle("File Upload")
+                                    .withMessage("File uploaded successfully: "+fileId)
+                                    .withType(AlertOptions.Type.SUCCESS)
+                        );
+                    },
+                    error => {
+                        console.error(error);
+                        Alert.show(
+                            AlertOptions.of()
+                                .withTitle("File Upload Error")
+                                .withMessage(error.message)
+                                .withType(AlertOptions.Type.DANGER)
+                        );
+                    }
+                );
+            };
+            return reader;
+        }
+    }
+</script>

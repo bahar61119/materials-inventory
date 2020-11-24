@@ -2,6 +2,7 @@ import { ApplicationDBKeys } from '../constants/applicationDBKeys';
 import { FolderNames } from '../constants/driveConstants';
 import { DriveErrorMessage } from '../constants/errorMessages';
 import { DriveError } from '../errors/driveError';
+import { File } from '../models/fileModel';
 import { DB } from './db';
 
 export class Drive {
@@ -41,15 +42,15 @@ export class Drive {
         return driveFolder.getId();
     }
 
-    static saveFile(fileName: string, fileData: any, folder: FolderNames): string {
+    static saveFile(file: File, folder: FolderNames): string {
         try {
             let folderId = Drive.getFolderId(folder);
             let driveFolder = DriveApp.getFolderById(folderId);
-            let contentType = fileData.substring(5, fileData.indexOf(';'));
-            let bytes = Utilities.base64Decode(fileData.substr(fileData.indexOf('base64,') + 7));
-            let blob = Utilities.newBlob(bytes, contentType, fileName);
-            let file = driveFolder.createFile(blob);
-            return file.getId();
+            let contentType = file.fileData.substring(5, file.fileData.indexOf(';'));
+            let bytes = Utilities.base64Decode(file.fileData.substr(file.fileData.indexOf('base64,') + 7));
+            let blob = Utilities.newBlob(bytes, contentType, file.fileName);
+            let driveFile = driveFolder.createFile(blob);
+            return driveFile.getId();
         } catch (error) {
             console.error(error);
             throw new DriveError(error.toString());
@@ -67,6 +68,9 @@ export class Drive {
                 break;
             case FolderNames.PAYMENTS:
                 folderKey = ApplicationDBKeys.PAYMENTS_FOLDER_ID;
+                break;
+            case FolderNames.TEMP:
+                folderKey = ApplicationDBKeys.TEMP_FOLDER_ID;
                 break;
             default:
                 throw new DriveError(DriveErrorMessage.invalidFolder);

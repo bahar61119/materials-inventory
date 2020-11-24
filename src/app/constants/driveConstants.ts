@@ -1,5 +1,6 @@
 export enum FolderNames {
     ROOT = "MaterialInventory",
     INVOICES = "Invoices",
-    PAYMENTS = "Payments"
+    PAYMENTS = "Payments",
+    TEMP = "Temp"
 }

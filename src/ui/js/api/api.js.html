@@ -76,7 +76,10 @@
                 loadAddPaymentView: "loadAddPaymentView",
                 loadEditPaymentView: "loadEditPaymentView",
                 updatePayment: "updatePayment",
-                deletePayment: "deletePayment"
+                deletePayment: "deletePayment",
+
+                // Files
+                uploadFile: "uploadFile"
             }
         }
 
@@ -477,6 +480,15 @@
             API.call(
                 APIOptions.of(API.NAME.updatePayment)
                 .withData(payment)
+                .withSuccess(successHandler)
+                .withFailure(failureHandler)
+            );
+        }
+
+        static uploadFile(file, successHandler = ()=>{}, failureHandler = ()=>{}) {
+            API.call(
+                APIOptions.of(API.NAME.uploadFile)
+                .withData(file)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );
