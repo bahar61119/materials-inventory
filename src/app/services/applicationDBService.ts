@@ -24,6 +24,7 @@ export class ApplicationDBService {
         ApplicationDBService.prepareFolder(FolderNames.ROOT);
         ApplicationDBService.prepareFolder(FolderNames.INVOICES, FolderNames.ROOT);
         ApplicationDBService.prepareFolder(FolderNames.PAYMENTS, FolderNames.ROOT);
+        ApplicationDBService.prepareFolder(FolderNames.TEMP, FolderNames.ROOT);
     }
 
     private static prepareFolder(folder: FolderNames, parentFolder: FolderNames | null = null) {

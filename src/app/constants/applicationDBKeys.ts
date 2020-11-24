@@ -5,6 +5,7 @@ export enum ApplicationDBKeys {
     ROOT_FOLDER_ID = "rootFolderId",
     INVOICES_FOLDER_ID = "invoicesFolderId",
     PAYMENTS_FOLDER_ID = "paymentsFolderId",
+    TEMP_FOLDER_ID = "tempFolderId",
     AUTHORIZED_USERS = "settingsAuthorizedUsers",
     CURRENCIES = "settingsCurrencies",
     PRODUCT_STATUS = "settingsProductStatus",

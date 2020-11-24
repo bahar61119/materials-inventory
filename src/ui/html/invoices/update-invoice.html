@@ -182,28 +182,34 @@
                 <label for="invoice-file" class="control-label h5">Invoice Receipt</label>
                 <div class="row" id="invoice-file-block">
                     <? if (!data.invoice.invoiceFile) { ?>
-                        <div class="col-10">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="invoice-file" aria-describedby="invoice-file">
-                                <label class="custom-file-label" for="invoice-file">Choose file</label>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="custom-file">
+                                        <input type="file" accept="image/*, application/pdf" class="custom-file-input" id="invoice-file-upload" aria-describedby="invoice-file-upload">
+                                        <label class="custom-file-label" for="invoice-file-upload">Choose file</label>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-outline-success btn-block" id="invoice-file-upload-button">Upload</button>
+                                </div>
                             </div>
                         </div>
-                        <div class="col-2">
-                            <button type="button" class="btn btn-outline-success btn-block" id="upload-file-button">Upload</button>
+                        <div class="col-12">
+                            <div id="selected-file" class="row mt-2"></div>
                         </div>
                     <? } ?>
                     <? if (data.invoice.invoiceFile) { ?>
                         <div class="col-10">
                             <a href=<?= `https://drive.google.com/file/d/${data.invoice.invoiceFile}/view` ?> target="_blank">
-                                <img src=<?= `https://drive.google.com/uc?export=view&id=${data.invoice.invoiceFile}` ?> alt="..." class="rounded img-fluid img-thumbnail">
+                                <img id="invoice-file" data-invoice-file=<?= data.invoice.invoiceFile ?> src=<?= `https://drive.google.com/uc?export=view&id=${data.invoice.invoiceFile}` ?> alt="..." class="rounded img-fluid img-thumbnail">
                             </a>
                         </div>
                         <div class="col-2">
-                            <button type="button" class="btn btn-outline-danger btn-block" id="remove-file-button">Remove</button>
+                            <button type="button" class="btn btn-outline-danger btn-block" id="invoice-file-remove-button" data-invoice-file=<?= data.invoice.invoiceFile ?> >Remove</button>
                         </div>
                     <? } ?>
                 </div>
-                <div id="selected-file" class="row mt-2"></div>
             </div>
 
             <div class="row">
@@ -220,25 +226,30 @@
   
 </form>
 
-<template id="show-file-template">
+<template id="file-show-template">
     <div class="col-10">
-        <a href="https://drive.google.com/file/d/1Ma693ZNsz00G7w_XFac9nhX_TRIjihOe/view" target="_blank">
-            <img src="https://drive.google.com/uc?export=view&id=1Ma693ZNsz00G7w_XFac9nhX_TRIjihOe" alt="..." class="rounded img-fluid img-thumbnail">
+        <a href="" target="_blank">
+            <img id="invoice-file" data-invoice-file="" src="" alt="..." class="rounded img-fluid img-thumbnail">
         </a>
     </div>
     <div class="col-2">
-        <button type="button" class="btn btn-outline-danger btn-block" id="remove-file-button">Remove</button>
+        <button type="button" class="btn btn-outline-danger btn-block" id="invoice-file-remove-button" data-invoice-file="" >Remove</button>
     </div>
 </template>
-<template id="upload-file-template">
-    <div class="col-10">
-        <div class="custom-file">
-            <input type="file" class="custom-file-input" id="invoice-file" aria-describedby="invoice-file">
-            <label class="custom-file-label" for="invoice-file">Choose file</label>
+<template id="file-upload-template">
+    <div class="row">
+        <div class="col-10">
+            <div class="custom-file">
+                <input type="file" accept="image/*, application/pdf" class="custom-file-input" id="invoice-file-upload" aria-describedby="invoice-file-upload">
+                <label class="custom-file-label" for="invoice-file-upload">Choose file</label>
+            </div>
+        </div>
+        <div class="col-2">
+            <button type="button" class="btn btn-outline-success btn-block" id="invoice-file-upload-button">Upload</button>
         </div>
     </div>
-    <div class="col-2">
-        <button type="button" class="btn btn-outline-success btn-block" id="upload-file-button">Upload</button>
+    <div class=row>
+        <div id="selected-file" class="row mt-2"></div>
     </div>
 </template>
 <template id="selected-file-template">

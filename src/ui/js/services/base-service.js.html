@@ -103,5 +103,25 @@
                 BaseService.#dataTable.destroy();
             }
         }
+
+        static fileUploadSuccess(fileId, elementName) {
+            let fileBlock = document.getElementById(ElementId[elementName].FILE_BLOCK);
+            let showFile = BaseService.getTemplate(ElementId[elementName].FILE_SHOW_TEMPLATE);
+            console.log(showFile);
+
+            let link = showFile.querySelector("a");
+            console.log(link);
+            link.setAttribute("href", "https://drive.google.com/file/d/"+fileId+"/view");
+
+            let image = showFile.querySelector("img");
+            image.setAttribute("data-invoice-file", fileId);
+            image.setAttribute("src", "https://drive.google.com/uc?export=view&id="+fileId);
+
+            let removeButton = showFile.querySelector("button");
+            removeButton.setAttribute("data-invoice-file", fileId);
+
+            fileBlock.innerHTML = "";
+            fileBlock.appendChild(showFile);
+        }
     }
 </script>

@@ -111,5 +111,9 @@
                 .withInvoiceDescription($(`#${ElementId.Invoices.INVOICE_DESCRIPTION}`).val())
                 .withInvoiceFile($(`#${ElementId.Invoices.INVOICE_FILE}`).val())
         }
+
+        static fileUploadSuccess(fileId) {
+            BaseService.fileUploadSuccess(fileId, "Invoices");
+        }
     }
 </script>

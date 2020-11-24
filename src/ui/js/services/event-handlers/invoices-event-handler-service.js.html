@@ -5,7 +5,7 @@
                 InvoicesService.search(); 
             }
 
-            if(event.target.matches(`#invoice-file`)) {
+            if(event.target.matches(`#${ElementId.Invoices.INVOICE_FILE_UPLOAD}`)) {
                 FileUploadViewService.showThumbnail(event.target.files); 
             }
         }
@@ -17,6 +17,8 @@
             let editButton = event.target.closest(`button.${ElementClass.Invoices.EDIT_BUTTON}`);
             let updateCancelButton = event.target.closest(`#${ElementId.Invoices.CANCEL_UPDATE_BUTTON}`);
             let updateButton = event.target.closest(`#${ElementId.Invoices.UPDATE_BUTTON}`);
+            let fileUploadButton = event.target.closest(`#${ElementId.Invoices.FILE_UPLOAD_BUTTON}`);
+            let fileRemoveButton = event.target.closest(`#${ElementId.Invoices.FILE_REMOVE_BUTTON}`);
 
             if(addButton) {
                 InvoicesViewService.loadAddInvoiceView();
@@ -28,6 +30,10 @@
                 this.update(updateButton, ElementClass.Invoices.EDIT_FORM, ElementId.Invoices.INVOICE_NAME, InvoicesService.updateInvoice);
             } else if(updateCancelButton) {
                 this.updateCancel(ElementId.Invoices.INVOICE_NAME, InvoicesViewService.loadInvoiceListView);
+            } else if(fileUploadButton) {
+                this.fileUpload(fileUploadButton);
+            } else if(fileRemoveButton) {
+                this.fileRemove(fileRemoveButton);
             }
         }
 
@@ -63,6 +69,30 @@
 
         static #filterClearInvoices(clearButton) {
             InvoicesService.clearFilterInvoices();
+        }
+
+        static fileUpload(fileUploadButton) {
+            let files = $(`#${ElementId.Invoices.INVOICE_FILE_UPLOAD}`)[0].files;
+            if(!files.length) {
+                Alert.show(
+                    AlertOptions.of()
+                        .withTitle("File Upload Error")
+                        .withMessage("Please select a file first.")
+                        .withType(AlertOptions.Type.DANGER)
+                );
+            } else {
+                let file = files[0];
+                let options = ConfirmationModalOptions.of()
+                            .withTitle("File Upload")
+                            .withMessage(`Are you sure you want to upload file ${file.name}?`)
+                            .withCallback(()=>FileService.uploadFile(file, InvoicesService.fileUploadSuccess))
+                            .withType(ConfirmationModalOptions.Type.WARNING);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static fileRemove(fileRemoveButton) {
+
         }
     }
 </script>
