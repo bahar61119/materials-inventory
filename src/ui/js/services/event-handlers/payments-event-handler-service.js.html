@@ -7,6 +7,7 @@
         }
 
         static clickEventHandler(event) {
+            this.#filterClickEventHandler(event);
             let addButton = event.target.closest(`#${ElementId.Payments.ADD_BUTTON}`);
             let deleteButton = event.target.closest(`button.${ElementClass.Payments.DELETE_BUTTON}`);
             let editButton = event.target.closest(`button.${ElementClass.Payments.EDIT_BUTTON}`);
@@ -24,6 +25,41 @@
             } else if(updateCancelButton) {
                 this.updateCancel(ElementId.Payments.ENTRY_ITEM, PaymentsViewService.loadPaymentListView);
             }
+        }
+
+        static #filterClickEventHandler(event) {
+            let filterButton = event.target.closest(`#${ElementId.Payments.FILTER_BUTTON}`);
+            let clearButton = event.target.closest(`#${ElementId.Payments.FILTER_CLEAR_BUTTON}`);
+
+            if(filterButton) {
+                this.#filter(filterButton);
+            } else if(clearButton) {
+                this.#filterClear(clearButton);
+            }
+        }
+
+        static #filter(filterButton) {
+            let filter = FilterPayment.of();
+            filter.supplier = $(`#${ElementId.Payments.FILTER_SUPPLIER}`).val();
+            filter.dateType = $(`#${ElementId.Payments.FILTER_DATE_TYPE}`).val();
+            filter.fromDate = $(`#${ElementId.Payments.FILTER_FROM_DATE}`).val();
+            filter.toDate = $(`#${ElementId.Payments.FILTER_TO_DATE}`).val();
+            filter.paymentStatus = $(`#${ElementId.Payments.FILTER_PAYMENT_STATUS}`).val();
+
+            if (filter.fromDate && filter.toDate && filter.fromDate > filter.toDate) {
+                Alert.show(
+                    AlertOptions.of()
+                        .withTitle("Date Selection Error")
+                        .withMessage("'From Date' needs to be earlier than 'To Date'")
+                        .withType(AlertOptions.Type.WARNING)
+                );
+            } else {
+                PaymentsService.filter(filter);
+            }
+        }
+
+        static #filterClear(clearButton) {
+            PaymentsService.clearFilter();
         }
     }
 </script>

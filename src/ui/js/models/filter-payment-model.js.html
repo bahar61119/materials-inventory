@@ -1,0 +1,25 @@
+<script>
+    class FilterPayment {
+        supplier;
+        dateType;
+        fromDate;
+        toDate;
+        paymentStatus;
+
+        constructor() {
+            this.supplier = '';
+            this.dateType = '';
+            this.fromDate = '';
+            this.toDate = '';
+            this.paymentStatus = '';
+        }
+
+        static of() {
+            return new FilterInvoice();
+        }
+
+        static from(filterData) {
+            return Object.assign(new FilterInvoice, filterData);
+        }
+    }
+</script>

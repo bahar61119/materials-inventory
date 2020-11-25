@@ -24,7 +24,7 @@ export class InvoiceService extends EntityService{
             }
             return {
                 ...invoice,
-                invoiceSupplierName: supplier.supplierName,
+                invoiceSupplierName: supplier? supplier.supplierName: '',
                 invoiceFileName
             }
         });
