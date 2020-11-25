@@ -42,7 +42,7 @@
         }
 
         static search() {
-            BaseService.search(InvoicesService.#filteredInvoiceList, "invoiceId", "invoiceName", "Invoices");
+            BaseService.search(InvoicesService.#filteredInvoiceList, "invoiceId", "invoiceName", "Invoices", "invoiceFile", "invoiceFileName");
         }
 
         static deleteInvoice(invoiceId) {
@@ -109,11 +109,23 @@
                 .withInvoiceIssueDate($(`#${ElementId.Invoices.INVOICE_ISSUE_DATE}`).val())
                 .withInvoiceReceivedDate($(`#${ElementId.Invoices.INVOICE_RECEIVED_DATE}`).val())
                 .withInvoiceDescription($(`#${ElementId.Invoices.INVOICE_DESCRIPTION}`).val())
-                .withInvoiceFile($(`#${ElementId.Invoices.INVOICE_FILE}`).val())
+                .withInvoiceFile(InvoicesService.#getInvoiceFile())
+        }
+
+        static #getInvoiceFile() {
+            let invoiceFileElement = $(`#${ElementId.Invoices.INVOICE_FILE}`);
+            if (invoiceFileElement.length) {
+                return invoiceFileElement[0].dataset.invoiceFile;
+            }
+            return "";
         }
 
         static fileUploadSuccess(fileId) {
             BaseService.fileUploadSuccess(fileId, "Invoices");
+        }
+
+        static fileRemoveSuccess(fileId) {
+            BaseService.fileRemoveSuccess(fileId, "Invoices");
         }
     }
 </script>

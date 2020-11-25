@@ -27,7 +27,7 @@
             } else if(editButton) {
                 this.edit(editButton, InvoicesViewService.loadEditInvoiceView)
             } else if(updateButton) {
-                this.update(updateButton, ElementClass.Invoices.EDIT_FORM, ElementId.Invoices.INVOICE_NAME, InvoicesService.updateInvoice);
+                this.#updateInvoice(updateButton);
             } else if(updateCancelButton) {
                 this.updateCancel(ElementId.Invoices.INVOICE_NAME, InvoicesViewService.loadInvoiceListView);
             } else if(fileUploadButton) {
@@ -91,8 +91,35 @@
             }
         }
 
-        static fileRemove(fileRemoveButton) {
+        static #updateInvoice(updateButton) {
+            let fileUploadElement = $(`#${ElementId.Invoices.INVOICE_FILE_UPLOAD}`);
+            let update = true;
+            if (fileUploadElement && fileUploadElement.length) {
+                let files = $(`#${ElementId.Invoices.INVOICE_FILE_UPLOAD}`)[0].files;
+                if(files.length) {
+                    update = false;
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Update Error")
+                            .withMessage("Please upload the selected file first")
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            }
 
+            if (update) {
+                this.update(updateButton, ElementClass.Invoices.EDIT_FORM, ElementId.Invoices.INVOICE_NAME, InvoicesService.updateInvoice);
+            }
+        }
+
+        static fileRemove(fileRemoveButton) {
+            let fileId = fileRemoveButton.dataset.invoiceFile;
+            let options = ConfirmationModalOptions.of()
+                        .withTitle("File Remove")
+                        .withMessage(`Are you sure you want to remove file?`)
+                        .withCallback(()=>InvoicesService.fileRemoveSuccess(fileId))
+                        .withType(ConfirmationModalOptions.Type.DANGER);
+            ConfirmationModal.show(options);
         }
     }
 </script>

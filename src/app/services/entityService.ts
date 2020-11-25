@@ -72,7 +72,7 @@ export class EntityService {
             .findIndex(condition);
         
         if(index === -1) {
-        throw new Error(ErrorMessage.entityNotFound(entityName));
+            throw new Error(ErrorMessage.entityNotFound(entityName));
         }
 
         return index;
