@@ -1,99 +1,241 @@
 <form class="container edit-payment-form novalidate">
     <div class="row">
-        <div class="shadow p-3 mb-5 bg-light rounded col-md-6 offset-md-3">
-            <h3 class="text-center">
+        <div class="col-md-10 offset-md-1">
+            <h1 class="text-center">
                 <? if(data.isEdit) { ?>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
                     </svg>
-                    <p>Edit Payment</p>
+                    Update Payment
                 <? } else { ?>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M8 5a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6 5c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10zM13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
                     </svg>
-                    <p>Add Payment</p>
+                    Add Payment
                 <? } ?>
-            </h3>
+            </h1>
+            <hr/>
 
             <? if(data.isEdit) { ?>
             <div class="form-group">
-                <label for="payment-id">Payment ID</label>
+                <label for="payment-id" class="control-label h5">Payment ID</label>
                 <input type="text" class="form-control" disabled id="payment-id" value=<?= data.payment.paymentId ?> >
             </div>
             <? } ?>
-            <div class="form-group required">
-                <label for="payment-invoice" class="control-label">Invoice</label>
-                <input type="text" class="form-control" id="payment-invoice" required value=<?= data.payment.paymentInvoice ?> >
-                <div class="valid-feedback">
-                    Looks good!
+
+            <div class="row">
+                <div class="form-group required col">
+                    <div class="row justify-content-between">
+                        <div class="col-6">
+                            <label for="payment-invoice" class="control-label h5">Invoice</label>
+                        </div>
+                        <div class="col-6 text-right">
+                            <? if (data.invoices.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add supplier from Invoices">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.invoices.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No supplier found. Please add a invoice from Invoices">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="payment-invoice" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const invoiceIndex in data.invoices) { ?>
+                            <option
+                                <? if(data.invoices[invoiceIndex].invoiceId === data.payment.paymentInvoice ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.invoices[invoiceIndex].invoiceId ?>
+                            ><?= data.invoices[invoiceIndex].invoiceName+" ("+data.invoices[invoiceIndex].invoiceId+")" ?></option>
+                        <? } ?>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid invoice.
+                    </div>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid invoice.
+                <div class="form-group required col">
+                    <div class="row justify-content-between">
+                        <div class="col-6">
+                            <label for="payment-supplier" class="control-label h5">Supplier</label>
+                        </div>
+                        <div class="col-6 text-right">
+                            <? if (data.suppliers.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add supplier from Suppliers">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.suppliers.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No supplier found. Please add a supplier from Suppliers">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="payment-supplier" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const supplierIndex in data.suppliers) { ?>
+                            <option
+                                <? if(data.suppliers[supplierIndex].supplierId === data.payment.paymentSupplier ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.suppliers[supplierIndex].supplierId ?>
+                            ><?= data.suppliers[supplierIndex].supplierName+" ("+data.suppliers[supplierIndex].supplierId+")" ?></option>
+                        <? } ?>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid supplier.
+                    </div>
                 </div>
             </div>
-            <div class="form-group required">
-                <label for="payment-supplier" class="control-label">Supplier</label>
-                <input type="text" class="form-control" id="payment-supplier" required value=<?= data.payment.paymentSupplier ?> >
-                <div class="valid-feedback">
-                    Looks good!
+            <div class="row">
+                <div class="form-group required col">
+                    <div class="row justify-content-between">
+                        <div class="col-10">
+                            <label for="payment-method" class="control-label h5">Payment Method</label>
+                        </div>
+                        <div class="col-2 text-right">
+                            <? if (data.paymentMethods.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add payment method from settings">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.paymentMethods.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No payment method found. Please add a payment method from settings">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="payment-method" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const paymentMethodIndex in data.paymentMethods) { ?>
+                            <option
+                                <? if(data.paymentMethods[paymentMethodIndex] === data.payment.paymentMethod ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.paymentMethods[paymentMethodIndex] ?>
+                            ><?= data.paymentMethods[paymentMethodIndex] ?></option>
+                        <? } ?>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid payment method.
+                    </div>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid supplier.
+                <div class="form-group required col">
+                    <div class="row justify-content-between">
+                        <div class="col-10">
+                            <label for="payment-status" class="control-label h5">Status</label>
+                        </div>
+                        <div class="col-2 text-right">
+                            <? if (data.paymentStatuses.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add payment status from settings">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.paymentStatuses.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No payment status found. Please add a payment status from settings">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="payment-status" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const paymentStatusIndex in data.paymentStatuses) { ?>
+                            <option
+                                <? if(data.paymentStatuses[paymentStatusIndex] === data.payment.paymentStatus ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.paymentStatuses[paymentStatusIndex] ?>
+                            ><?= data.paymentStatuses[paymentStatusIndex] ?></option>
+                        <? } ?>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid payment status.
+                    </div>
                 </div>
             </div>
-            <div class="form-group required">
-                <label for="payment-method" class="control-label">Payment Method</label>
-                <input type="text" class="form-control" id="payment-method" required value=<?= data.payment.paymentMethod ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid payment method.
-                </div>
-            </div>
-            <div class="form-group required">
-                <label for="payment-amount" class="control-label">Amount</label>
-                <input type="number" class="form-control" id="payment-amount" required min="1" value=<?= data.payment.paymentAmount ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid amount.
+            <div class="row">
+                <div class="form-group required col">
+                    <label for="payment-amount" class="control-label h5">Amount</label>
+                    <input type="number" class="form-control" id="payment-amount" required min="1" value=<?= data.payment.paymentAmount ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid amount.
+                    </div>
                 </div>
             </div>
-            <div class="form-group required">
-                <label for="payment-status" class="control-label">Status</label>
-                <input type="text" class="form-control" id="payment-status" required value=<?= data.payment.paymentStatus ?> >
-                <div class="valid-feedback">
-                    Looks good!
+            <div class="row">
+                <div class="form-group required col">
+                    <label for="payment-due-date" class="control-label h5">Due Date</label>
+                    <input type="date" class="form-control" id="payment-due-date" required value=<?= data.payment.paymentDueDate ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid due date.
+                    </div>
                 </div>
-                <div class="invalid-feedback">
-                    Please provide a valid payment status.
-                </div>
-            </div>
-            <div class="form-group required">
-                <label for="payment-due-date" class="control-label">Due Date</label>
-                <input type="date" class="form-control" id="payment-due-date" required value=<?= data.payment.paymentDueDate ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid due date.
-                </div>
-            </div>
-            <div class="form-group required">
-                <label for="payment-date" class="control-label">Payment Date</label>
-                <input type="date" class="form-control" id="payment-date" required value=<?= data.payment.paymentDate ?> >
-                <div class="valid-feedback">
-                    Looks good!
-                </div>
-                <div class="invalid-feedback">
-                    Please provide a valid payment date.
+                <div class="form-group required col">
+                    <label for="payment-date" class="control-label h5">Payment Date</label>
+                    <input type="date" class="form-control" id="payment-date" required value=<?= data.payment.paymentDate ?> >
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please provide a valid payment date.
+                    </div>
                 </div>
             </div>
             <div class="form-group">
-                <label for="payment-description" class="control-label">Description</label>
+                <label for="payment-description" class="control-label h5">Description</label>
                 <textarea class="form-control" id="payment-description" rows="3"><?= data.payment.paymentDescription ?></textarea>
                 <div class="valid-feedback">
                     Looks good!
@@ -103,7 +245,7 @@
                 </div>
             </div>
             <div class="form-group required">
-                <label for="payment-file" class="control-label">Payment Reference</label>
+                <label for="payment-file" class="control-label h5">Payment Receipt</label>
                 <input type="text" class="form-control" id="payment-file" required value=<?= data.payment.paymentFile ?> >
                 <div class="valid-feedback">
                     Looks good!
@@ -120,6 +262,7 @@
                     <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="cancel-update-payment-button">Cancel</button>
                 </div>
             </div>
+            <br/>
         </div>
     </div>
   
