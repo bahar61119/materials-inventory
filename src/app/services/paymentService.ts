@@ -1,11 +1,12 @@
+import { FolderNames } from '../constants/driveConstants';
 import { SheetConstants } from '../constants/sheetConstants';
+import { Drive } from '../db/drive';
 import { Invoice } from '../models/invoiceModel';
 import { Payment } from '../models/paymentModel';
 import { Supplier } from '../models/supplierModel';
 import { Utils } from '../utils/utils';
 import { EntityService } from './entityService';
 import { InvoiceService } from './invoiceService';
-import { SupplierService } from './supplierService';
 
 export class PaymentService extends EntityService {
     private static DATE_FORMAT = "yyyy-MM-dd";
@@ -20,10 +21,16 @@ export class PaymentService extends EntityService {
             payment.paymentDate = PaymentService.convertDateString(payment.paymentDate, PaymentService.DATE_FORMAT);
             let supplier: Supplier = supplierMap[payment.paymentSupplier];
             let invoice: Invoice = invoiceMap[payment.paymentInvoice];
+            let paymentFileName = "";
+            if (payment.paymentFile) {
+                let file = DriveApp.getFileById(payment.paymentFile);
+                paymentFileName = file.getName();
+            }
             return {
                 ...payment,
                 paymentSupplierName: supplier? supplier.supplierName: '',
-                paymentInvoiceName: invoice? invoice.invoiceName: ''
+                paymentInvoiceName: invoice? invoice.invoiceName: '',
+                paymentFileName
             }
         });
     }
@@ -36,10 +43,33 @@ export class PaymentService extends EntityService {
     }
 
     static updatePayment(payment: Payment): string {
+        let currentPaymentFile = "";
+        if (payment.paymentId) {
+            let currentInvoice: Invoice = InvoiceService.getEntity(payment.paymentId, SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
+            currentPaymentFile = currentInvoice.invoiceFile;
+        }
+        console.log("File: " + payment.paymentFile);
+        if( !currentPaymentFile && payment.paymentFile) {
+            let fileId = Drive.copyAndRemove(payment.paymentFile, FolderNames.PAYMENTS);
+            payment.paymentFile = fileId;
+        } else if(currentPaymentFile && !payment.paymentFile) {
+            Drive.removeFile(currentPaymentFile);
+            payment.paymentFile = "";
+        } else if(currentPaymentFile && payment.paymentFile && currentPaymentFile !== payment.paymentFile) {
+            let fileId = Drive.copyAndRemove(payment.paymentFile, FolderNames.PAYMENTS);
+            payment.paymentFile = fileId;
+            Drive.removeFile(currentPaymentFile);
+        }
+
         return PaymentService.updateEntity(payment, "paymentId", SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
     }
 
     static deletePayment(paymentId: string): string {
-        return PaymentService.deleteEntity(paymentId, SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
+        let currentPayment: Payment = InvoiceService.getEntity(paymentId, SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
+        PaymentService.deleteEntity(paymentId, SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
+        if(currentPayment.paymentFile) {
+            Drive.removeFile(currentPayment.paymentFile);
+        }
+        return paymentId;
     }
 }

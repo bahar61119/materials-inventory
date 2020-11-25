@@ -4,6 +4,10 @@
             if(event.target.matches(`#${ElementId.Payments.LIST_SEARCH}`)) {
                 PaymentsService.search(); 
             }
+
+            if(event.target.matches(`#${ElementId.Payments.PAYMENT_FILE_UPLOAD}`)) {
+                FileUploadViewService.showThumbnail(event.target.files); 
+            }
         }
 
         static clickEventHandler(event) {
@@ -13,6 +17,8 @@
             let editButton = event.target.closest(`button.${ElementClass.Payments.EDIT_BUTTON}`);
             let updateCancelButton = event.target.closest(`#${ElementId.Payments.CANCEL_UPDATE_BUTTON}`);
             let updateButton = event.target.closest(`#${ElementId.Payments.UPDATE_BUTTON}`);
+            let fileUploadButton = event.target.closest(`#${ElementId.Payments.FILE_UPLOAD_BUTTON}`);
+            let fileRemoveButton = event.target.closest(`#${ElementId.Payments.FILE_REMOVE_BUTTON}`);
 
             if(addButton) {
                 PaymentsViewService.loadAddPaymentView();
@@ -21,9 +27,13 @@
             } else if(editButton) {
                 this.edit(editButton, PaymentsViewService.loadEditPaymentView)
             } else if(updateButton) {
-                this.update(updateButton, ElementClass.Payments.EDIT_FORM, "", PaymentsService.updatePayment);
+                this.#updatePayment(updateButton);
             } else if(updateCancelButton) {
                 this.updateCancel('', PaymentsViewService.loadPaymentListView);
+            } else if(fileUploadButton) {
+                this.fileUpload(fileUploadButton);
+            } else if(fileRemoveButton) {
+                this.fileRemove(fileRemoveButton);
             }
         }
 
@@ -60,6 +70,57 @@
 
         static #filterClear(clearButton) {
             PaymentsService.clearFilter();
+        }
+
+        static fileUpload(fileUploadButton) {
+            let files = $(`#${ElementId.Payments.PAYMENT_FILE_UPLOAD}`)[0].files;
+            if(!files.length) {
+                Alert.show(
+                    AlertOptions.of()
+                        .withTitle("File Upload Error")
+                        .withMessage("Please select a file first.")
+                        .withType(AlertOptions.Type.DANGER)
+                );
+            } else {
+                let file = files[0];
+                let options = ConfirmationModalOptions.of()
+                            .withTitle("File Upload")
+                            .withMessage(`Are you sure you want to upload file ${file.name}?`)
+                            .withCallback(()=>FileService.uploadFile(file, PaymentsService.fileUploadSuccess))
+                            .withType(ConfirmationModalOptions.Type.WARNING);
+                ConfirmationModal.show(options);
+            }
+        }
+
+        static fileRemove(fileRemoveButton) {
+            let fileId = fileRemoveButton.dataset.paymentFile;
+            let options = ConfirmationModalOptions.of()
+                        .withTitle("File Remove")
+                        .withMessage(`Are you sure you want to remove file?`)
+                        .withCallback(()=>PaymentsService.fileRemoveSuccess(fileId))
+                        .withType(ConfirmationModalOptions.Type.DANGER);
+            ConfirmationModal.show(options);
+        }
+
+        static #updatePayment(updateButton) {
+            let fileUploadElement = $(`#${ElementId.Payments.PAYMENT_FILE_UPLOAD}`);
+            let update = true;
+            if (fileUploadElement && fileUploadElement.length) {
+                let files = fileUploadElement[0].files;
+                if(files.length) {
+                    update = false;
+                    Alert.show(
+                        AlertOptions.of()
+                            .withTitle("Update Error")
+                            .withMessage("Please upload the selected file first")
+                            .withType(AlertOptions.Type.DANGER)
+                    );
+                }
+            }
+
+            if (update) {
+                this.update(updateButton, ElementClass.Payments.EDIT_FORM, "", PaymentsService.updatePayment);
+            }
         }
     }
 </script>

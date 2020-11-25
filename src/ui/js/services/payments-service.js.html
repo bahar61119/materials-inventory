@@ -42,7 +42,7 @@
         }
 
         static search() {
-            BaseService.search(PaymentsService.#filteredList, "paymentId", "paymentInvoice", "Payments");
+            BaseService.search(PaymentsService.#filteredList, "paymentId", "paymentInvoice", "Payments", "paymentFile", "paymentFileName");
         }
 
         static deletePayment(paymentId) {
@@ -65,8 +65,16 @@
             payment.paymentDueDate = $(`#${ElementId.Payments.PAYMENT_DUE_DATE}`).val();
             payment.paymentDate = $(`#${ElementId.Payments.PAYMENT_DATE}`).val();
             payment.paymentDescription = $(`#${ElementId.Payments.PAYMENT_DESCRIPTION}`).val();
-            payment.paymentFile = $(`#${ElementId.Payments.PAYMENT_FILE}`).val();
+            payment.paymentFile = PaymentsService.#getPaymentFile();
             return payment;
+        }
+
+        static #getPaymentFile() {
+            let fileElement = $(`#${ElementId.Payments.PAYMENT_FILE}`);
+            if (fileElement.length) {
+                return fileElement[0].dataset.paymentFile;
+            }
+            return "";
         }
 
         static filter(filter) {
@@ -111,6 +119,15 @@
             $(`#${ElementId.Payments.LIST_SEARCH}`).val("");
             PaymentsService.#filteredList = [...PaymentsService.#paymentList];
             PaymentsService.search();
+        }
+
+
+        static fileUploadSuccess(fileId) {
+            BaseService.fileUploadSuccess(fileId, "Payments", "paymentFile");
+        }
+
+        static fileRemoveSuccess(fileId) {
+            BaseService.fileRemoveSuccess(fileId, "Payments");
         }
 
     }

@@ -117,7 +117,7 @@
             }
         }
 
-        static fileUploadSuccess(fileId, elementName) {
+        static fileUploadSuccess(fileId, elementName, dataSetName) {
             let fileBlock = document.getElementById(ElementId[elementName].FILE_BLOCK);
             let showFile = BaseService.getTemplate(ElementId[elementName].FILE_SHOW_TEMPLATE);
 
@@ -125,11 +125,11 @@
             link.setAttribute("href", "https://drive.google.com/file/d/"+fileId+"/view");
 
             let image = showFile.querySelector("img");
-            image.dataset.invoiceFile = fileId;
+            image.dataset[dataSetName] = fileId;
             image.setAttribute("src", "https://drive.google.com/uc?export=view&id="+fileId);
 
             let removeButton = showFile.querySelector("button");
-            removeButton.dataset.invoiceFile = fileId;
+            removeButton.dataset[dataSetName] = fileId;
 
             fileBlock.innerHTML = "";
             fileBlock.appendChild(showFile);
