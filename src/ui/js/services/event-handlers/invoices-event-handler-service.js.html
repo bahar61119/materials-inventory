@@ -95,7 +95,7 @@
             let fileUploadElement = $(`#${ElementId.Invoices.INVOICE_FILE_UPLOAD}`);
             let update = true;
             if (fileUploadElement && fileUploadElement.length) {
-                let files = $(`#${ElementId.Invoices.INVOICE_FILE_UPLOAD}`)[0].files;
+                let files = fileUploadElement[0].files;
                 if(files.length) {
                     update = false;
                     Alert.show(

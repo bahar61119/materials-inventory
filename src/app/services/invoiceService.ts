@@ -50,7 +50,7 @@ export class InvoiceService extends EntityService{
         } else if(currentInvoiceFile && !invoice.invoiceFile) {
             Drive.removeFile(currentInvoiceFile);
             invoice.invoiceFile = "";
-        } else if(currentInvoiceFile !== invoice.invoiceFile) {
+        } else if(currentInvoiceFile && invoice.invoiceFile && currentInvoiceFile !== invoice.invoiceFile) {
             let fileId = Drive.copyAndRemove(invoice.invoiceFile, FolderNames.INVOICES);
             invoice.invoiceFile = fileId;
             Drive.removeFile(currentInvoiceFile);
