@@ -48,7 +48,7 @@
             );
         }
 
-        static search(dataList, idField, nameField, elementName) {
+        static search(dataList, idField, nameField, elementName, fileField ='', fileNameField='') {
             BaseService.destroyDataTable();
 
             let searchInput = document.getElementById(ElementId[elementName].LIST_SEARCH).value;
@@ -62,11 +62,24 @@
                 tr.querySelector(`.${ElementClass.SERIAL_NUMBER}`).textContent = ""+(index+1);
                 
                 Object.keys(result).forEach(column => {
-                    tr.querySelector(`.${column}`).textContent = result[column].toString();
+                    let element = tr.querySelector(`.${column}`);
+                    if(element) {
+                        element.textContent = result[column].toString();
+                    }
                 });
 
                 let date = new Date(parseInt(result.latestUpdateTime));
                 tr.querySelector(`.latestUpdateTime`).textContent = date.toLocaleString();
+
+                if (result[fileField]) {
+                    let fileElement = tr.querySelector(`.${fileField}`);
+                    let link = document.createElement('a');
+                    link.setAttribute("href", "https://drive.google.com/file/d/"+result[fileField]+"/view");
+                    link.setAttribute("target", "_blank");
+                    link.text = result[fileNameField];
+                    fileElement.innerHTML ="";
+                    fileElement.appendChild(link);
+                }
 
                 let entity = JSON.stringify({
                     id: result[idField],
@@ -107,21 +120,26 @@
         static fileUploadSuccess(fileId, elementName) {
             let fileBlock = document.getElementById(ElementId[elementName].FILE_BLOCK);
             let showFile = BaseService.getTemplate(ElementId[elementName].FILE_SHOW_TEMPLATE);
-            console.log(showFile);
 
             let link = showFile.querySelector("a");
-            console.log(link);
             link.setAttribute("href", "https://drive.google.com/file/d/"+fileId+"/view");
 
             let image = showFile.querySelector("img");
-            image.setAttribute("data-invoice-file", fileId);
+            image.dataset.invoiceFile = fileId;
             image.setAttribute("src", "https://drive.google.com/uc?export=view&id="+fileId);
 
             let removeButton = showFile.querySelector("button");
-            removeButton.setAttribute("data-invoice-file", fileId);
+            removeButton.dataset.invoiceFile = fileId;
 
             fileBlock.innerHTML = "";
             fileBlock.appendChild(showFile);
+        }
+
+        static fileRemoveSuccess(fileId, elementName) {
+            let fileBlock = document.getElementById(ElementId[elementName].FILE_BLOCK);
+            let uploadFile = BaseService.getTemplate(ElementId[elementName].FILE_UPLOAD_TEMPLATE);
+            fileBlock.innerHTML = "";
+            fileBlock.appendChild(uploadFile);
         }
     }
 </script>

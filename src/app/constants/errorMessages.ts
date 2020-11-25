@@ -128,4 +128,8 @@ export class DriveErrorMessage extends ErrorMessage {
     static folderNotFoundWith(folderId: string) {
         return `Folder with id ${folderId} not found`;
     }
+
+    static get fileIsDeleted() {
+        return "File not found. File is deleted"
+    }
 }

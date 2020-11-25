@@ -39,6 +39,7 @@ export class Drive {
         } else {
             driveFolder = DriveApp.createFolder(folderName);
         }
+        driveFolder.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
         return driveFolder.getId();
     }
 
@@ -50,11 +51,28 @@ export class Drive {
             let bytes = Utilities.base64Decode(file.fileData.substr(file.fileData.indexOf('base64,') + 7));
             let blob = Utilities.newBlob(bytes, contentType, file.fileName);
             let driveFile = driveFolder.createFile(blob);
+            driveFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
             return driveFile.getId();
         } catch (error) {
             console.error(error);
             throw new DriveError(error.toString());
         }
+    }
+
+    static removeFile(fileId: string) {
+        let file = DriveApp.getFileById(fileId);
+        file.setTrashed(true);
+    }
+
+    static copyAndRemove(fileId: string, folder: FolderNames): string {
+        let file = DriveApp.getFileById(fileId);
+        if (file.isTrashed()) {
+            throw new DriveError(DriveErrorMessage.fileIsDeleted)
+        }
+        let newFile = file.makeCopy(DriveApp.getFolderById(Drive.getFolderId(folder)));
+        newFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+        file.setTrashed(true);
+        return newFile.getId();
     }
 
     private static getKey(folder: FolderNames): string {

@@ -237,18 +237,20 @@
     </div>
 </template>
 <template id="file-upload-template">
-    <div class="row">
-        <div class="col-10">
-            <div class="custom-file">
-                <input type="file" accept="image/*, application/pdf" class="custom-file-input" id="invoice-file-upload" aria-describedby="invoice-file-upload">
-                <label class="custom-file-label" for="invoice-file-upload">Choose file</label>
+    <div class="col-12">
+        <div class="row">
+            <div class="col-10">
+                <div class="custom-file">
+                    <input type="file" accept="image/*, application/pdf" class="custom-file-input" id="invoice-file-upload" aria-describedby="invoice-file-upload">
+                    <label class="custom-file-label" for="invoice-file-upload">Choose file</label>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="button" class="btn btn-outline-success btn-block" id="invoice-file-upload-button">Upload</button>
             </div>
         </div>
-        <div class="col-2">
-            <button type="button" class="btn btn-outline-success btn-block" id="invoice-file-upload-button">Upload</button>
-        </div>
     </div>
-    <div class=row>
+    <div class="col-12">
         <div id="selected-file" class="row mt-2"></div>
     </div>
 </template>
