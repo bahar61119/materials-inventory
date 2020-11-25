@@ -67,9 +67,6 @@
             if(filter.fromDate) {
                 if(filter.dateType === 'all') {
                     filteredData = filteredData.filter(invoice => {
-                        console.log("invoiceIssueDate:" + invoice.invoiceIssueDate);
-                        console.log("fromDate:" + filter.fromDate);
-                        console.log("greaterThanEqual:"+ (invoice.invoiceIssueDate >= filter.fromDate));
                         return invoice.invoiceIssueDate >= filter.fromDate;
                     });
                     filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate >= filter.fromDate);

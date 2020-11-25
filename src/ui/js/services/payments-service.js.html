@@ -1,11 +1,13 @@
 <script>
     class PaymentsService {
         static #paymentList = [];
+        static #filteredList = [];
 
         static setPaymentListData() {
             API.getPaymentList(
                 dataReturned => {
                     PaymentsService.#paymentList = dataReturned.slice();
+                    PaymentsService.#filteredList = [...PaymentsService.#paymentList];
                     PaymentsService.search();
                     if(PaymentsService.#paymentList.length === 0) {
                         Alert.show(
@@ -40,7 +42,7 @@
         }
 
         static search() {
-            BaseService.search(PaymentsService.#paymentList, "paymentId", "paymentInvoice", "Payments");
+            BaseService.search(PaymentsService.#filteredList, "paymentId", "paymentInvoice", "Payments");
         }
 
         static deletePayment(paymentId) {
@@ -66,5 +68,50 @@
             payment.paymentFile = $(`#${ElementId.Payments.PAYMENT_FILE}`).val();
             return payment;
         }
+
+        static filter(filter) {
+            PaymentsService.#filteredList = PaymentsService.#getFilteredData(filter);
+            PaymentsService.search();
+        }
+
+        static #getFilteredData(filter) {
+            let filteredData = [...PaymentsService.#paymentList];
+            if(filter.supplier !== 'all') {
+                filteredData = filteredData.filter(payment => payment.paymentSupplier === filter.supplier);
+            }
+            if(filter.fromDate) {
+                if(filter.dateType === 'all') {
+                    filteredData = filteredData.filter(payment => {
+                        return payment.paymentDueDate >= filter.fromDate;
+                    });
+                    filteredData = filteredData.filter(payment => payment.paymentDate >= filter.fromDate);
+                } else if(filter.dateType === "paymentDueDate") {
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate >= filter.fromDate);
+                } else {
+                    filteredData = filteredData.filter(payment => payment.paymentDate >= filter.fromDate);
+                }
+            }
+            if(filter.toDate) {
+                if(filter.dateType === 'all') {
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate <= filter.toDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDate <= filter.toDate);
+                } else if(filter.dateType === "paymentDueDate") {
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate <= filter.toDate);
+                } else {
+                    filteredData = filteredData.filter(payment => payment.paymentDate <= filter.toDate);
+                }
+            }
+            if(filter.paymentStatus !== 'all') {
+                filteredData = filteredData.filter(payment => payment.paymentStatus === filter.paymentStatus);
+            }
+            return filteredData;
+        }
+
+        static clearFilter() {
+            $(`#${ElementId.Payments.LIST_SEARCH}`).val("");
+            PaymentsService.#filteredList = [...PaymentsService.#paymentList];
+            PaymentsService.search();
+        }
+
     }
 </script>

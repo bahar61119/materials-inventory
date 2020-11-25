@@ -1,14 +1,76 @@
 <h2 class="text-center">
-  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-minecart-loaded" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-    <path fill-rule="evenodd" d="M4 15a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm8-1a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM.115 3.18A.5.5 0 0 1 .5 3h15a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 14 12H2a.5.5 0 0 1-.491-.408l-1.5-8a.5.5 0 0 1 .106-.411zm.987.82l1.313 7h11.17l1.313-7H1.102z"/>
-    <path fill-rule="evenodd" d="M6 1a2.498 2.498 0 0 1 4 0c.818 0 1.545.394 2 1 .67 0 1.552.57 2 1h-2c-.314 0-.611-.15-.8-.4-.274-.365-.71-.6-1.2-.6-.314 0-.611-.15-.8-.4a1.497 1.497 0 0 0-2.4 0c-.189.25-.486.4-.8.4-.507 0-.955.251-1.228.638-.09.13-.194.25-.308.362H3c.13-.147.401-.432.562-.545a1.63 1.63 0 0 0 .393-.393A2.498 2.498 0 0 1 6 1z"/>
+  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-wallet" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M0 3a2 2 0 0 1 2-2h13.5a.5.5 0 0 1 0 1H15v2a1 1 0 0 1 1 1v8.5a1.5 1.5 0 0 1-1.5 1.5h-12A2.5 2.5 0 0 1 0 12.5V3zm1 1.732V12.5A1.5 1.5 0 0 0 2.5 14h12a.5.5 0 0 0 .5-.5V5H2a1.99 1.99 0 0 1-1-.268zM1 3a1 1 0 0 0 1 1h12V2H2a1 1 0 0 0-1 1z"/>
   </svg>
   Payments
 </h2>
 <br/>
+<form>
 <div class="row">
-  <div class="col-md-10 form-group">
+  <div class="col-md-3 input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="filter-payment-supplier">Supplier</label>
+    </div>
+    <select class="custom-select" id="filter-payment-supplier">
+      <option selected value="all">All</option>
+      <? for(const supplierIndex in data.suppliers) { ?>
+        <option value = <?= data.suppliers[supplierIndex].supplierId ?>>
+          <?= data.suppliers[supplierIndex].supplierName+" ("+data.suppliers[supplierIndex].supplierId+")" ?>
+        </option>
+    <? } ?>
+    </select>
+  </div>
+  <div class="col-md-7 input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="filter-payment-date-type">Date Type</label>
+    </div>
+    <select class="custom-select" id="filter-payment-date-type">
+      <option selected value="all">All</option>
+      <option value="paymentDueDate">Due Date</option>
+      <option value="paymentDate">Payment Date</option>
+    </select>
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="filter-payment-from-date">From</label>
+    </div>
+    <input type="date" class="form-control" id="filter-payment-from-date" placeholder="Select Date">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="filter-payment-to-date">To</label>
+    </div>
+    <input type="date" class="form-control" id="filter-payment-to-date" placeholder="Select Date">
+  </div>
+  <div class="col-md-2 input-group mb-3">
+    <div class="btn-group btn-block" role="group">
+      <button type="button" class="btn btn-outline-info" id="filter-payment-button">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
+        </svg>
+        Filter
+      </button>
+      <button type="reset" class="btn btn-outline-secondary" id="filter-payment-clear-button">
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
+        </svg>
+        Clear
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7 form-group">
     <input type="text" class="form-control" id="payment-list-search" placeholder="Search Here ...">
+  </div>
+  <div class="col-md-3 input-group mb-3">
+    <div class="input-group-prepend">
+      <label class="input-group-text" for="filter-payment-status">Payment Status</label>
+    </div>
+    <select class="custom-select" id="filter-payment-status">
+      <option selected value="all">All</option>
+      <? for(const statusIndex in data.paymentStatusList) { ?>
+        <option value = <?= data.paymentStatusList[statusIndex] ?>>
+          <?= data.paymentStatusList[statusIndex] ?>
+        </option>
+    <? } ?>
+    </select>
   </div>
   <div class="col-md-2">
     <button type="button" class="btn btn-outline-primary btn-block" id="add-payment-button">
@@ -20,19 +82,21 @@
     </button>
   </div>
 </div>
+</form>
 
 <div class="table-responsive">
-  <table id="data-table" class="table table-hover">
+  <table id="data-table" class="table table-bordered table-hover">
     <thead>
-      <tr class="text-nowrap">
+      <tr class="table-success text-nowrap">
         <th scope="col">S/N</th>
         <th scope="col">ID</th>
         <th scope="col">Invoice</th>
         <th scope="col">Supplier</th>
+        <th scope="col">Supplier Name</th>
         <th scope="col">Payment Method</th>
         <th scope="col">Amount</th>
         <th scope="col">Status</th>
-        <th scope="col">Payment Due Date</th>
+        <th scope="col">Due Date</th>
         <th scope="col">Payment Date</th>
         <th scope="col">Description</th>
         <th scope="col">File</th>
@@ -52,6 +116,7 @@
       <td class="paymentId"></th>
       <td class="paymentInvoice"></td>
       <td class="paymentSupplier"></td>
+      <td class="paymentSupplierName"></td>
       <td class="paymentMethod"></td>
       <td class="paymentAmount"></td>
       <td class="paymentStatus"></td>

@@ -1,12 +1,21 @@
+import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
 import { ViewFileNames } from '../../constants/fileNames';
 import { Payment } from '../../models/paymentModel';
 import { PaymentService } from '../../services/paymentService';
 import { ProfileService } from '../../services/profileService';
+import { SettingsService } from '../../services/settingsService';
+import { SupplierService } from '../../services/supplierService';
 import { loadView } from './loadView';
 
 export function loadPaymentListView() {
     ProfileService.validateProfile();
-    return loadView(ViewFileNames.PAYMENT_LIST);
+    let suppliers = SupplierService.getSupplierList();
+    let paymentStatusList = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
+    let data = {
+        suppliers,
+        paymentStatusList
+    }
+    return loadView(ViewFileNames.PAYMENT_LIST, data);
 }
 
 export function loadAddPaymentView() {
