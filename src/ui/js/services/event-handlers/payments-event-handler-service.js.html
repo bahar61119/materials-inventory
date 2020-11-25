@@ -21,9 +21,9 @@
             } else if(editButton) {
                 this.edit(editButton, PaymentsViewService.loadEditPaymentView)
             } else if(updateButton) {
-                this.update(updateButton, ElementClass.Payments.EDIT_FORM, ElementId.Payments.ENTRY_ITEM, PaymentsService.updatePayment);
+                this.update(updateButton, ElementClass.Payments.EDIT_FORM, "", PaymentsService.updatePayment);
             } else if(updateCancelButton) {
-                this.updateCancel(ElementId.Payments.ENTRY_ITEM, PaymentsViewService.loadPaymentListView);
+                this.updateCancel('', PaymentsViewService.loadPaymentListView);
             }
         }
 

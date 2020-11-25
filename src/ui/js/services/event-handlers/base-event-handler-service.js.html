@@ -1,7 +1,7 @@
 <script>
     class BaseEventHandlerService {
         static updateCancel(nameElementId, confirmFunction) {
-            let name = $(`#${nameElementId}`).val();
+            let name = nameElementId? $(`#${nameElementId}`).val(): '';
             let options = ConfirmationModalOptions.of()
                                 .withTitle("Update")
                                 .withMessage(`Are you sure you want to cancel updating ${name}?`)
@@ -16,7 +16,7 @@
             if(!isValidForm) {
                 form.classList.add('was-validated');
             } else {
-                let name = $(`#${nameElementId}`).val();
+                let name = nameElementId? $(`#${nameElementId}`).val(): '';
                 let isEdit = updateButton.dataset.isEdit === "true"? true: false;
                 let options = ConfirmationModalOptions.of()
                                     .withTitle("Update")
