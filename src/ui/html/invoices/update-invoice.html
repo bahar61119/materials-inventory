@@ -135,7 +135,7 @@
                 </div>
                 <div class="form-group required col">
                     <label for="invoice-amount" class="control-label h5">Amount</label>
-                    <input type="number" class="form-control" id="invoice-amount" required min="1" value=<?= data.invoice.invoiceAmount ?> >
+                    <input type="number" class="form-control" id="invoice-amount" required min="0" step="any" value=<?= data.invoice.invoiceAmount ?> >
                     <div class="valid-feedback">
                         Looks good!
                     </div>

@@ -39,9 +39,17 @@ export function loadAddPaymentView() {
 export function loadEditPaymentView(paymentId: string) {
     ProfileService.validateProfile();
     let payment = PaymentService.getPayment(String(paymentId));
+    let invoices = InvoiceService.getInvoiceList();
+    let suppliers = SupplierService.getSupplierList();
+    let paymentMethods = SettingsService.getList(ApplicationDBKeys.PAYMENT_METHODS);
+    let paymentStatuses = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
     let data = {
         payment,
-        isEdit: true
+        isEdit: true,
+        invoices,
+        suppliers,
+        paymentMethods,
+        paymentStatuses
     }
     return loadView(ViewFileNames.UPDATE_PAYMENT, data);
 }
