@@ -92,22 +92,22 @@
             }
             if(filter.fromDate) {
                 if(filter.dateType === 'all') {
-                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate >= filter.fromDate);
-                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate >= filter.fromDate);
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate && entry.entryExpectedDeliveryDate >= filter.fromDate);
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate && entry.entryDeliveryDate >= filter.fromDate);
                 } else if(filter.dateType === "entryExpectedDeliveryDate") {
-                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate >= filter.fromDate);
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate && entry.entryExpectedDeliveryDate >= filter.fromDate);
                 } else {
-                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate >= filter.fromDate);
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate && entry.entryDeliveryDate >= filter.fromDate);
                 }
             }
             if(filter.toDate) {
                 if(filter.dateType === 'all') {
-                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate <= filter.toDate);
-                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate <= filter.toDate);
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate && entry.entryExpectedDeliveryDate <= filter.toDate);
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate && entry.entryDeliveryDate <= filter.toDate);
                 } else if(filter.dateType === "entryExpectedDeliveryDate") {
-                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate <= filter.toDate);
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate && entry.entryExpectedDeliveryDate <= filter.toDate);
                 } else {
-                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate <= filter.toDate);
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate && entry.entryDeliveryDate <= filter.toDate);
                 }
             }
             return filteredData;

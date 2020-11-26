@@ -66,24 +66,22 @@
             }
             if(filter.fromDate) {
                 if(filter.dateType === 'all') {
-                    filteredData = filteredData.filter(invoice => {
-                        return invoice.invoiceIssueDate >= filter.fromDate;
-                    });
-                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate >= filter.fromDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate && invoice.invoiceIssueDate >= filter.fromDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate && invoice.invoiceReceivedDate >= filter.fromDate);
                 } else if(filter.dateType === "invoiceIssueDate") {
-                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate >= filter.fromDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate && invoice.invoiceIssueDate >= filter.fromDate);
                 } else {
-                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate >= filter.fromDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate && invoice.invoiceReceivedDate >= filter.fromDate);
                 }
             }
             if(filter.toDate) {
                 if(filter.dateType === 'all') {
-                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate <= filter.toDate);
-                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate <= filter.toDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate && invoice.invoiceIssueDate <= filter.toDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate && invoice.invoiceReceivedDate <= filter.toDate);
                 } else if(filter.dateType === "invoiceIssueDate") {
-                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate <= filter.toDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceIssueDate && invoice.invoiceIssueDate <= filter.toDate);
                 } else {
-                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate <= filter.toDate);
+                    filteredData = filteredData.filter(invoice => invoice.invoiceReceivedDate && invoice.invoiceReceivedDate <= filter.toDate);
                 }
             }
             return filteredData;
