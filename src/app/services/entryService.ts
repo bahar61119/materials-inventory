@@ -28,6 +28,7 @@ export class EntryService extends EntityService {
                 entrySupplierName: supplier? supplier.supplierName: '',
                 entryInvoiceName: invoice? invoice.invoiceName: '',
                 entryItemName: item? item.itemName: '',
+                entryUnit: item? item.itemUnitOfMeasure: ''
             }
         });
     }
@@ -40,6 +41,7 @@ export class EntryService extends EntityService {
     }
 
     static updateEntry(entry: Entry): string {
+        entry.entryAmount = entry.entryUnitPrice * entry.entryQuantity;
         return EntryService.updateEntity(entry, "entryId", SheetConstants.ENTRIES_SHEET_NAME, Entry.name);
     }
 

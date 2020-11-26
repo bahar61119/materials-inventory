@@ -26,9 +26,17 @@ export function loadEntryListView() {
 
 export function loadAddEntryView() {
     ProfileService.validateProfile();
+    let invoices = InvoiceService.getInvoiceList();
+    let suppliers = SupplierService.getSupplierList();
+    let items = ItemsService.getItemList();
+    let productStatuses = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
     let data = {
         entry: Entry.of(),
-        isEdit: false
+        isEdit: false,
+        invoices,
+        suppliers,
+        items,
+        productStatuses
     }
     return loadView(ViewFileNames.UPDATE_ENTRY, data);
 }
@@ -36,9 +44,17 @@ export function loadAddEntryView() {
 export function loadEditEntryView(entryId: string) {
     ProfileService.validateProfile();
     let entry = EntryService.getEntry(String(entryId));
+    let invoices = InvoiceService.getInvoiceList();
+    let suppliers = SupplierService.getSupplierList();
+    let items = ItemsService.getItemList();
+    let productStatuses = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
     let data = {
         entry,
-        isEdit: true
+        isEdit: true,
+        invoices,
+        suppliers,
+        items,
+        productStatuses
     }
     return loadView(ViewFileNames.UPDATE_ENTRY, data);
 }

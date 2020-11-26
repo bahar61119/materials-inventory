@@ -60,7 +60,6 @@
             entry.entryItem = $(`#${ElementId.Entries.ENTRY_ITEM}`).val();
             entry.entryInvoice = $(`#${ElementId.Entries.ENTRY_INVOICE}`).val();
             entry.entrySupplier = $(`#${ElementId.Entries.ENTRY_SUPPLIER}`).val();
-            entry.entryUnit = $(`#${ElementId.Entries.ENTRY_UNIT}`).val();
             entry.entryUnitPrice = $(`#${ElementId.Entries.ENTRY_UNIT_PRICE}`).val();
             entry.entryQuantity = $(`#${ElementId.Entries.ENTRY_QUANTITY}`).val();
             entry.entryAmount = $(`#${ElementId.Entries.ENTRY_AMOUNT}`).val();
@@ -117,6 +116,18 @@
             $(`#${ElementId.Entries.LIST_SEARCH}`).val("");
             EntriesService.#filteredList = [...EntriesService.#entryList];
             EntriesService.search();
+        }
+
+        static selectUnit() {
+            let selectedItem = $(`#${ElementId.Entries.ENTRY_ITEM}`).val();
+            $(`#${ElementId.Entries.ENTRY_UNIT}`).val(selectedItem);
+        }
+
+        static setAmount() {
+            let entryUnitPrice = $(`#${ElementId.Entries.ENTRY_UNIT_PRICE}`).val();
+            let entryQuantity = $(`#${ElementId.Entries.ENTRY_QUANTITY}`).val();
+            let entryAmount = entryUnitPrice * entryQuantity; 
+            $(`#${ElementId.Entries.ENTRY_AMOUNT}`).val(entryAmount);
         }
     }
 </script>

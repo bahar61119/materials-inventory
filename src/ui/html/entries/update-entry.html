@@ -25,8 +25,41 @@
             <? } ?>
             <div class="row">
                 <div class="form-group required col">
-                    <label for="entry-item" class="control-label h5">Item</label>
-                    <input type="text" class="form-control" id="entry-item" required value=<?= data.entry.entryItem ?> >
+                    <div class="row justify-content-between">
+                        <div class="col-6">
+                            <label for="entry-item" class="control-label h5">Item</label>
+                        </div>
+                        <div class="col-6 text-right">
+                            <? if (data.items.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add item from Items">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.items.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No item found. Please add a item from Items">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="entry-item" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const itemIndex in data.items) { ?>
+                            <option
+                                <? if(data.items[itemIndex].itemId === data.entry.entryItem ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.items[itemIndex].itemId ?>
+                            ><?= data.items[itemIndex].itemName+" ("+data.items[itemIndex].itemId+")" ?></option>
+                        <? } ?>
+                    </select>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -35,8 +68,41 @@
                     </div>
                 </div>
                 <div class="form-group required col">
-                    <label for="entry-invoice" class="control-label h5">Invoice</label>
-                    <input type="text" class="form-control" id="entry-invoice" required value=<?= data.entry.entryInvoice ?> >
+                    <div class="row justify-content-between">
+                        <div class="col-6">
+                            <label for="entry-invoice" class="control-label h5">Invoice</label>
+                        </div>
+                        <div class="col-6 text-right">
+                            <? if (data.invoices.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add supplier from Invoices">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.invoices.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No supplier found. Please add a invoice from Invoices">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="entry-invoice" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const invoiceIndex in data.invoices) { ?>
+                            <option
+                                <? if(data.invoices[invoiceIndex].invoiceId === data.entry.entryInvoice ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.invoices[invoiceIndex].invoiceId ?>
+                            ><?= data.invoices[invoiceIndex].invoiceName+" ("+data.invoices[invoiceIndex].invoiceId+")" ?></option>
+                        <? } ?>
+                    </select>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -47,8 +113,41 @@
             </div>
             <div class="row">
                 <div class="form-group required col">
-                    <label for="entry-supplier" class="control-label h5">Supplier</label>
-                    <input type="text" class="form-control" id="entry-supplier" required value=<?= data.entry.entrySupplier ?> >
+                    <div class="row justify-content-between">
+                        <div class="col-6">
+                            <label for="entry-supplier" class="control-label h5">Supplier</label>
+                        </div>
+                        <div class="col-6 text-right">
+                            <? if (data.suppliers.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add supplier from Suppliers">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.suppliers.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No supplier found. Please add a supplier from Suppliers">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="entry-supplier" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const supplierIndex in data.suppliers) { ?>
+                            <option
+                                <? if(data.suppliers[supplierIndex].supplierId === data.entry.entrySupplier ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.suppliers[supplierIndex].supplierId ?>
+                            ><?= data.suppliers[supplierIndex].supplierName+" ("+data.suppliers[supplierIndex].supplierId+")" ?></option>
+                        <? } ?>
+                    </select>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -57,20 +156,63 @@
                     </div>
                 </div>
                 <div class="form-group required col">
-                    <label for="entry-status" class="control-label h5">Status</label>
-                    <input type="text" class="form-control" id="entry-status" required value=<?= data.entry.entryStatus ?> >
+                    <div class="row justify-content-between">
+                        <div class="col-10">
+                            <label for="entry-status" class="control-label h5">Status</label>
+                        </div>
+                        <div class="col-2 text-right">
+                            <? if (data.productStatuses.length !== 0) { ?>
+                            <span class="h5 text-info" data-toggle="tooltip" data-placement="right"  title="Add product status from settings">
+                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+                                    <circle cx="8" cy="4.5" r="1"/>
+                                </svg>
+                            </span>
+                            <? } ?>
+                            <? if (data.productStatuses.length === 0) { ?>
+                            <span class="h5 text-danger" data-toggle="tooltip" data-placement="right"  title="No product status found. Please add a product status from settings">
+                                <svg width="1.0625em" height="1em" viewBox="0 0 17 16" class="bi bi-exclamation-triangle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" d="M7.938 2.016a.146.146 0 0 0-.054.057L1.027 13.74a.176.176 0 0 0-.002.183c.016.03.037.05.054.06.015.01.034.017.066.017h13.713a.12.12 0 0 0 .066-.017.163.163 0 0 0 .055-.06.176.176 0 0 0-.003-.183L8.12 2.073a.146.146 0 0 0-.054-.057A.13.13 0 0 0 8.002 2a.13.13 0 0 0-.064.016zm1.044-.45a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566z"/>
+                                    <path d="M7.002 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 5.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995z"/>
+                                  </svg>
+                            </span>
+                            <? } ?>
+                        </div>
+                    </div>
+                    <select class="form-control" id="entry-status" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const productStatusIndex in data.productStatuses) { ?>
+                            <option
+                                <? if(data.productStatuses[productStatusIndex] === data.entry.entryStatus ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.productStatuses[productStatusIndex] ?>
+                            ><?= data.productStatuses[productStatusIndex] ?></option>
+                        <? } ?>
+                    </select>
                     <div class="valid-feedback">
                         Looks good!
                     </div>
                     <div class="invalid-feedback">
-                        Please provide a valid status.
+                        Please provide a valid payment status.
                     </div>
                 </div>
             </div>
             <div class="row">
                 <div class="form-group required col">
                     <label for="entry-unit" class="control-label h5">Unit</label>
-                    <input type="text" class="form-control" id="entry-unit" required value=<?= data.entry.entryUnit ?> >
+                    <select disabled class="form-control" id="entry-unit" required>
+                        <option disabled selected label=" "></option>
+                        <? for(const itemIndex in data.items) { ?>
+                            <option
+                                <? if(data.items[itemIndex].itemId === data.entry.entryItem ) { ?>
+                                    selected
+                                <? } ?>
+                            value = <?= data.items[itemIndex].itemId ?>
+                            ><?= data.items[itemIndex].itemUnitOfMeasure ?></option>
+                        <? } ?>
+                    </select>
                     <div class="valid-feedback">
                         Looks good!
                     </div>

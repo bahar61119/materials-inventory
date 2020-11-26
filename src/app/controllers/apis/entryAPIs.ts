@@ -10,5 +10,6 @@ export function deleteEntry(entryId: string) {
 }
 
 export function updateEntry(entryData: any) {
+    console.log(entryData);
     return EntryService.updateEntry(Entry.from(entryData));
 }

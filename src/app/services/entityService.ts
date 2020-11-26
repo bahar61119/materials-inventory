@@ -89,11 +89,11 @@ export class EntityService {
 
     public static getRawDataFromEntity<T>(entity: T, idName: string, withId: boolean = false): Array<any> {
         let data: Array<any> = [];
-        let supplierKeys = Object.keys(entity);
-        supplierKeys.forEach( (key: any) => {
-        if(!(key === idName && !withId)) {
-            data.push(entity[key]);
-        }
+        let keys = Object.keys(entity);
+        keys.forEach( (key: any) => {
+            if(!(key === idName && !withId)) {
+                data.push(entity[key]);
+            }
         });
         return data;
     }
