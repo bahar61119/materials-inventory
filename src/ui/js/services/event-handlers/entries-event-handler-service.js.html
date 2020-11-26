@@ -4,6 +4,17 @@
             if(event.target.matches(`#${ElementId.Entries.LIST_SEARCH}`)) {
                 EntriesService.search(); 
             }
+
+            if(event.target.matches(`#${ElementId.Entries.ENTRY_ITEM}`)) {
+                EntriesService.selectUnit(); 
+            }
+
+            if (
+                event.target.matches(`#${ElementId.Entries.ENTRY_UNIT_PRICE}`) ||
+                event.target.matches(`#${ElementId.Entries.ENTRY_QUANTITY}`)
+            ) {
+                EntriesService.setAmount(); 
+            }
         }
 
         static clickEventHandler(event) {
@@ -21,9 +32,9 @@
             } else if(editButton) {
                 this.edit(editButton, EntriesViewService.loadEditEntryView)
             } else if(updateButton) {
-                this.update(updateButton, ElementClass.Entries.EDIT_FORM, ElementId.Entries.ENTRY_ITEM, EntriesService.updateEntry);
+                this.update(updateButton, ElementClass.Entries.EDIT_FORM, "delivery", EntriesService.updateEntry);
             } else if(updateCancelButton) {
-                this.updateCancel(ElementId.Entries.ENTRY_ITEM, EntriesViewService.loadEntryListView);
+                this.updateCancel("delivery", EntriesViewService.loadEntryListView);
             }
         }
 

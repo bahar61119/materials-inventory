@@ -3,9 +3,8 @@ export class Entry implements EntryInterface {
     entryItem: string;
     entryInvoice: string;
     entrySupplier: string;
-    entryUnit: string;
     entryUnitPrice: number;
-    entryQuantity: string;
+    entryQuantity: number;
     entryAmount: number;
     entryStatus: string;
     entryExpectedDeliveryDate: string;
@@ -19,9 +18,8 @@ export class Entry implements EntryInterface {
         this.entryItem = '';
         this.entryInvoice = '';
         this.entrySupplier = '';
-        this.entryUnit = '';
         this.entryUnitPrice = 0;
-        this.entryQuantity = '';
+        this.entryQuantity = 0;
         this.entryAmount = 0;
         this.entryStatus = '';
         this.entryExpectedDeliveryDate = '';
