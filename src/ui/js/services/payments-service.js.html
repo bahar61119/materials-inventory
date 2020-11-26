@@ -89,24 +89,22 @@
             }
             if(filter.fromDate) {
                 if(filter.dateType === 'all') {
-                    filteredData = filteredData.filter(payment => {
-                        return payment.paymentDueDate >= filter.fromDate;
-                    });
-                    filteredData = filteredData.filter(payment => payment.paymentDate >= filter.fromDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate && payment.paymentDueDate >= filter.fromDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDate && payment.paymentDate >= filter.fromDate);
                 } else if(filter.dateType === "paymentDueDate") {
-                    filteredData = filteredData.filter(payment => payment.paymentDueDate >= filter.fromDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate && payment.paymentDueDate >= filter.fromDate);
                 } else {
-                    filteredData = filteredData.filter(payment => payment.paymentDate >= filter.fromDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDate && payment.paymentDate >= filter.fromDate);
                 }
             }
             if(filter.toDate) {
                 if(filter.dateType === 'all') {
-                    filteredData = filteredData.filter(payment => payment.paymentDueDate <= filter.toDate);
-                    filteredData = filteredData.filter(payment => payment.paymentDate <= filter.toDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate && payment.paymentDueDate <= filter.toDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDate && payment.paymentDate <= filter.toDate);
                 } else if(filter.dateType === "paymentDueDate") {
-                    filteredData = filteredData.filter(payment => payment.paymentDueDate <= filter.toDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDueDate && payment.paymentDueDate <= filter.toDate);
                 } else {
-                    filteredData = filteredData.filter(payment => payment.paymentDate <= filter.toDate);
+                    filteredData = filteredData.filter(payment => payment.paymentDate && payment.paymentDate <= filter.toDate);
                 }
             }
             if(filter.paymentStatus !== 'all') {

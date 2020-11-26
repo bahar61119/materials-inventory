@@ -80,7 +80,7 @@
                 </div>
                 <div class="form-group required col">
                     <label for="entry-quantity" class="control-label h5">Quantity</label>
-                    <input type="number" class="form-control" id="entry-quantity" required min="1" value=<?= data.entry.entryQuantity ?> >
+                    <input type="number" class="form-control" id="entry-quantity" required min="0" step="any" value=<?= data.entry.entryQuantity ?> >
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -112,9 +112,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group required col">
+                <div class="form-group col">
                     <label for="entry-expected-delivery-date" class="control-label h5">Expected Delivery Date</label>
-                    <input type="date" class="form-control" id="entry-expected-delivery-date" required value=<?= data.entry.entryExpectedDeliveryDate ?> >
+                    <input type="date" class="form-control" id="entry-expected-delivery-date" value=<?= data.entry.entryExpectedDeliveryDate ?> >
                     <div class="valid-feedback">
                         Looks good!
                     </div>
@@ -122,9 +122,9 @@
                         Please provide a valid expected delivery date.
                     </div>
                 </div>
-                <div class="form-group required col">
+                <div class="form-group col">
                     <label for="entry-delivery-date" class="control-label h5">Delivery Date</label>
-                    <input type="date" class="form-control" id="entry-delivery-date" required value=<?= data.entry.entryDeliveryDate ?> >
+                    <input type="date" class="form-control" id="entry-delivery-date" value=<?= data.entry.entryDeliveryDate ?> >
                     <div class="valid-feedback">
                         Looks good!
                     </div>
