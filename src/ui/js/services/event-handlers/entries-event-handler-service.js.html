@@ -7,6 +7,7 @@
         }
 
         static clickEventHandler(event) {
+            this.#filterClickEventHandler(event);
             let addButton = event.target.closest(`#${ElementId.Entries.ADD_BUTTON}`);
             let deleteButton = event.target.closest(`button.${ElementClass.Entries.DELETE_BUTTON}`);
             let editButton = event.target.closest(`button.${ElementClass.Entries.EDIT_BUTTON}`);
@@ -24,6 +25,43 @@
             } else if(updateCancelButton) {
                 this.updateCancel(ElementId.Entries.ENTRY_ITEM, EntriesViewService.loadEntryListView);
             }
+        }
+
+        static #filterClickEventHandler(event) {
+            let filterButton = event.target.closest(`#${ElementId.Entries.FILTER_BUTTON}`);
+            let clearButton = event.target.closest(`#${ElementId.Entries.FILTER_CLEAR_BUTTON}`);
+
+            if(filterButton) {
+                this.#filter(filterButton);
+            } else if(clearButton) {
+                this.#filterClear(clearButton);
+            }
+        }
+
+        static #filter(filterButton) {
+            let filter = FilterEntry.of();
+            filter.supplier = $(`#${ElementId.Entries.FILTER_SUPPLIER}`).val();
+            filter.invoice = $(`#${ElementId.Entries.FILTER_INVOICE}`).val();
+            filter.item = $(`#${ElementId.Entries.FILTER_ITEM}`).val();
+            filter.entryStatus = $(`#${ElementId.Entries.FILTER_ENTRY_STATUS}`).val();
+            filter.dateType = $(`#${ElementId.Entries.FILTER_DATE_TYPE}`).val();
+            filter.fromDate = $(`#${ElementId.Entries.FILTER_FROM_DATE}`).val();
+            filter.toDate = $(`#${ElementId.Entries.FILTER_TO_DATE}`).val();
+
+            if (filter.fromDate && filter.toDate && filter.fromDate > filter.toDate) {
+                Alert.show(
+                    AlertOptions.of()
+                        .withTitle("Date Selection Error")
+                        .withMessage("'From Date' needs to be earlier than 'To Date'")
+                        .withType(AlertOptions.Type.WARNING)
+                );
+            } else {
+                EntriesService.filter(filter);
+            }
+        }
+
+        static #filterClear(clearButton) {
+            EntriesService.clearFilter();
         }
     }
 </script>

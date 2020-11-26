@@ -1,11 +1,13 @@
 <script>
     class EntriesService {
         static #entryList = [];
+        static #filteredList = [];
 
         static setEntryListData() {
             API.getEntryList(
                 dataReturned => {
                     EntriesService.#entryList = dataReturned.slice();
+                    EntriesService.#filteredList = [...EntriesService.#entryList];
                     EntriesService.search();
                     if(EntriesService.#entryList.length === 0) {
                         Alert.show(
@@ -40,7 +42,7 @@
         }
 
         static search() {
-            BaseService.search(EntriesService.#entryList, "entryId", "entryItem", "Entries");
+            BaseService.search(EntriesService.#filteredList, "entryId", "entryItem", "Entries");
         }
 
         static deleteEntry(entryId) {
@@ -67,6 +69,54 @@
             entry.entryDeliveryDate = $(`#${ElementId.Entries.ENTRY_DELIVERY_DATE}`).val();
             entry.entryDescription = $(`#${ElementId.Entries.ENTRY_DESCRIPTION}`).val();
             return entry;
+        }
+
+        static filter(filter) {
+            EntriesService.#filteredList = EntriesService.#getFilteredData(filter);
+            EntriesService.search();
+        }
+
+        static #getFilteredData(filter) {
+            let filteredData = [...EntriesService.#entryList];
+            if(filter.supplier !== 'all') {
+                filteredData = filteredData.filter(entry => entry.entrySupplier === filter.supplier);
+            }
+            if(filter.invoice !== 'all') {
+                filteredData = filteredData.filter(entry => entry.entryInvoice === filter.invoice);
+            }
+            if(filter.item !== 'all') {
+                filteredData = filteredData.filter(entry => entry.entryItem === filter.item);
+            }
+            if(filter.entryStatus !== 'all') {
+                filteredData = filteredData.filter(entry => entry.entryStatus === filter.entryStatus);
+            }
+            if(filter.fromDate) {
+                if(filter.dateType === 'all') {
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate >= filter.fromDate);
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate >= filter.fromDate);
+                } else if(filter.dateType === "entryExpectedDeliveryDate") {
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate >= filter.fromDate);
+                } else {
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate >= filter.fromDate);
+                }
+            }
+            if(filter.toDate) {
+                if(filter.dateType === 'all') {
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate <= filter.toDate);
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate <= filter.toDate);
+                } else if(filter.dateType === "entryExpectedDeliveryDate") {
+                    filteredData = filteredData.filter(entry => entry.entryExpectedDeliveryDate <= filter.toDate);
+                } else {
+                    filteredData = filteredData.filter(entry => entry.entryDeliveryDate <= filter.toDate);
+                }
+            }
+            return filteredData;
+        }
+
+        static clearFilter() {
+            $(`#${ElementId.Entries.LIST_SEARCH}`).val("");
+            EntriesService.#filteredList = [...EntriesService.#entryList];
+            EntriesService.search();
         }
     }
 </script>
