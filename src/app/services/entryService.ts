@@ -41,8 +41,30 @@ export class EntryService extends EntityService {
 
     static updateEntry(entry: Entry): string {
         entry.entryAmount = entry.entryUnitPrice * entry.entryQuantity;
+        EntryService.checkValidEntry(entry);
         return EntryService.updateEntity(entry, "entryId", SheetConstants.ENTRIES_SHEET_NAME, Entry.name);
     }
+
+    public static checkValidEntry(entry: Entry) {
+        let entryList: Array<Entry> = EntryService.getEntityList(SheetConstants.ENTRIES_SHEET_NAME, Entry.name);
+        let invoice: Invoice = EntryService.getEntity(entry.entryInvoice, SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+        let invoiceEntriesAmount = EntryService.getInvoiceTotalEntryAmount(entry.entryInvoice, entryList);
+
+        if(invoiceEntriesAmount + entry.entryAmount > invoice.invoiceAmount) {
+            throw new Error(`Total deliveries amount for the invoice (${invoice.invoiceName}) exceeds the invoice amount ${invoice.invoiceAmount}`);
+        }
+    }
+
+    private static getInvoiceTotalEntryAmount(invoiceId: string, entryList: Array<Entry>) {
+        let totalAmount = 0.0;
+        entryList.forEach(entry => {
+            if (entry.entryInvoice === invoiceId) {
+                totalAmount = totalAmount + entry.entryAmount;
+            }
+        });
+        return totalAmount
+    }
+
 
     static deleteEntry(entryId: string): string {
         return EntryService.deleteEntity(entryId, SheetConstants.ENTRIES_SHEET_NAME, Entry.name);

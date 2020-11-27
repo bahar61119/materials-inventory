@@ -32,9 +32,9 @@
             } else if(editButton) {
                 this.edit(editButton, EntriesViewService.loadEditEntryView)
             } else if(updateButton) {
-                this.update(updateButton, ElementClass.Entries.EDIT_FORM, "delivery", EntriesService.updateEntry);
+                this.update(updateButton, ElementClass.Entries.EDIT_FORM, "", EntriesService.updateEntry);
             } else if(updateCancelButton) {
-                this.updateCancel("delivery", EntriesViewService.loadEntryListView);
+                this.updateCancel("", EntriesViewService.loadEntryListView);
             }
         }
 
