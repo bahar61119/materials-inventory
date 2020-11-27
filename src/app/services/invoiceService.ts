@@ -5,13 +5,12 @@ import { Invoice } from '../models/invoiceModel';
 import { Supplier } from '../models/supplierModel';
 import { Utils } from '../utils/utils';
 import { EntityService } from './entityService';
-import { SupplierService } from './supplierService';
 
 export class InvoiceService extends EntityService{
     private static DATE_FORMAT = "yyyy-MM-dd";
     static getInvoiceList() {
         let invoiceList: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
-        let supplierList: Array<Supplier> = SupplierService.getSupplierList();
+        let supplierList: Array<Supplier> = InvoiceService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
         let supplierMap = Utils.arrayToObject(supplierList, "supplierId"); 
         return invoiceList.map((invoice: Invoice) => {
             invoice.invoiceIssueDate = InvoiceService.convertDateString(invoice.invoiceIssueDate, InvoiceService.DATE_FORMAT);

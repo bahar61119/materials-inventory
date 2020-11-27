@@ -1,14 +1,14 @@
-export class SettingValue {
-    tab: string;
+export class KeyValue {
+    key: string;
     value: any;
 
-    constructor(tab: string, value: any) {
-        this.tab = tab;
+    constructor(key: string, value: any) {
+        this.key = key;
         this.value = value;
     }
 
-    static from(data: object): SettingValue {
-        let keyValue = new SettingValue("", null);
+    static from(data: object): KeyValue {
+        let keyValue = new KeyValue("", null);
         return Object.assign(keyValue, data);
     }
 }

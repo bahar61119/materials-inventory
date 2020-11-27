@@ -102,7 +102,11 @@ export class EntityService {
         let entity = EntityFactory.getEntity(entityName);
         let keys = Object.keys(entity);
         keys.forEach( (key: any, index: number) => {
-            entity[key] = String(rawData[index]);
+            if (typeof entity[key] === "number") {
+                entity[key] = Number(rawData[index]);
+            } else {
+                entity[key] = String(rawData[index]);
+            }
         });
         return entity;
     }

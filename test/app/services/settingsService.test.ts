@@ -1,7 +1,7 @@
 import { SettingsErrorMessage } from '../../../src/app/constants/errorMessages';
 import { DB } from '../../../src/app/db/db';
 import { SettingsError } from '../../../src/app/errors/settingsError';
-import { SettingValue } from '../../../src/app/models/keyValueModel';
+import { KeyValue } from '../../../src/app/models/keyValueModel';
 import { SettingsService } from '../../../src/app/services/settingsService';
 
 describe("SettingsService", ()=>{
@@ -39,13 +39,13 @@ describe("SettingsService", ()=>{
         });
 
         test("success", ()=>{
-            let settingsValue = new SettingValue("key", "newValue");
+            let settingsValue = new KeyValue("key", "newValue");
             SettingsService.update(settingsValue);
             expect(DB.getApplicationDB().put).toBeCalledWith("key",["value", "newValue"]);
         });
 
         test("throws setting value null", ()=>{
-            let settingsValue = new SettingValue("key", null);
+            let settingsValue = new KeyValue("key", null);
             expect(() => {
                 SettingsService.update(settingsValue);
             })
@@ -53,7 +53,7 @@ describe("SettingsService", ()=>{
         });
 
         test("throws setting value not string", ()=>{
-            let settingsValue = new SettingValue("key", 1);
+            let settingsValue = new KeyValue("key", 1);
             expect(() => {
                 SettingsService.update(settingsValue);
             })
@@ -65,7 +65,7 @@ describe("SettingsService", ()=>{
                 throw new SettingsError(SettingsErrorMessage.invalidSettingsKey);
             });
 
-            let settingsValue = new SettingValue("key", "newValue");
+            let settingsValue = new KeyValue("key", "newValue");
             expect(() => {
                 SettingsService.update(settingsValue);
             })
@@ -82,13 +82,13 @@ describe("SettingsService", ()=>{
         });
 
         test("success", ()=>{
-            let settingsValue = new SettingValue("key", "oldValue");
+            let settingsValue = new KeyValue("key", "oldValue");
             SettingsService.delete(settingsValue);
             expect(DB.getApplicationDB().put).toBeCalledWith("key",["value"]);
         });
 
         test("throws setting value null", ()=>{
-            let settingsValue = new SettingValue("key", null);
+            let settingsValue = new KeyValue("key", null);
             expect(() => {
                 SettingsService.delete(settingsValue);
             })
@@ -96,7 +96,7 @@ describe("SettingsService", ()=>{
         });
 
         test("throws setting value not string", ()=>{
-            let settingsValue = new SettingValue("key", 1);
+            let settingsValue = new KeyValue("key", 1);
             expect(() => {
                 SettingsService.delete(settingsValue);
             })
@@ -108,7 +108,7 @@ describe("SettingsService", ()=>{
                 throw new SettingsError(SettingsErrorMessage.invalidSettingsKey);
             });
 
-            let settingsValue = new SettingValue("key", "newValue");
+            let settingsValue = new KeyValue("key", "newValue");
             expect(() => {
                 SettingsService.delete(settingsValue);
             })
