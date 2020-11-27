@@ -42,7 +42,19 @@
         }
 
         static search() {
-            BaseService.search(PaymentsService.#filteredList, "paymentId", "paymentInvoice", "Payments", "paymentFile", "paymentFileName");
+            let results = BaseService.search(PaymentsService.#filteredList, "paymentId", "paymentInvoice", "Payments", "paymentFile", "paymentFileName");
+            PaymentsService.updateSummary(results);
+        }
+
+        static updateSummary(paymentList) {
+            let totalPayments = paymentList.length;
+            let totalAmount = 0;
+            paymentList.forEach(payment => {
+                totalAmount += payment.paymentAmount;
+            });
+            let table = document.getElementById(ElementId.Payments.SUMMARY_TABLE);
+            table.querySelector(`.totalNumberOfPayments`).textContent = totalPayments.toString();
+            table.querySelector(`.totalAmount`).textContent = totalAmount.toString();
         }
 
         static deletePayment(paymentId) {
@@ -86,6 +98,9 @@
             let filteredData = [...PaymentsService.#paymentList];
             if(filter.supplier !== 'all') {
                 filteredData = filteredData.filter(payment => payment.paymentSupplier === filter.supplier);
+            }
+            if(filter.invoice !== 'all') {
+                filteredData = filteredData.filter(payment => payment.paymentInvoice === filter.invoice);
             }
             if(filter.fromDate) {
                 if(filter.dateType === 'all') {
