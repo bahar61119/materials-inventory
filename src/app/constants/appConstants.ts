@@ -10,5 +10,5 @@ export enum SettingsTabs {
     settingsPaymentMethods = "Payment Methods",
     settingsSupplierTypes = "Supplier Types",
     settingsItemTypes = "Item Types",
-    settingsUnitOfMeasures = "Unit Of Measures"
+    settingsUnitOfMeasures = "Units"
 }

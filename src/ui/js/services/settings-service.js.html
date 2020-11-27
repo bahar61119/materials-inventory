@@ -74,12 +74,12 @@
             );
         }
 
-        static updateSetting(tab, value) {
-            let data = { tab, value };
+        static updateSetting(key, value) {
+            let data = { key, value };
             API.updateSetting(
                 data,
                 dataReturned => {
-                    SettingsViewService.loadSettingsTabView(tab);
+                    SettingsViewService.loadSettingsTabView(key);
                     Alert.show(
                         AlertOptions.of()
                             .withTitle("Add")
@@ -99,12 +99,12 @@
             );
         }
 
-        static deleteSetting(tab, value) {
-            let data = { tab, value };
+        static deleteSetting(key, value) {
+            let data = { key, value };
             API.deleteSetting(
                 data,
                 dataReturned => {
-                    SettingsViewService.loadSettingsTabView(tab);
+                    SettingsViewService.loadSettingsTabView(key);
                     Alert.show(
                         AlertOptions.of()
                             .withTitle("Remove")

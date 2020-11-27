@@ -104,6 +104,10 @@ export class SettingsErrorMessage extends ErrorMessage {
     static get invalidSettingsValue() {
         return `Invalid settings value`;
     }
+
+    static get defaultValueDelete() {
+        return "Default value cannot be deleted";
+    }
 }
 
 export class ItemsErrorMessage extends ErrorMessage {

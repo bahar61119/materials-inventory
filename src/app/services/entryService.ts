@@ -5,17 +5,16 @@ import { Item } from '../models/itemModel';
 import { Supplier } from '../models/supplierModel';
 import { Utils } from '../utils/utils';
 import { EntityService } from './entityService';
-import { PaymentService } from './paymentService';
 
 export class EntryService extends EntityService {
     private static DATE_FORMAT = "yyyy-MM-dd";
     static getEntryList() {
         let entryList: Array<Entry> = EntryService.getEntityList(SheetConstants.ENTRIES_SHEET_NAME, Entry.name);
-        let supplierList: Array<Supplier> = PaymentService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
+        let supplierList: Array<Supplier> = EntryService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
         let supplierMap = Utils.arrayToObject(supplierList, "supplierId");
-        let invoiceList: Array<Invoice> = PaymentService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+        let invoiceList: Array<Invoice> = EntryService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
         let invoiceMap = Utils.arrayToObject(invoiceList, "invoiceId");
-        let itemList: Array<Item> = PaymentService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
+        let itemList: Array<Item> = EntryService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
         let itemMap = Utils.arrayToObject(itemList, "itemId");
         return entryList.map((entry: Entry) => {
             entry.entryExpectedDeliveryDate = EntryService.convertDateString(entry.entryExpectedDeliveryDate, EntryService.DATE_FORMAT);

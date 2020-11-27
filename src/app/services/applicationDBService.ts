@@ -8,6 +8,7 @@ import { Supplier } from '../models/supplierModel';
 import { SheetMetadata } from '../models/sheetMetadata';
 import { FolderNames } from '../constants/driveConstants';
 import { Drive } from '../db/drive';
+import { SettingsService } from './settingsService';
 
 export class ApplicationDBService {
     static prepareDatabase() {
@@ -18,6 +19,7 @@ export class ApplicationDBService {
         ApplicationDBService.prepareEntriesSheet();
         ApplicationDBService.preparePaymentsSheet();
         ApplicationDBService.prepareFolders();
+        SettingsService.addDefaultValues();
     }
 
     private static prepareFolders() {
