@@ -1,5 +1,5 @@
 export enum AppConstant {
-    APP_NAME = "Material Inventory"
+    APP_NAME = "Material Orders"
 }
 
 export enum SettingsTabs {

@@ -10,9 +10,11 @@ import { loadView } from './loadView';
 
 export function loadPaymentListView() {
     ProfileService.validateProfile();
+    let invoices = InvoiceService.getInvoiceList();
     let suppliers = SupplierService.getSupplierList();
     let paymentStatusList = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
     let data = {
+        invoices,
         suppliers,
         paymentStatusList
     }

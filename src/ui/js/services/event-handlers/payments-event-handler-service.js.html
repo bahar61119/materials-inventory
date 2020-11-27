@@ -51,6 +51,7 @@
         static #filter(filterButton) {
             let filter = FilterPayment.of();
             filter.supplier = $(`#${ElementId.Payments.FILTER_SUPPLIER}`).val();
+            filter.invoice = $(`#${ElementId.Payments.FILTER_INVOICE}`).val();
             filter.dateType = $(`#${ElementId.Payments.FILTER_DATE_TYPE}`).val();
             filter.fromDate = $(`#${ElementId.Payments.FILTER_FROM_DATE}`).val();
             filter.toDate = $(`#${ElementId.Payments.FILTER_TO_DATE}`).val();
