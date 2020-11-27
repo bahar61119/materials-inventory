@@ -4,7 +4,6 @@
         invoiceName;
         invoiceReferenceNumber;
         invoiceSupplier;
-        invoiceCurrency;
         invoiceAmount;
         invoiceIssueDate;
         invoiceReceivedDate;
@@ -18,7 +17,6 @@
             this.invoiceName = '';
             this.invoiceReferenceNumber = '';
             this.invoiceSupplier = '';
-            this.invoiceCurrency = '';
             this.invoiceAmount = 0;
             this.invoiceIssueDate = '';
             this.invoiceReceivedDate = '';
@@ -53,11 +51,6 @@
 
         withInvoiceSupplier(invoiceSupplier) {
             this.invoiceSupplier = invoiceSupplier;
-            return this;
-        }
-
-        withInvoiceCurrency(invoiceCurrency) {
-            this.invoiceCurrency = invoiceCurrency;
             return this;
         }
 

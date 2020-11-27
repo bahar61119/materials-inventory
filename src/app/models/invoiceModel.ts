@@ -3,7 +3,6 @@ export class Invoice implements InvoiceInterface {
     invoiceName: string;
     invoiceReferenceNumber: string;
     invoiceSupplier: string;
-    invoiceCurrency: string;
     invoiceAmount: number;
     invoiceIssueDate: string;
     invoiceReceivedDate: string;
@@ -17,7 +16,6 @@ export class Invoice implements InvoiceInterface {
         this.invoiceName = '';
         this.invoiceReferenceNumber = '';
         this.invoiceSupplier = '';
-        this.invoiceCurrency = '';
         this.invoiceAmount = 0;
         this.invoiceIssueDate = '';
         this.invoiceReceivedDate = '';
