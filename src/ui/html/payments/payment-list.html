@@ -96,31 +96,29 @@
   </div>
 </div>
 </form>
-<div class="row">
-  <div class="col-md-6">
-    <div class="border border-info">
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr class="text-nowrap">
-              <th scope="col" colspan="2" class="h5 text-center">Payments Summary</th>
-            </tr>
-          </thead>
-          <tbody id="payment-summary-table">
-            <tr class="text-nowrap">
-              <td scope="row" class="h6">Total Payments: </td>
-              <td class="totalNumberOfPayments h6 text-right">0</td>
-            </tr>
-            <tr class="text-nowrap">
-              <td class="h6">Total Amount: </td>
-              <td class="totalAmount h6 text-right">0</td>
-            </tr>
-          </tbody>
-        </table>
+
+<div class="row" id="payment-summary-table"> 
+  <div class="col-sm-2 offset-md-4">
+    <div class="card">
+      <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted text-center">Total Payments</h6>
+          <h5 class="card-title text-center text-primary totalNumberOfPayments"></h5>
       </div>
     </div>
   </div>
-  <div class="col-md-6">
+  <div class="col-sm-2">
+      <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted text-center">Total Payments Amount</h6>
+            <h5 class="card-title text-center text-info totalAmount"></h5>
+        </div>
+      </div>
+  </div>
+</div>
+<br/>
+
+<div class="row">
+  <div class="col">
     <canvas id="payment-summary-chart" height="50" ></canvas>
   </div>
 </div>

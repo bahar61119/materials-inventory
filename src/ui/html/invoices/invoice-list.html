@@ -70,37 +70,43 @@
   </div>
 </div>
 </form>
-<div class="row">
-  <div class="col-md-10 offset-md-1">
-    <div class="border border-info">
-      <div class="table-responsive">
-        <table class="table table-hover">
-          <thead>
-            <tr class="text-nowrap">
-              <th scope="col" colspan="11" class="h5 text-center">Invoices Summary</th>
-            </tr>
-          </thead>
-          <tbody id="invoice-summary-table">
-            <tr class="text-nowrap">
-              <td scope="row" class="h6">Total Invoices: </td>
-              <td class="totalNumberOfInvoices h6 text-right">0</td>
-              <td class="h6 text-center">|</td>
-              <td class="h6">Total Invoices Amount: </td>
-              <td class="totalInvoicesAmount h6 text-right">0</td>
-              <td class="h6 text-center">|</td>
-              <td scope="row" class="h6">Total Payable: </td>
-              <td class="totalPayable h6 text-right text-danger">0</td>
-              <td class="h6 text-center">|</td>
-              <td class="h6">Total Receivable: </td>
-              <td class="totalReceivable h6 text-right text-success">0</td>
-            </tr>
-          </tbody>
-        </table>
+
+<div class="row" id="invoice-summary-table"> 
+  <div class="col-sm-2 offset-md-2">
+    <div class="card">
+      <div class="card-body">
+          <h6 class="card-subtitle mb-2 text-muted text-center">Total Invoices</h6>
+          <h5 class="card-title text-center text-primary totalNumberOfInvoices"></h5>
       </div>
     </div>
   </div>
+  <div class="col-sm-2">
+      <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted text-center">Total Invoices Amount</h6>
+            <h5 class="card-title text-center text-info totalInvoicesAmount"></h5>
+        </div>
+      </div>
+  </div>
+  <div class="col-sm-2">
+      <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted text-center">Total Invoices Payable</h6>
+            <h5 class="card-title text-center text-danger totalPayable"></h5>
+        </div>
+      </div>
+  </div>
+  <div class="col-sm-2">
+      <div class="card">
+        <div class="card-body">
+            <h6 class="card-subtitle mb-2 text-muted text-center">Total Invoices Receivable</h6>
+            <h5 class="card-title text-center text-success totalReceivable"></h5>
+        </div>
+      </div>
+  </div>
 </div>
 <br/>
+
 
 <div class="table-responsive">
   <table id="data-table" class="table table-bordered table-hover">
