@@ -9,6 +9,10 @@ export class SupplierService extends EntityService {
         let invoiceList: Array<Invoice> = SupplierService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
         let paymentList: Array<Payment> = SupplierService.getEntityList(SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
         let supplierList: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
+        return SupplierService.getSupplierWithInvoicesData(supplierList, invoiceList, paymentList);
+    }
+
+    static getSupplierWithInvoicesData(supplierList: Array<Supplier>, invoiceList: Array<Invoice>,  paymentList: Array<Payment>) {
         return supplierList.map((supplier: Supplier) => {
             let supplierBill = SupplierService.getSupplierTotalBill(supplier.supplierId, invoiceList);
             let supplierPaidPayment = SupplierService.getSupplierTotalPayment(supplier.supplierId, paymentList);
@@ -44,7 +48,7 @@ export class SupplierService extends EntityService {
         return this.deleteEntity(supplierId, SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     }
 
-    private static getSupplierTotalBill(supplierId: string, invoiceList: Array<Invoice>) {
+    static getSupplierTotalBill(supplierId: string, invoiceList: Array<Invoice>) {
         let totalInvoices = 0;
         let totalAmount = 0.0;
         invoiceList.forEach(invoice => {
@@ -59,7 +63,7 @@ export class SupplierService extends EntityService {
         }
     }
 
-    private static getSupplierTotalPayment(supplierId: string, paymentList: Array<Payment>) {
+    static getSupplierTotalPayment(supplierId: string, paymentList: Array<Payment>) {
         let totalPaidPayments = 0;
         let totalPaidAmount = 0.0;
         paymentList.forEach(payment => {

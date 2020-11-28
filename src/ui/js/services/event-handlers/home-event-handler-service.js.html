@@ -1,0 +1,40 @@
+<script>
+    class HomeEventHandlerService extends BaseEventHandlerService {
+        static clickEventHandler(event) {
+            HomeEventHandlerService.#filterClickEventHandler(event);
+        }
+
+        static #filterClickEventHandler(event) {
+            let filterButton = event.target.closest(`#${ElementId.Home.FILTER_BUTTON}`);
+            let clearButton = event.target.closest(`#${ElementId.Home.FILTER_CLEAR_BUTTON}`);
+
+            if(filterButton) {
+                this.#filter(filterButton);
+            } else if(clearButton) {
+                this.#filterClear(clearButton);
+            }
+        }
+
+        static #filter(filterButton) {
+            let filter = FilterHome.of();
+            filter.supplier = $(`#${ElementId.Home.FILTER_SUPPLIER}`).val();
+            filter.fromDate = $(`#${ElementId.Home.FILTER_FROM_DATE}`).val();
+            filter.toDate = $(`#${ElementId.Home.FILTER_TO_DATE}`).val();
+
+            if (filter.fromDate && filter.toDate && filter.fromDate > filter.toDate) {
+                Alert.show(
+                    AlertOptions.of()
+                        .withTitle("Date Selection Error")
+                        .withMessage("'From Date' needs to be earlier than 'To Date'")
+                        .withType(AlertOptions.Type.WARNING)
+                );
+            } else {
+                HomeViewService.loadHomeView(filter);
+            }
+        }
+
+        static #filterClear(clearButton) {
+            HomeViewService.loadHomeView();
+        }
+    } 
+</script>

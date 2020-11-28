@@ -1,6 +1,9 @@
 import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
 import { ViewFileNames } from '../../constants/fileNames';
+import { SheetConstants } from '../../constants/sheetConstants';
+import { Invoice } from '../../models/invoiceModel';
 import { Payment } from '../../models/paymentModel';
+import { Supplier } from '../../models/supplierModel';
 import { InvoiceService } from '../../services/invoiceService';
 import { PaymentService } from '../../services/paymentService';
 import { ProfileService } from '../../services/profileService';
@@ -10,8 +13,8 @@ import { loadView } from './loadView';
 
 export function loadPaymentListView() {
     ProfileService.validateProfile();
-    let invoices = InvoiceService.getInvoiceList();
-    let suppliers = SupplierService.getSupplierList();
+    let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let paymentStatusList = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
     let data = {
         invoices,
@@ -23,8 +26,8 @@ export function loadPaymentListView() {
 
 export function loadAddPaymentView() {
     ProfileService.validateProfile();
-    let invoices = InvoiceService.getInvoiceList();
-    let suppliers = SupplierService.getSupplierList();
+    let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let paymentMethods = SettingsService.getList(ApplicationDBKeys.PAYMENT_METHODS);
     let paymentStatuses = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
     let data = {
@@ -41,8 +44,8 @@ export function loadAddPaymentView() {
 export function loadEditPaymentView(paymentId: string) {
     ProfileService.validateProfile();
     let payment = PaymentService.getPayment(String(paymentId));
-    let invoices = InvoiceService.getInvoiceList();
-    let suppliers = SupplierService.getSupplierList();
+    let invoices: Array<Invoice> = SupplierService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let paymentMethods = SettingsService.getList(ApplicationDBKeys.PAYMENT_METHODS);
     let paymentStatuses = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
     let data = {

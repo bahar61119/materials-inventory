@@ -1,5 +1,7 @@
 import { ViewFileNames } from '../../constants/fileNames';
+import { SheetConstants } from '../../constants/sheetConstants';
 import { Invoice } from '../../models/invoiceModel';
+import { Supplier } from '../../models/supplierModel';
 import { InvoiceService } from '../../services/invoiceService';
 import { ProfileService } from '../../services/profileService';
 import { SupplierService } from '../../services/supplierService';
@@ -7,7 +9,7 @@ import { loadView } from './loadView';
 
 function loadInvoiceListView() {
     ProfileService.validateProfile();
-    let suppliers = SupplierService.getSupplierList();
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let data = {
         suppliers
     }
@@ -16,7 +18,7 @@ function loadInvoiceListView() {
 
 function loadAddInvoiceView() {
     ProfileService.validateProfile();
-    let suppliers = SupplierService.getSupplierList();
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let data = {
         invoice: Invoice.of(),
         suppliers,
@@ -28,7 +30,7 @@ function loadAddInvoiceView() {
 function loadEditInvoiceView(invoiceId: string) {
     ProfileService.validateProfile();
     let invoice = InvoiceService.getInvoice(String(invoiceId));
-    let suppliers = SupplierService.getSupplierList();
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let data = {
         invoice,
         suppliers,

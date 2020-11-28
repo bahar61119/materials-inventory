@@ -148,6 +148,47 @@
             let g = Math.floor(Math.random() * 255);
             let b = Math.floor(Math.random() * 255);
             return "rgb(" + r + "," + g + "," + b + ")";
-         };
+        };
+
+        static getColors() {
+            let r = Math.floor(Math.random() * 255);
+            let g = Math.floor(Math.random() * 255);
+            let b = Math.floor(Math.random() * 255);
+            return {r, g, b};
+        };
+
+        static rgb(colors, weight) {
+            return colors.map(color => "rgba(" + color.r + "," + color.g + "," + color.b +","+weight+ ")")
+        }
+
+        static drawBarChart(canvasId, chartLabel, values, labels) {
+            let colors = values.map(value => BaseService.getColors());
+            let backgroundColor = BaseService.rgb(colors, 0.4);
+            let borderColor = BaseService.rgb(colors, 1);
+            let canvas = document.getElementById(canvasId);
+            let ctx = canvas.getContext('2d');
+            return new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: chartLabel,
+                        data: values,
+                        backgroundColor,
+                        borderColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                    }
+                }
+            });
+        }
     }
 </script>

@@ -27,7 +27,7 @@
         }
 
         static #homeLinkClickEvent() {
-            $(`#${ElementId.Navbar.HOME_LINK}`).bind("click", HomeViewService.loadHomeView);
+            $(`#${ElementId.Navbar.HOME_LINK}`).bind("click", () => HomeViewService.loadHomeView());
         }
 
         static #suppliersLinkClickEvent() {

@@ -1,5 +1,12 @@
 <script>
-class HomeService {
-    
-}
+    class HomeService extends BaseService{
+        static updateHome() {
+            let entryDashboard = document.getElementById('home-entry-dashboard-chart');
+            let paymentsDashboard = document.getElementById('home-payments-dashboard-chart');
+            let entryDashboardData = JSON.parse(entryDashboard.dataset.entryDashboardData);
+            let paymentsDashboardData = JSON.parse(paymentsDashboard.dataset.paymentsDashboardData);
+            BaseService.drawBarChart('home-entry-dashboard-chart', '# Of Deliveries by Status', Object.values(entryDashboardData), Object.keys(entryDashboardData));
+            BaseService.drawBarChart('home-payments-dashboard-chart', 'Amount by Payment Status', Object.values(paymentsDashboardData), Object.keys(paymentsDashboardData));
+        }
+    }
 </script>

@@ -99,9 +99,10 @@
          Home
         */
 
-        static loadHomeView(successHandler = ()=>{}, failureHandler = ()=>{}) {
+        static loadHomeView(filter ,successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadHomeView)
+                .withData(filter)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

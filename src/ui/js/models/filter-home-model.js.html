@@ -1,0 +1,21 @@
+<script>
+    class FilterHome {
+        supplier;
+        fromDate;
+        toDate;
+
+        constructor() {
+            this.supplier = '';
+            this.fromDate = '';
+            this.toDate = '';
+        }
+
+        static of() {
+            return new FilterInvoice();
+        }
+
+        static from(filterData) {
+            return Object.assign(new FilterInvoice, filterData);
+        }
+    }
+</script>
