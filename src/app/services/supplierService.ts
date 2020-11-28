@@ -7,8 +7,7 @@ import { InvoiceService } from './invoiceService';
 import { PaymentService } from './paymentService';
 import { EntryService } from './entryService';
 import { Entry } from '../models/entryModel';
-import { SupplierError } from '../errors/supplierError';
-import { ErrorMessage, SupplierErrorMessage } from '../constants/errorMessages';
+import { ErrorMessage } from '../constants/errorMessages';
 
 export class SupplierService extends EntityService {
     static getSupplierList() {
