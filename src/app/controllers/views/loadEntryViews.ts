@@ -1,6 +1,10 @@
 import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
 import { ViewFileNames } from '../../constants/fileNames';
+import { SheetConstants } from '../../constants/sheetConstants';
 import { Entry } from '../../models/entryModel';
+import { Invoice } from '../../models/invoiceModel';
+import { Item } from '../../models/itemModel';
+import { Supplier } from '../../models/supplierModel';
 import { EntryService } from '../../services/entryService';
 import { InvoiceService } from '../../services/invoiceService';
 import { ItemsService } from '../../services/itemsService';
@@ -11,9 +15,9 @@ import { loadView } from './loadView';
 
 export function loadEntryListView() {
     ProfileService.validateProfile();
-    let suppliers = SupplierService.getSupplierList();
-    let invoices = InvoiceService.getInvoiceList();
-    let items = ItemsService.getItemList();
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
+    let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+    let items: Array<Item> = ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
     let productStatusList = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
     let data = {
         suppliers,
@@ -26,9 +30,9 @@ export function loadEntryListView() {
 
 export function loadAddEntryView() {
     ProfileService.validateProfile();
-    let invoices = InvoiceService.getInvoiceList();
-    let suppliers = SupplierService.getSupplierList();
-    let items = ItemsService.getItemList();
+    let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
+    let items: Array<Item> = ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
     let productStatuses = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
     let data = {
         entry: Entry.of(),
@@ -44,9 +48,9 @@ export function loadAddEntryView() {
 export function loadEditEntryView(entryId: string) {
     ProfileService.validateProfile();
     let entry = EntryService.getEntry(String(entryId));
-    let invoices = InvoiceService.getInvoiceList();
-    let suppliers = SupplierService.getSupplierList();
-    let items = ItemsService.getItemList();
+    let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+    let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
+    let items: Array<Item> = ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
     let productStatuses = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
     let data = {
         entry,

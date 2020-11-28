@@ -55,28 +55,11 @@
                 }
                 entriesByStatus[entry.entryStatus] += 1;
             });
-            EntriesService.drawChart(Object.values(entriesByStatus), Object.keys(entriesByStatus))
-        }
-
-        static drawChart(values, labels) {
+            
             if (EntriesService.summaryChart) {
                 EntriesService.summaryChart.destroy();
             }
-            let colors = values.map(value => BaseService.dynamicColor());
-            let canvas = document.getElementById('entry-summary-chart');
-            canvas.width = canvas.width
-            let ctx = canvas.getContext('2d');
-            EntriesService.summaryChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Delivery by Status',
-                        data: values,
-                        backgroundColor: colors
-                    }]
-                }
-            });
+            EntriesService.summaryChart = BaseService.drawBarChart('entry-summary-chart', 'Delivery by Status', Object.values(entriesByStatus), Object.keys(entriesByStatus));
         }
 
         static deleteEntry(entryId) {

@@ -7,11 +7,13 @@
             }
         }
 
-        static loadHomeView() {
+        static loadHomeView(filter = FilterHome.of()) {
             HomeViewService.clear();
             API.loadHomeView(
+                filter,
                 html => {
                     HomeViewService.setHtml(html);
+                    HomeService.updateHome();
                 },
                 HomeViewService.errorHandler
             );

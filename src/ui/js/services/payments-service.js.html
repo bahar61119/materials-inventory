@@ -61,28 +61,10 @@
             let table = document.getElementById(ElementId.Payments.SUMMARY_TABLE);
             table.querySelector(`.totalNumberOfPayments`).textContent = totalPayments.toString();
             table.querySelector(`.totalAmount`).textContent = totalAmount.toString();
-            PaymentsService.drawChart(Object.values(amountByStatus), Object.keys(amountByStatus));
-        }
-
-        static drawChart(values, labels) {
             if (PaymentsService.#summaryChart) {
                 PaymentsService.#summaryChart.destroy();
             }
-            let colors = values.map(value => BaseService.dynamicColor());
-            let canvas = document.getElementById('payment-summary-chart');
-            canvas.width = canvas.width
-            let ctx = canvas.getContext('2d');
-            PaymentsService.#summaryChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Amount by Payment Status',
-                        data: values,
-                        backgroundColor: colors
-                    }]
-                }
-            });
+            PaymentsService.#summaryChart = BaseService.drawBarChart('payment-summary-chart', 'Amount by Payment Status', Object.values(amountByStatus), Object.keys(amountByStatus));
         }
 
         static deletePayment(paymentId) {
