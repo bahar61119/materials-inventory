@@ -40,7 +40,26 @@
         }
 
         static searchSupplier() {
-            BaseService.search(SupplierService.#supplierList, "supplierId", "supplierName", "Supplier");
+            let results = BaseService.search(SupplierService.#supplierList, "supplierId", "supplierName", "Supplier");
+            SupplierService.updateSummary(results);
+        }
+
+        static updateSummary(supplierList) {
+            let totalInvoiceAmount = 0;
+            let totalPaidAmount = 0;
+            let totalPayable = 0;
+            let totalReceivable = 0;
+            supplierList.forEach(supplier => {
+                totalInvoiceAmount += supplier.supplierTotalInvoicesAmount;
+                totalPaidAmount += supplier.supplierTotalPaidAmount;
+                totalPayable += supplier.supplierPayable
+                totalReceivable += supplier.supplierReceivable
+            });
+            let table = document.getElementById(ElementId.Supplier.SUMMARY_TABLE);
+            table.querySelector(`.totalInvoicesAmount`).textContent = totalInvoiceAmount.toString();
+            table.querySelector(`.totalPaidAmount`).textContent = totalPaidAmount.toString();
+            table.querySelector(`.totalPayable`).textContent = totalPayable.toString();
+            table.querySelector(`.totalReceivable`).textContent = totalReceivable.toString();
         }
 
         static deleteSupplier(supplierId) {
