@@ -2,57 +2,23 @@
 <br/>
 <form>
     <div class="row">
-      <div class="col-md-3 input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="filter-home-supplier">Supplier</label>
-        </div>
-        <select class="custom-select" id="filter-home-supplier">
-          <option selected value="all">All</option>
-          <? for(const supplierIndex in data.suppliers) { ?>
-            <option 
-            <? if(data.suppliers[supplierIndex].supplierId === data.filter.supplier ) { ?>
-                selected
+        <div class="col-md-4 offset-md-4 input-group mb-3">
+            <div class="input-group-prepend">
+                <label class="input-group-text" for="filter-home-supplier">Supplier</label>
+            </div>
+            <select class="custom-select" id="filter-home-supplier">
+                <option selected value="all">All</option>
+                <? for(const supplierIndex in data.suppliers) { ?>
+                <option 
+                <? if(data.suppliers[supplierIndex].supplierId === data.filter.supplier ) { ?>
+                    selected
+                <? } ?>
+                value = <?= data.suppliers[supplierIndex].supplierId ?>>
+                    <?= data.suppliers[supplierIndex].supplierName+" ("+data.suppliers[supplierIndex].supplierId+")" ?>
+                </option>
             <? } ?>
-            value = <?= data.suppliers[supplierIndex].supplierId ?>>
-              <?= data.suppliers[supplierIndex].supplierName+" ("+data.suppliers[supplierIndex].supplierId+")" ?>
-            </option>
-        <? } ?>
-        </select>
-      </div>
-      <div class="col-md-7 input-group mb-3">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="filter-home-from-date">From</label>
+            </select>
         </div>
-        <input type="date" class="form-control" id="filter-home-from-date" 
-        <? if(data.filter.fromDate) { ?>
-            value=<?= data.filter.fromDate ?> 
-        <? } ?>
-        placeholder="Select Date">
-        <div class="input-group-prepend">
-          <label class="input-group-text" for="filter-home-to-date">To</label>
-        </div>
-        <input type="date" class="form-control" id="filter-home-to-date" 
-        <? if(data.filter.toDate) { ?>
-            value=<?= data.filter.toDate ?> 
-        <? } ?>
-        placeholder="Select Date">
-      </div>
-      <div class="col-md-2 input-group mb-3">
-        <div class="btn-group btn-block" role="group">
-          <button type="button" class="btn btn-outline-info" id="filter-home-button">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2z"/>
-            </svg>
-            Filter
-          </button>
-          <button type="reset" class="btn btn-outline-secondary" id="filter-home-clear-button">
-            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-funnel" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5v-2zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2h-11z"/>
-            </svg>
-            Clear
-          </button>
-        </div>
-      </div>
     </div>
 </form>
 <div class="row">
@@ -92,3 +58,4 @@
         <canvas id="home-payments-dashboard-chart" height="50" data-payments-dashboard-data=<?= JSON.stringify(data.dashboard.amountByPaymentStatus)?>></canvas>
     </div>
 </div>
+<br/>

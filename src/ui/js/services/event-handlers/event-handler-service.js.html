@@ -9,7 +9,6 @@
         }
 
         static #clickEvents(event) {
-            HomeEventHandlerService.clickEventHandler(event);
             SupplierEventHandlerService.clickEventHandler(event);
             ProfileEventHandlerService.clickEventHandler(event);
             SettingsEventHandlerService.clickEventHandler(event);
@@ -20,6 +19,7 @@
         }
 
         static #inputEvents(event) {
+            HomeEventHandlerService.inputEventHandler(event);
             FileUploadEventHandlerService.inputEventHandler();
             SupplierEventHandlerService.inputEventHandler(event);
             ProfileEventHandlerService.inputEventHandler(event);
