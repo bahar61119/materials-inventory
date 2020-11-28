@@ -2,7 +2,7 @@
     class PaymentsService {
         static #paymentList = [];
         static #filteredList = [];
-        static summaryChart;
+        static #summaryChart;
 
         static setPaymentListData() {
             API.getPaymentList(
@@ -65,14 +65,14 @@
         }
 
         static drawChart(values, labels) {
-            if (PaymentsService.summaryChart) {
-                PaymentsService.summaryChart.destroy();
+            if (PaymentsService.#summaryChart) {
+                PaymentsService.#summaryChart.destroy();
             }
-            let colors = values.map(value => PaymentsService.dynamicColor());
+            let colors = values.map(value => BaseService.dynamicColor());
             let canvas = document.getElementById('payment-summary-chart');
             canvas.width = canvas.width
             let ctx = canvas.getContext('2d');
-            PaymentsService.summaryChart = new Chart(ctx, {
+            PaymentsService.#summaryChart = new Chart(ctx, {
                 type: 'bar',
                 data: {
                     labels: labels,
@@ -84,13 +84,6 @@
                 }
             });
         }
-
-        static dynamicColor() {
-            let r = Math.floor(Math.random() * 255);
-            let g = Math.floor(Math.random() * 255);
-            let b = Math.floor(Math.random() * 255);
-            return "rgb(" + r + "," + g + "," + b + ")";
-         };
 
         static deletePayment(paymentId) {
             BaseService.delete(paymentId, "Payment", API.deletePayment, PaymentsService.setPaymentListData);

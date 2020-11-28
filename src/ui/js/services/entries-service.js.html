@@ -2,6 +2,7 @@
     class EntriesService {
         static #entryList = [];
         static #filteredList = [];
+        static #summaryChart;
 
         static setEntryListData() {
             API.getEntryList(
@@ -42,7 +43,40 @@
         }
 
         static search() {
-            BaseService.search(EntriesService.#filteredList, "entryId", "entryItem", "Entries");
+            let results = BaseService.search(EntriesService.#filteredList, "entryId", "entryItem", "Entries");
+            EntriesService.updateSummary(results);
+        }
+
+        static updateSummary(entryList) {
+            let entriesByStatus = {}
+            entryList.forEach(entry => {
+                if (!entriesByStatus[entry.entryStatus]) {
+                    entriesByStatus[entry.entryStatus] = 0;
+                }
+                entriesByStatus[entry.entryStatus] += 1;
+            });
+            EntriesService.drawChart(Object.values(entriesByStatus), Object.keys(entriesByStatus))
+        }
+
+        static drawChart(values, labels) {
+            if (EntriesService.summaryChart) {
+                EntriesService.summaryChart.destroy();
+            }
+            let colors = values.map(value => BaseService.dynamicColor());
+            let canvas = document.getElementById('entry-summary-chart');
+            canvas.width = canvas.width
+            let ctx = canvas.getContext('2d');
+            EntriesService.summaryChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Delivery by Status',
+                        data: values,
+                        backgroundColor: colors
+                    }]
+                }
+            });
         }
 
         static deleteEntry(entryId) {
