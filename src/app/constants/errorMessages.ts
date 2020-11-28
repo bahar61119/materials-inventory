@@ -10,6 +10,10 @@ export class ErrorMessage {
     static get entityDeleteError() {
         return (entityName: string) => `${entityName} delete failed`;
     }
+
+    static get entityInUse() {
+        return (entityName: string) => `${entityName} cannot be deleted. Please remove all references of the ${entityName} before delete`;
+    }
 }
 
 export class SheetErrorMessage extends ErrorMessage {

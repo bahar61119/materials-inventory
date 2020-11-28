@@ -13,13 +13,9 @@ export class HomeService {
     static getDashboard(filter: HomeFilter) {
         console.log(filter);
         let invoiceList: Array<Invoice> = HomeService.getFilteredInvoiceList(filter);
-        console.log("invoiceList: " + invoiceList.length);
         let paymentList: Array<Payment> = HomeService.getFilteredPaymentList(filter);
-        console.log("paymentList: " + paymentList.length);
         let entryList: Array<Entry> = HomeService.getFilteredEntryList(filter);
-        console.log("entryList: " + entryList.length);
         let supplierList: Array<Supplier> = HomeService.getFilteredSupplierList(filter);
-        console.log("supplierList: " + supplierList.length);
         let supplierListWithInvoiceData = SupplierService.getSupplierWithInvoicesData(supplierList, invoiceList, paymentList);
         let amountByPaymentStatus = HomeService.getAmountByPaymentStatus(paymentList);
         let entriesByDeliveryStatus = HomeService.getEntriesByDeliveryStatus(entryList);
