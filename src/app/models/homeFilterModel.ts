@@ -1,12 +1,8 @@
 export class HomeFilter {
     supplier: string;
-    fromDate: string;
-    toDate: string;
 
     constructor() {
-        this.supplier = '';
-        this.fromDate = '';
-        this.toDate = '';
+        this.supplier = 'all';
     }
 
     static of() {
