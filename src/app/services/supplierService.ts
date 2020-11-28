@@ -3,6 +3,12 @@ import { SheetConstants } from '../constants/sheetConstants';
 import { EntityService } from './entityService';
 import { Invoice } from '../models/invoiceModel';
 import { Payment } from '../models/paymentModel';
+import { InvoiceService } from './invoiceService';
+import { PaymentService } from './paymentService';
+import { EntryService } from './entryService';
+import { Entry } from '../models/entryModel';
+import { SupplierError } from '../errors/supplierError';
+import { ErrorMessage, SupplierErrorMessage } from '../constants/errorMessages';
 
 export class SupplierService extends EntityService {
     static getSupplierList() {
@@ -45,7 +51,26 @@ export class SupplierService extends EntityService {
     }
 
     static deleteSupplier(supplierId: string): string {
+        SupplierService.checkIfSupplierInUse(supplierId);
         return this.deleteEntity(supplierId, SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
+    }
+
+    static checkIfSupplierInUse(supplierId: string) {
+        let invoiceList: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
+        invoiceList = invoiceList.filter(invoice => invoice.invoiceSupplier === supplierId);
+        if(invoiceList.length) {
+            throw new Error(ErrorMessage.entityInUse("Supplier"));
+        }
+        let paymentList: Array<Payment> = PaymentService.getEntityList(SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
+        paymentList = paymentList.filter(payment => payment.paymentSupplier === supplierId);
+        if(paymentList.length) {
+            throw new Error(ErrorMessage.entityInUse("Supplier"));
+        }
+        let entryList: Array<Entry> = EntryService.getEntityList(SheetConstants.ENTRIES_SHEET_NAME, Entry.name);
+        entryList = entryList.filter(entry => entry.entrySupplier === supplierId);
+        if(entryList.length) {
+            throw new Error(ErrorMessage.entityInUse("Supplier"));
+        }
     }
 
     static getSupplierTotalBill(supplierId: string, invoiceList: Array<Invoice>) {

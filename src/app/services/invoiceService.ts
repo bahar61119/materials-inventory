@@ -1,11 +1,15 @@
 import { FolderNames } from '../constants/driveConstants';
+import { ErrorMessage } from '../constants/errorMessages';
 import { SheetConstants } from '../constants/sheetConstants';
 import { Drive } from '../db/drive';
+import { Entry } from '../models/entryModel';
 import { Invoice } from '../models/invoiceModel';
 import { Payment } from '../models/paymentModel';
 import { Supplier } from '../models/supplierModel';
 import { Utils } from '../utils/utils';
 import { EntityService } from './entityService';
+import { EntryService } from './entryService';
+import { PaymentService } from './paymentService';
 
 export class InvoiceService extends EntityService{
     private static DATE_FORMAT = "yyyy-MM-dd";
@@ -76,12 +80,26 @@ export class InvoiceService extends EntityService{
     }
 
     static deleteInvoice(invoiceId: string): string {
+        InvoiceService.checkIfInvoiceInUse(invoiceId);
         let currentInvoice: Invoice = InvoiceService.getEntity(invoiceId, SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
         InvoiceService.deleteEntity(invoiceId, SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
         if(currentInvoice.invoiceFile) {
             Drive.removeFile(currentInvoice.invoiceFile);
         }
         return invoiceId
+    }
+
+    static checkIfInvoiceInUse(invoiceId: string) {
+        let paymentList: Array<Payment> = PaymentService.getEntityList(SheetConstants.PAYMENTS_SHEET_NAME, Payment.name);
+        paymentList = paymentList.filter(payment => payment.paymentInvoice === invoiceId);
+        if(paymentList.length) {
+            throw new Error(ErrorMessage.entityInUse("Invoice"));
+        }
+        let entryList: Array<Entry> = EntryService.getEntityList(SheetConstants.ENTRIES_SHEET_NAME, Entry.name);
+        entryList = entryList.filter(entry => entry.entryInvoice === invoiceId);
+        if(entryList.length) {
+            throw new Error(ErrorMessage.entityInUse("Invoice"));
+        }
     }
 
     private static getInvoiceTotalPayment(invoiceId: string, paymentList: Array<Payment>) {
