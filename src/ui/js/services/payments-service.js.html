@@ -2,6 +2,7 @@
     class PaymentsService {
         static #paymentList = [];
         static #filteredList = [];
+        static summaryChart;
 
         static setPaymentListData() {
             API.getPaymentList(
@@ -49,13 +50,47 @@
         static updateSummary(paymentList) {
             let totalPayments = paymentList.length;
             let totalAmount = 0;
+            let amountByStatus = {}
             paymentList.forEach(payment => {
                 totalAmount += payment.paymentAmount;
+                if (!amountByStatus[payment.paymentStatus]) {
+                    amountByStatus[payment.paymentStatus] = 0;
+                }
+                amountByStatus[payment.paymentStatus] += payment.paymentAmount;
             });
             let table = document.getElementById(ElementId.Payments.SUMMARY_TABLE);
             table.querySelector(`.totalNumberOfPayments`).textContent = totalPayments.toString();
             table.querySelector(`.totalAmount`).textContent = totalAmount.toString();
+            PaymentsService.drawChart(Object.values(amountByStatus), Object.keys(amountByStatus));
         }
+
+        static drawChart(values, labels) {
+            if (PaymentsService.summaryChart) {
+                PaymentsService.summaryChart.destroy();
+            }
+            let colors = values.map(value => PaymentsService.dynamicColor());
+            let canvas = document.getElementById('payment-summary-chart');
+            canvas.width = canvas.width
+            let ctx = canvas.getContext('2d');
+            PaymentsService.summaryChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Amount by Payment Status',
+                        data: values,
+                        backgroundColor: colors
+                    }]
+                }
+            });
+        }
+
+        static dynamicColor() {
+            let r = Math.floor(Math.random() * 255);
+            let g = Math.floor(Math.random() * 255);
+            let b = Math.floor(Math.random() * 255);
+            return "rgb(" + r + "," + g + "," + b + ")";
+         };
 
         static deletePayment(paymentId) {
             BaseService.delete(paymentId, "Payment", API.deletePayment, PaymentsService.setPaymentListData);
