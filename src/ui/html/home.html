@@ -1,4 +1,4 @@
-<p class="h1 text-center">Material Orders</p>
+<p class="display-3 text-center">Material Orders</p>
 <br/>
 <form>
     <div class="row">
@@ -58,12 +58,14 @@
 </div>
 <br/>
 <div class="container-fluid">
-    <p class="h4 text-center">Deliveries</p>
+    <p class="display-4">Deliveries</p>
+    <hr/>
     <div class="row">
         <canvas id="home-entry-dashboard-chart" height="50" data-entry-dashboard-data=<?= JSON.stringify(data.dashboard.entriesByDeliveryStatus)?>></canvas>
     </div>
     
-    <p class="h4 text-center">Payments</p>
+    <p class="display-4">Payments</p>
+    <hr/>
     <div class="row">
         <canvas id="home-payments-dashboard-chart" height="50" data-payments-dashboard-data=<?= JSON.stringify(data.dashboard.amountByPaymentStatus)?>></canvas>
     </div>
