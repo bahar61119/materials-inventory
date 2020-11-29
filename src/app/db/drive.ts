@@ -7,7 +7,8 @@ import { DB } from './db';
 
 export class Drive {
     static getFolderId(folder: FolderNames): string {
-        return DB.getApplicationDB().get(Drive.getKey(folder));
+        // return DB.getApplicationDB().get(Drive.getKey(folder));
+        return DB.getUserDB().get(Drive.getKey(folder));
     }
 
     static doesFolderExist(folder: FolderNames): boolean {
@@ -20,11 +21,13 @@ export class Drive {
     }
 
     static deleteFolderId(folder: FolderNames) {
-        DB.getApplicationDB().delete(Drive.getKey(folder));
+        // DB.getApplicationDB().delete(Drive.getKey(folder));
+        DB.getUserDB().delete(Drive.getKey(folder));
     }
 
     static saveFolderId(id: string, folder: FolderNames) {
-        DB.getApplicationDB().put(Drive.getKey(folder), id);
+        // DB.getApplicationDB().put(Drive.getKey(folder), id);
+        DB.getUserDB().put(Drive.getKey(folder), id);
     }
 
     static createFolder(folderName: FolderNames, parentFolderName: FolderNames | null = null): string {

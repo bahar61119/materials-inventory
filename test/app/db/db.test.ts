@@ -48,13 +48,14 @@ describe("DB Tests", ()=>{
         });
     });
 
-    describe("getApplicationDB", ()=>{
-        DB.getScriptProperties = jest.fn();
-        test("returns application db", ()=>{
-            DB.getApplicationDB();
-            expect(DB.getScriptProperties).toBeCalledTimes(1);
-        });
-    });
+    // describe("getApplicationDB", ()=>{
+    //     DB.getScriptProperties = jest.fn();
+    //     test("returns application db", ()=>{
+    //         DB.getApplicationDB();
+    //         DB.getUserDB();
+    //         expect(DB.getScriptProperties).toBeCalledTimes(1);
+    //     });
+    // });
 
     describe("put", ()=>{
         test("success", ()=>{

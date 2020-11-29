@@ -11,7 +11,8 @@ export type Users = { [key: string]: User };
 export type AuthorizedUsers = { [key: string]: AuthorizedUser };
 export class UserService {
     static getAuthorizedUsers(): AuthorizedUsers {
-        let authorizeUsers = DB.getApplicationDB().get(ApplicationDBKeys.AUTHORIZED_USERS, <AuthorizedUsers>{});
+        // let authorizeUsers = DB.getApplicationDB().get(ApplicationDBKeys.AUTHORIZED_USERS, <AuthorizedUsers>{});
+        let authorizeUsers = DB.getUserDB().get(ApplicationDBKeys.AUTHORIZED_USERS, <AuthorizedUsers>{});
         return authorizeUsers? authorizeUsers: {};
     }
 
@@ -39,7 +40,8 @@ export class UserService {
             throw new UserError(UserErrorMessage.userAlreadyAuthorized);
         }
         authorizeUsers[authorizeUser.email] = authorizeUser;
-        DB.getApplicationDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
+        // DB.getApplicationDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
+        DB.getUserDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
         return authorizeUser;
     }
 
@@ -55,7 +57,8 @@ export class UserService {
         }
 
         authorizeUsers[authorizeUser.email] = authorizeUser;
-        DB.getApplicationDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
+        // DB.getApplicationDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
+        DB.getUserDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
         return authorizeUser;
     }
 
@@ -72,7 +75,8 @@ export class UserService {
         }
 
         delete authorizeUsers[userEmail];
-        DB.getApplicationDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
+        // DB.getApplicationDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
+        DB.getUserDB().put(ApplicationDBKeys.AUTHORIZED_USERS, authorizeUsers);
         return userEmail;
     }
 
@@ -104,7 +108,8 @@ export class UserService {
         user.withUUID(UserService.getUuid());
         users[user.email] = user;
 
-        DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
+        // DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
+        DB.getUserDB().put(ApplicationDBKeys.USERS, users);
 
         return user;
     }
@@ -141,7 +146,8 @@ export class UserService {
         if(oldEmail) delete users[oldEmail];
         users[user.email] = user;
 
-        DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
+        // DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
+        DB.getUserDB().put(ApplicationDBKeys.USERS, users);
 
         return user;
     }
@@ -167,7 +173,8 @@ export class UserService {
         let user = users[email];
         delete users[email];
 
-        DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
+        // DB.getApplicationDB().put(ApplicationDBKeys.USERS, users);
+        DB.getUserDB().put(ApplicationDBKeys.USERS, users);
 
         return user;
     }
@@ -235,7 +242,8 @@ export class UserService {
     }
 
     static getUsers(): Users {
-        let users = DB.getApplicationDB().get(ApplicationDBKeys.USERS, <Users>{}); 
+        // let users = DB.getApplicationDB().get(ApplicationDBKeys.USERS, <Users>{}); 
+        let users = DB.getUserDB().get(ApplicationDBKeys.USERS, <Users>{}); 
         return users? users: {};
     }
 

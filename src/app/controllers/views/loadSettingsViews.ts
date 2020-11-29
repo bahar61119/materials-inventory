@@ -6,11 +6,14 @@ import { SettingsService } from '../../services/settingsService';
 import { UserService } from '../../services/userService';
 import { loadView } from './loadView';
 
+// TODO: Closing authorization user feature until come up with a solution for logged in users.
 export function loadSettingsView() {
     ProfileService.validateProfile(true);
-    let authorizationContents = loadSettingsTabView(ApplicationDBKeys.AUTHORIZED_USERS);
+    // let authorizationContents = loadSettingsTabView(ApplicationDBKeys.AUTHORIZED_USERS);
+    let authorizationContents = loadSettingsTabView(ApplicationDBKeys.CURRENCIES);
     let settingsTabs = SettingsTabs;
-    let settingsActiveTab = ApplicationDBKeys.AUTHORIZED_USERS;
+    // let settingsActiveTab = ApplicationDBKeys.AUTHORIZED_USERS;
+    let settingsActiveTab = ApplicationDBKeys.CURRENCIES;
     return loadView(ViewFileNames.SETTINGS, {authorizationContents, settingsTabs, settingsActiveTab});
 }
 
