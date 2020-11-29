@@ -10,8 +10,17 @@
     "scripts": {
         "test": "jest --coverage",
         "test:watch": "npm t -- --watch",
+        "clasp:login": "clasp login",
+        "clasp:logout": "clasp logout",
+        "clasp:create": "clasp create",
+        "clasp:pull": "clasp pull",
         "clasp:push": "clasp push",
-        "clasp:push:watch": "clasp push --watch"
+        "clasp:push:watch": "clasp push --watch",
+        "clasp:status": "clasp status",
+        "clasp: open": "clasp open",
+        "clasp:list": "clasp list",
+        "clasp:deployments": "clasp deployments",
+        "clasp:deploy": "clasp deploy"
     },
     "importSort": {
         ".ts": {
