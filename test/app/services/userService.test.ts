@@ -52,7 +52,8 @@ describe("UserService Test", ()=>{
             UserService.getUsers = jest.fn().mockReturnValue({});
             UserService.getUuid = jest.fn().mockReturnValue("uuid");
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
         });
 
         test("success", ()=>{
@@ -63,7 +64,8 @@ describe("UserService Test", ()=>{
             let addedUser = UserService.addUser(user);
             expect(addedUser.uuid).toBe("uuid");
 
-            let put = DB.getApplicationDB().put;
+            // let put = DB.getApplicationDB().put;
+            let put = DB.getUserDB().put;
             expect(put).toBeCalledTimes(1);
             expect(put).toBeCalledWith("users", {"Email": user});
         });
@@ -148,7 +150,8 @@ describe("UserService Test", ()=>{
             expect(updatedUser.firstName).toBe("FirstNameUpdate");
             expect(updatedUser.lastName).toBe("LastNameUpdate");
 
-            let put = DB.getApplicationDB().put;
+            // let put = DB.getApplicationDB().put;
+            let put = DB.getUserDB().put;
             expect(put).toBeCalledTimes(1);
         });
 
@@ -165,8 +168,10 @@ describe("UserService Test", ()=>{
             expect(updatedUser.lastName).toBe("LastNameUpdate");
             expect(updatedUser.email).toBe("NewEmail");
 
-            let put = DB.getApplicationDB().put;
-            expect(put).toBeCalledTimes(1);
+            // let put = DB.getApplicationDB().put;
+            let put = DB.getUserDB().put;
+            // expect(put).toBeCalledTimes(1);
+            expect(put).toBeCalledTimes(2);
         });
 
         test("throws error when user don't exists", ()=>{
@@ -244,7 +249,8 @@ describe("UserService Test", ()=>{
             let email = "Email";
             UserService.deleteUser(email);
 
-            let put = DB.getApplicationDB().put;
+            // let put = DB.getApplicationDB().put;
+            let put = DB.getUserDB().put;
             expect(put).toBeCalledTimes(1);
             expect(put).toBeCalledWith("users", {});
         });
@@ -290,7 +296,8 @@ describe("UserService Test", ()=>{
     describe("getUser", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
             let user = User.of()
                 .withUUID("uuid")
                 .withFirstName("FirstName")
@@ -347,7 +354,8 @@ describe("UserService Test", ()=>{
     describe("addAuthorizeUser", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
             UserService.getAuthorizedUsers = jest.fn().mockReturnValue([]);
             UserService.getSystemUserEmail = jest.fn().mockReturnValue("admin");
         });
@@ -357,7 +365,8 @@ describe("UserService Test", ()=>{
             authorizeUser.email = "email";
             authorizeUser.role = UserRole.ADMIN;
             UserService.addAuthorizeUser(authorizeUser);
-            expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+            // expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+            expect(DB.getUserDB().put).toBeCalledTimes(1);
         });
 
         test("throws error when user authorized", ()=>{
@@ -386,7 +395,8 @@ describe("UserService Test", ()=>{
     describe("updateAuthorizeUser", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
             let authorizeUser = AuthorizedUser.of();
             authorizeUser.email = "email";
             authorizeUser.role = UserRole.ADMIN;
@@ -399,7 +409,8 @@ describe("UserService Test", ()=>{
             authorizeUser.email = "email";
             authorizeUser.role = UserRole.ADMIN;
             UserService.updateAuthorizeUser(authorizeUser);
-            expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+            // expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+            expect(DB.getUserDB().put).toBeCalledTimes(1);
         });
 
         test("throws error when user is not authorized", ()=>{
@@ -426,7 +437,8 @@ describe("UserService Test", ()=>{
     describe("removeAuthorizeUser", ()=>{
         beforeEach(()=>{
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
             let authorizeUser = AuthorizedUser.of();
             authorizeUser.email = "email";
             authorizeUser.role = UserRole.ADMIN;
@@ -437,7 +449,8 @@ describe("UserService Test", ()=>{
         test("success", ()=>{
             let userEmail = UserService.removeAuthorizeUser("email");
             expect(userEmail).toBe("email");
-            expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+            // expect(DB.getApplicationDB().put).toBeCalledTimes(1);
+            expect(DB.getUserDB().put).toBeCalledTimes(1);
         });
 
         test("throws error when user don't exists", ()=>{

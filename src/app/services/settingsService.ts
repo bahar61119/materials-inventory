@@ -33,7 +33,8 @@ export class SettingsService {
 
     static getList(key: string): Array<string> {
         this.validateSettingsKey(key);
-        let values = DB.getApplicationDB().get(key, new Array<string>());
+        // let values = DB.getApplicationDB().get(key, new Array<string>());
+        let values = DB.getUserDB().get(key, new Array<string>());
         return values? values: new Array<string>();
     }
 
@@ -45,7 +46,8 @@ export class SettingsService {
 
         let values: Set<string> = new Set<string>(this.getList(setting.key));
         values.add(setting.value);
-        DB.getApplicationDB().put(setting.key, Array.from(values));
+        // DB.getApplicationDB().put(setting.key, Array.from(values));
+        DB.getUserDB().put(setting.key, Array.from(values));
         return setting;
     }
 
@@ -62,7 +64,8 @@ export class SettingsService {
 
         let values: Set<string> = new Set<string>(this.getList(setting.key));
         values.delete(setting.value);
-        DB.getApplicationDB().put(setting.key, Array.from(values));
+        // DB.getApplicationDB().put(setting.key, Array.from(values));
+        DB.getUserDB().put(setting.key, Array.from(values));
         return setting;
     }
 

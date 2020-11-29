@@ -8,7 +8,8 @@ describe("SettingsService", ()=>{
     describe("getList", ()=> {
         beforeEach(()=>{
             let get = jest.fn().mockReturnValue(["value"]);
-            DB.getApplicationDB = jest.fn().mockReturnValue({get});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({get});
+            DB.getUserDB = jest.fn().mockReturnValue({get});
             SettingsService.validateSettingsKey = jest.fn();
         });
 
@@ -33,7 +34,8 @@ describe("SettingsService", ()=>{
     describe("update", ()=> {
         beforeEach(()=>{
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
             SettingsService.validateSettingsKey = jest.fn();
             SettingsService.getList = jest.fn().mockReturnValue(["value"]);
         });
@@ -41,7 +43,8 @@ describe("SettingsService", ()=>{
         test("success", ()=>{
             let settingsValue = new KeyValue("key", "newValue");
             SettingsService.update(settingsValue);
-            expect(DB.getApplicationDB().put).toBeCalledWith("key",["value", "newValue"]);
+            // expect(DB.getApplicationDB().put).toBeCalledWith("key",["value", "newValue"]);
+            expect(DB.getUserDB().put).toBeCalledWith("key",["value", "newValue"]);
         });
 
         test("throws setting value null", ()=>{
@@ -76,7 +79,8 @@ describe("SettingsService", ()=>{
     describe("delete", ()=> {
         beforeEach(()=>{
             let put = jest.fn();
-            DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            // DB.getApplicationDB = jest.fn().mockReturnValue({put});
+            DB.getUserDB = jest.fn().mockReturnValue({put});
             SettingsService.validateSettingsKey = jest.fn();
             SettingsService.getList = jest.fn().mockReturnValue(["value", "oldValue"]);
         });
@@ -84,7 +88,8 @@ describe("SettingsService", ()=>{
         test("success", ()=>{
             let settingsValue = new KeyValue("key", "oldValue");
             SettingsService.delete(settingsValue);
-            expect(DB.getApplicationDB().put).toBeCalledWith("key",["value"]);
+            // expect(DB.getApplicationDB().put).toBeCalledWith("key",["value"]);
+            expect(DB.getUserDB().put).toBeCalledWith("key",["value"]);
         });
 
         test("throws setting value null", ()=>{
