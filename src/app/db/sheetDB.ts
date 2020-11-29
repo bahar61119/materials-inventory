@@ -23,7 +23,7 @@ export class SheetDB {
     }
 
     static doesSpreadsheetExist(): boolean {
-        let id: string = SheetDB.getSpreadsheet().getId();
+        let id: string = SheetDB.getSpreadsheetId();
         if(!id) return false;
         let file = SheetDB.getFile(id);
         if(file.isTrashed()) return false;
