@@ -45,6 +45,7 @@
         }
 
         static updateSummary(supplierList) {
+            let totalNumberOfSuppliers = supplierList.length;
             let totalInvoiceAmount = 0;
             let totalPaidAmount = 0;
             let totalPayable = 0;
@@ -56,6 +57,7 @@
                 totalReceivable += supplier.supplierReceivable
             });
             let table = document.getElementById(ElementId.Supplier.SUMMARY_TABLE);
+            table.querySelector(`.totalNumberOfSuppliers`).textContent = totalNumberOfSuppliers.toString();
             table.querySelector(`.totalInvoicesAmount`).textContent = totalInvoiceAmount.toString();
             table.querySelector(`.totalPaidAmount`).textContent = totalPaidAmount.toString();
             table.querySelector(`.totalPayable`).textContent = totalPayable.toString();
