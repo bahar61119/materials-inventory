@@ -26,6 +26,7 @@ export class EntryService extends EntityService {
                 ...entry,
                 entrySupplierName: supplier? supplier.supplierName: '',
                 entryInvoiceName: invoice? invoice.invoiceName: '',
+                entryInvoiceAmount: invoice? invoice.invoiceAmount: 0,
                 entryItemName: item? item.itemName: '',
                 entryUnit: item? item.itemUnitOfMeasure: ''
             }
