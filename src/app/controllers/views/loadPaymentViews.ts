@@ -1,4 +1,4 @@
-import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
+import { DBKeys } from '../../constants/dbKeys';
 import { ViewFileNames } from '../../constants/fileNames';
 import { SheetConstants } from '../../constants/sheetConstants';
 import { Invoice } from '../../models/invoiceModel';
@@ -15,7 +15,7 @@ export function loadPaymentListView() {
     ProfileService.validateProfile();
     let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
     let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
-    let paymentStatusList = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
+    let paymentStatusList = SettingsService.getList(DBKeys.PAYMENT_STATUS);
     let data = {
         invoices,
         suppliers,
@@ -28,8 +28,8 @@ export function loadAddPaymentView() {
     ProfileService.validateProfile();
     let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
     let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
-    let paymentMethods = SettingsService.getList(ApplicationDBKeys.PAYMENT_METHODS);
-    let paymentStatuses = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
+    let paymentMethods = SettingsService.getList(DBKeys.PAYMENT_METHODS);
+    let paymentStatuses = SettingsService.getList(DBKeys.PAYMENT_STATUS);
     let data = {
         payment: Payment.of(),
         isEdit: false,
@@ -46,8 +46,8 @@ export function loadEditPaymentView(paymentId: string) {
     let payment = PaymentService.getPayment(String(paymentId));
     let invoices: Array<Invoice> = SupplierService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
     let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
-    let paymentMethods = SettingsService.getList(ApplicationDBKeys.PAYMENT_METHODS);
-    let paymentStatuses = SettingsService.getList(ApplicationDBKeys.PAYMENT_STATUS);
+    let paymentMethods = SettingsService.getList(DBKeys.PAYMENT_METHODS);
+    let paymentStatuses = SettingsService.getList(DBKeys.PAYMENT_STATUS);
     let data = {
         payment,
         isEdit: true,

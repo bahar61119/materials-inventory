@@ -22,15 +22,6 @@
             );
         }
 
-        static loadSettingsAuthorizationView() {
-            API.loadSettingsAuthorizationView(
-                html => {
-                    SettingsViewService.setHtml(html, ElementId.Settings.TAB_CONTENT);
-                },
-                SettingsViewService.errorHandler
-            );
-        }
-
         static loadSettingsTabView(tab) {
             API.loadSettingsTabView(
                 tab,

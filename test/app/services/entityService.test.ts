@@ -233,7 +233,7 @@ describe("EntityService Test", ()=>{
             let updateRow = jest.fn();
             SheetDB.updateRow = updateRow;
             SheetDB.getSheetData = getSheetData;
-            UserService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
+            UserService.getUser = jest.fn().mockReturnValue({email: "email"});
             Date.now = jest.fn().mockReturnValue(123);
 
             // given
@@ -272,7 +272,7 @@ describe("EntityService Test", ()=>{
             SheetDB.updateRow = updateRow;
             SheetDB.getSheetData = getSheetData;
             GenerateId.getUniqueId = jest.fn().mockReturnValue(uniqueId);
-            UserService.getCurrentUser = jest.fn().mockReturnValue({email: "email"});
+            UserService.getUser = jest.fn().mockReturnValue({email: "email"});
             Date.now = jest.fn().mockReturnValue(123);
 
             // given

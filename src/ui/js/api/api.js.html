@@ -38,10 +38,6 @@
 
                 // Settings
                 loadSettingsView: "loadSettingsView",
-                addAuthorizeUser: "addAuthorizeUser",
-                updateAuthorizeUser: "updateAuthorizeUser",
-                deleteAuthorizeUser: "deleteAuthorizeUser",
-                loadSettingsAuthorizationView: "loadSettingsAuthorizationView",
                 loadSettingsTabView: "loadSettingsTabView",
                 updateSetting: "updateSetting",
                 deleteSetting: "deleteSetting",
@@ -199,41 +195,6 @@
         static loadSettingsView(successHandler = ()=>{}, failureHandler = ()=>{}) {
             API.call(
                 APIOptions.of(API.NAME.loadSettingsView)
-                .withSuccess(successHandler)
-                .withFailure(failureHandler)
-            );
-        }
-
-        static addAuthorizeUser(authorizeUser, successHandler = ()=>{}, failureHandler = ()=>{}) {
-            API.call(
-                APIOptions.of(API.NAME.addAuthorizeUser)
-                .withData(authorizeUser)
-                .withSuccess(successHandler)
-                .withFailure(failureHandler)
-            );
-        }
-
-        static updateAuthorizeUser(authorizeUser, successHandler = ()=>{}, failureHandler = ()=>{}) {
-            API.call(
-                APIOptions.of(API.NAME.updateAuthorizeUser)
-                .withData(authorizeUser)
-                .withSuccess(successHandler)
-                .withFailure(failureHandler)
-            );
-        }
-
-        static deleteAuthorizeUser(email, successHandler = ()=>{}, failureHandler = ()=>{}) {
-            API.call(
-                APIOptions.of(API.NAME.deleteAuthorizeUser)
-                .withData(email)
-                .withSuccess(successHandler)
-                .withFailure(failureHandler)
-            );
-        }
-
-        static loadSettingsAuthorizationView(successHandler = ()=>{}, failureHandler = ()=>{}) {
-            API.call(
-                APIOptions.of(API.NAME.loadSettingsAuthorizationView)
                 .withSuccess(successHandler)
                 .withFailure(failureHandler)
             );

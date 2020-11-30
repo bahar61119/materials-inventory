@@ -33,7 +33,7 @@
             <div class="form-group required">
                 <label for="user-email" class="control-label">Email</label>
                 <input type="email" class="form-control" id="user-email"
-                <? if(data.isAdmin === true) { ?> 
+                <? if(data.showSettings === true) { ?> 
                 disabled 
                 <? } ?>
                 required value=<?= data.user.email ?> >
@@ -49,7 +49,7 @@
                 <div class="col">
                     <button type="button" class="btn btn-outline-success btn-block btn-lg" id="update-profile-button" data-user-uuid=<?= data.user.uuid ?> >Update</button>
                 </div>
-                <? if(data.isAdmin == false) { ?>
+                <? if(data.showSettings == false) { ?>
                 <div class="col">
                     <button type="button" class="btn btn-outline-danger btn-block btn-lg" id="delete-profile-button">Delete</button>
                 </div>

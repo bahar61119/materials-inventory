@@ -5,66 +5,30 @@ import { UserService } from './userService';
 
 export class ProfileService {
     static updateProfile(user: User): User {
-        let userExits = UserService.doesCurrentUserExist();
+        let userExits = UserService.doesUserExist();
         UserService.validateUser(user, !userExits);
-        let isSystemUser = user.email === UserService.getSystemUserEmail();
-
-        if(!isSystemUser) {
-            if(!UserService.doesAuthorizeUser(user.email)) {
-                throw new ProfileError(ProfileErrorMessage.notAuthorized);
-            }
-    
-            if(!userExits && UserService.doesUserExist(user.email)) {
-                throw new ProfileError(ProfileErrorMessage.emailExists);
-            }
-        }
 
         if(!userExits) {
             user = UserService.addUser(user);
-            UserService.addCurrentUser(user.email);
         } else {
-            let currentUserInformation = UserService.getCurrentUser();
-            user = UserService.updateUser(user,currentUserInformation.email);
-            UserService.updateCurrentUser();
+            user = UserService.updateUser(user);
         }
         
         return user;
     }
 
     static deleteProfile(): User {
-        let user = UserService.getCurrentUser();
+        let user = UserService.getUser();
         if(user.email === UserService.getSystemUserEmail()) {
             throw new ProfileError(ProfileErrorMessage.systemUserProfile);
         }
-        UserService.deleteUser(user.email);
-        UserService.deleteCurrentUser();
+        UserService.deleteUser();
         return user;
     }
 
-    static validateProfile(adminRequired = false) {
-        if(!UserService.doesCurrentUserExist()){
+    static validateProfile() {
+        if(!UserService.doesUserExist()){
             throw new ProfileError(ProfileErrorMessage.profileNotFound);
         }
-
-        let user = UserService.getCurrentUser();
-        let isAdmin = UserService.isAdminUser();
-
-        if(adminRequired) {
-            if(!isAdmin) {
-                throw new ProfileError(ProfileErrorMessage.adminProfileRequired);
-            }
-        } else {
-            let authorizedUser = UserService.doesAuthorizeUser(user.email);
-            if(!isAdmin && !authorizedUser) {
-                throw new ProfileError(ProfileErrorMessage.notAuthorized);
-            }
-        }
-    }
-
-    static isAdminProfile() {
-        if(!UserService.doesCurrentUserExist()) {
-            return false;
-        }
-        return UserService.isAdminUser();
     }
 }

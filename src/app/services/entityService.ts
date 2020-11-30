@@ -44,7 +44,7 @@ export class EntityService {
     }
 
     public static updateEntity<T extends Entity>(entity: T, entityIdName: string, sheetName: string, entityName: string): string {
-        entity.withLatestUpdateByUser(UserService.getCurrentUser().email);
+        entity.withLatestUpdateByUser(UserService.getUser().email);
         entity.withLatestUpdateTime(Date.now().toString());
         let numberOfFields = this.getNumberOfFields(entityName);
         let isEdit = entity[entityIdName]? true: false;
