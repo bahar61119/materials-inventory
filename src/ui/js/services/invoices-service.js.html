@@ -49,16 +49,19 @@
         static updateSummary(invoiceList) {
             let totalInvoices = invoiceList.length;
             let totalInvoiceAmount = 0;
+            let totalPaidAmount = 0;
             let totalPayable = 0;
             let totalReceivable = 0;
             invoiceList.forEach(invoice => {
                 totalInvoiceAmount += invoice.invoiceAmount;
+                totalPaidAmount += invoice.invoiceTotalPaidAmount
                 totalPayable += invoice.invoicePayable
                 totalReceivable += invoice.invoiceReceivable
             });
             let table = document.getElementById(ElementId.Invoices.SUMMARY_TABLE);
             table.querySelector(`.totalNumberOfInvoices`).textContent = totalInvoices.toString();
             table.querySelector(`.totalInvoicesAmount`).textContent = totalInvoiceAmount.toString();
+            table.querySelector(`.totalPaidAmount`).textContent = totalPaidAmount.toString();
             table.querySelector(`.totalPayable`).textContent = totalPayable.toString();
             table.querySelector(`.totalReceivable`).textContent = totalReceivable.toString();
         }
