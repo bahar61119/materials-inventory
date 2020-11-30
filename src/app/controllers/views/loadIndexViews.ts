@@ -5,7 +5,7 @@ import { loadAppView } from './loadAppViews';
 
 export function loadIndexView() {
     const htmlService = HtmlService.createTemplateFromFile(ViewFileNames.INDEX);
-    if(!UserService.doesCurrentUserExist()) {
+    if(!UserService.doesUserExist()) {
         htmlService.bodyContent = loadAppView(ViewFileNames.PROFILE_UPDATE);
     } else {
         htmlService.bodyContent = loadAppView(ViewFileNames.HOME);

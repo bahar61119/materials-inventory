@@ -1,4 +1,4 @@
-import { ApplicationDBKeys } from '../../constants/applicationDBKeys';
+import { DBKeys } from '../../constants/dbKeys';
 import { ViewFileNames } from '../../constants/fileNames';
 import { SheetConstants } from '../../constants/sheetConstants';
 import { Entry } from '../../models/entryModel';
@@ -18,7 +18,7 @@ export function loadEntryListView() {
     let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
     let items: Array<Item> = ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
-    let productStatusList = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
+    let productStatusList = SettingsService.getList(DBKeys.PRODUCT_STATUS);
     let data = {
         suppliers,
         invoices,
@@ -33,7 +33,7 @@ export function loadAddEntryView() {
     let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
     let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let items: Array<Item> = ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
-    let productStatuses = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
+    let productStatuses = SettingsService.getList(DBKeys.PRODUCT_STATUS);
     let data = {
         entry: Entry.of(),
         isEdit: false,
@@ -51,7 +51,7 @@ export function loadEditEntryView(entryId: string) {
     let invoices: Array<Invoice> = InvoiceService.getEntityList(SheetConstants.INVOICES_SHEET_NAME, Invoice.name);
     let suppliers: Array<Supplier> = SupplierService.getEntityList(SheetConstants.SUPPLIER_SHEET_NAME, Supplier.name);
     let items: Array<Item> = ItemsService.getEntityList(SheetConstants.ITEMS_SHEET_NAME, Item.name);
-    let productStatuses = SettingsService.getList(ApplicationDBKeys.PRODUCT_STATUS);
+    let productStatuses = SettingsService.getList(DBKeys.PRODUCT_STATUS);
     let data = {
         entry,
         isEdit: true,

@@ -2,20 +2,11 @@
     class SettingsEventHandlerService {
         static clickEventHandler(event) {
             let tabLink = event.target.closest(`a.${ElementClass.Settings.TAB_LINK}`);
-            let authorizationUpdateButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_UPDATE_BUTTON}`);
-            let authorizationAddButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_ADD_BUTTON}`);
-            let authorizationDeleteButton = event.target.closest(`button.${ElementClass.Settings.AUTHORIZATION_DELETE_BUTTON}`);
             let tabAddButton = event.target.closest(`button.${ElementClass.Settings.TAB_ADD_BUTTON}`);
             let tabDeleteButton = event.target.closest(`button.${ElementClass.Settings.TAB_DELETE_BUTTON}`);
 
             if(tabLink) {
                 SettingsEventHandlerService.#tabLink(tabLink);
-            } else if(authorizationAddButton) {
-                SettingsEventHandlerService.#addAuthorizeUser(authorizationAddButton);
-            } else if(authorizationUpdateButton) {
-                SettingsEventHandlerService.#updateAuthorizeUser(authorizationUpdateButton, event);
-            } else if(authorizationDeleteButton) {
-                SettingsEventHandlerService.#deleteAuthorizeUser(authorizationDeleteButton);
             } else if(tabAddButton) {
                 SettingsEventHandlerService.#add(tabAddButton);
             } else if(tabDeleteButton) {
@@ -27,44 +18,6 @@
             let tab = tabLink.dataset.settingsTab;
             console.log("clicked: "+ tab);
             SettingsViewService.loadSettingsTabView(tab);
-        }
-
-        static #addAuthorizeUser(authorizationAddButton) {
-            let form = document.getElementsByClassName(`${ElementClass.Settings.AUTHORIZATION_FORM}`)[0];
-            let isValidForm = form.checkValidity();
-            if(!isValidForm) {
-                form.classList.add('was-validated');
-            } else {
-                let authorizeUser = $(`#${ElementId.Settings.AUTHORIZATION_ADD_EMAIL}`).val();
-                let authorizeUserRole = $(`#${ElementId.Settings.AUTHORIZATION_ADD_ROLE}`).val();
-                let options = ConfirmationModalOptions.of()
-                                .withTitle("Add User")
-                                .withMessage(`Are you sure you want to authorize user (${authorizeUser}) ?`)
-                                .withCallback(()=>SettingsService.addAuthorizeUser(authorizeUser, authorizeUserRole))
-                                .withType(ConfirmationModalOptions.Type.SUCCESS);
-                ConfirmationModal.show(options);
-            }
-        }
-
-        static #updateAuthorizeUser(authorizationUpdateButton, event) {
-            let authorizeUser = event.target.closest(`div.form-group`).querySelector(`.${ElementClass.Settings.AUTHORIZATION_EMAIL}`).value;
-            let authorizeUserRole = event.target.closest(`div.form-group`).querySelector(`.${ElementClass.Settings.AUTHORIZATION_ROLE}`).value;
-            let options = ConfirmationModalOptions.of()
-                            .withTitle("Update User")
-                            .withMessage(`Are you sure you want to update (${authorizeUser}) ?`)
-                            .withCallback(()=>SettingsService.updateAuthorizeUser(authorizeUser, authorizeUserRole))
-                            .withType(ConfirmationModalOptions.Type.SUCCESS);
-            ConfirmationModal.show(options);
-        }
-
-        static #deleteAuthorizeUser(authorizationDeleteButton) {
-            let authorizeUser = authorizationDeleteButton.dataset.email;
-            let options = ConfirmationModalOptions.of()
-                            .withTitle("Remove User")
-                            .withMessage(`Are you sure you want to remove user (${authorizeUser})? `)
-                            .withCallback(()=>SettingsService.deleteAuthorizeUser(authorizeUser))
-                            .withType(ConfirmationModalOptions.Type.DANGER);
-            ConfirmationModal.show(options);
         }
 
         static #add(tabAddButton) {

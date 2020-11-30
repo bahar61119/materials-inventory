@@ -45,12 +45,8 @@ export class UserErrorMessage extends ErrorMessage {
         return `User Already Exists`
     }
 
-    static get userAlreadyAuthorized() {
-        return `User Already Authorized`
-    }
-
-    static get userNotAuthorized() {
-        return `User Is No Authorized`
+    static get userEmailNotAuthorized() {
+        return `User email is not authorized`
     }
 
     static get systemUserUpdatedError() {
@@ -81,10 +77,6 @@ export class ProfileErrorMessage extends ErrorMessage {
 
     static get systemUserProfile() {
         return `System user cannot delete profile`
-    }
-
-    static get adminProfileRequired() {
-        return `Only admin can access this information`
     }
 }
 

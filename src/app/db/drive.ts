@@ -1,4 +1,4 @@
-import { ApplicationDBKeys } from '../constants/applicationDBKeys';
+import { DBKeys } from '../constants/dbKeys';
 import { FolderNames } from '../constants/driveConstants';
 import { DriveErrorMessage } from '../constants/errorMessages';
 import { DriveError } from '../errors/driveError';
@@ -7,7 +7,6 @@ import { DB } from './db';
 
 export class Drive {
     static getFolderId(folder: FolderNames): string {
-        // return DB.getApplicationDB().get(Drive.getKey(folder));
         return DB.getUserDB().get(Drive.getKey(folder));
     }
 
@@ -21,12 +20,10 @@ export class Drive {
     }
 
     static deleteFolderId(folder: FolderNames) {
-        // DB.getApplicationDB().delete(Drive.getKey(folder));
         DB.getUserDB().delete(Drive.getKey(folder));
     }
 
     static saveFolderId(id: string, folder: FolderNames) {
-        // DB.getApplicationDB().put(Drive.getKey(folder), id);
         DB.getUserDB().put(Drive.getKey(folder), id);
     }
 
@@ -82,16 +79,16 @@ export class Drive {
         let folderKey: string;
         switch (folder) {
             case FolderNames.ROOT:
-                folderKey = ApplicationDBKeys.ROOT_FOLDER_ID;
+                folderKey = DBKeys.ROOT_FOLDER_ID;
                 break;
             case FolderNames.INVOICES:
-                folderKey = ApplicationDBKeys.INVOICES_FOLDER_ID;
+                folderKey = DBKeys.INVOICES_FOLDER_ID;
                 break;
             case FolderNames.PAYMENTS:
-                folderKey = ApplicationDBKeys.PAYMENTS_FOLDER_ID;
+                folderKey = DBKeys.PAYMENTS_FOLDER_ID;
                 break;
             case FolderNames.TEMP:
-                folderKey = ApplicationDBKeys.TEMP_FOLDER_ID;
+                folderKey = DBKeys.TEMP_FOLDER_ID;
                 break;
             default:
                 throw new DriveError(DriveErrorMessage.invalidFolder);

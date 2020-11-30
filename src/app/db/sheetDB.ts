@@ -2,7 +2,7 @@ import { SheetMetaDataInterface } from "../types/sheetMetadataInterface";
 import { SheetErrorMessage } from "../constants/errorMessages";
 import { DBError } from '../errors/dbError';
 import { DB } from './db';
-import { ApplicationDBKeys } from '../constants/applicationDBKeys';
+import { DBKeys } from '../constants/dbKeys';
 
 export class SheetDB {
     static createSpreadsheet(name: string): GoogleAppsScript.Spreadsheet.Spreadsheet {
@@ -31,18 +31,15 @@ export class SheetDB {
     }
 
     static getSpreadsheetId(): string {
-        // return DB.getApplicationDB().get(ApplicationDBKeys.SPREADSHEET_ID);
-        return DB.getUserDB().get(ApplicationDBKeys.SPREADSHEET_ID);
+        return DB.getUserDB().get(DBKeys.SPREADSHEET_ID);
     }
 
     static deleteSpreadsheetId() {
-        // DB.getApplicationDB().delete(ApplicationDBKeys.SPREADSHEET_ID);
-        DB.getUserDB().delete(ApplicationDBKeys.SPREADSHEET_ID);
+        DB.getUserDB().delete(DBKeys.SPREADSHEET_ID);
     }
 
     static saveSpreadsheetId(id: string) {
-        // DB.getApplicationDB().put(ApplicationDBKeys.SPREADSHEET_ID, id);
-        DB.getUserDB().put(ApplicationDBKeys.SPREADSHEET_ID, id);
+        DB.getUserDB().put(DBKeys.SPREADSHEET_ID, id);
     }
 
     static addSheet(sheetName: string): GoogleAppsScript.Spreadsheet.Sheet {

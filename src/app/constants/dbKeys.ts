@@ -1,12 +1,11 @@
-export enum ApplicationDBKeys {
-    USERS = "users",
+export enum DBKeys {
+    USER = "user",
     WHITELIST_USERS = "whiteListedUsers",
     SPREADSHEET_ID = "spreadsheetId",
     ROOT_FOLDER_ID = "rootFolderId",
     INVOICES_FOLDER_ID = "invoicesFolderId",
     PAYMENTS_FOLDER_ID = "paymentsFolderId",
     TEMP_FOLDER_ID = "tempFolderId",
-    AUTHORIZED_USERS = "settingsAuthorizedUsers",
     CURRENCIES = "settingsCurrencies",
     PRODUCT_STATUS = "settingsProductStatus",
     PAYMENT_STATUS = "settingsPaymentStatus",

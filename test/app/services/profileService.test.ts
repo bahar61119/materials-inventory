@@ -13,15 +13,12 @@ describe("ProfileService", ()=>{
                 .withLastName('lastName')
                 .withEmail('email');
             UserService.validateUser = jest.fn();
-            UserService.doesCurrentUserExist = jest.fn().mockReturnValue(false);
+            UserService.doesUserExist = jest.fn().mockReturnValue(false);
             UserService.getSystemUserEmail = jest.fn().mockReturnValue('admin');
-            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(true);
             UserService.doesUserExist = jest.fn().mockReturnValue(false);
             UserService.addUser = jest.fn().mockReturnValue(User.of().withUUID('uuid'));
-            UserService.addCurrentUser = jest.fn();
             UserService.updateUser = jest.fn().mockReturnValue(User.of().withUUID('uuid'));
-            UserService.updateCurrentUser = jest.fn();
-            UserService.getCurrentUser = jest.fn().mockReturnValue(user);
+            UserService.getUser = jest.fn().mockReturnValue(user);
         });
 
         test("success, when current user doesn't exists", ()=>{
@@ -34,13 +31,11 @@ describe("ProfileService", ()=>{
             let returnedUser = ProfileService.updateProfile(user);
             expect(returnedUser.uuid).toBe('uuid');
             expect(UserService.addUser).toBeCalledTimes(1);
-            expect(UserService.addCurrentUser).toBeCalledTimes(1);
             expect(UserService.updateUser).toBeCalledTimes(0);
-            expect(UserService.updateCurrentUser).toBeCalledTimes(0);
         });
 
         test("success, when current user does exists", ()=>{
-            UserService.doesCurrentUserExist = jest.fn().mockReturnValue(true);
+            UserService.doesUserExist = jest.fn().mockReturnValue(true);
             let user = User.of()
                 .withUUID('uuid')
                 .withFirstName('firstName')
@@ -50,9 +45,7 @@ describe("ProfileService", ()=>{
             let returnedUser = ProfileService.updateProfile(user);
             expect(returnedUser.uuid).toBe('uuid');
             expect(UserService.addUser).toBeCalledTimes(0);
-            expect(UserService.addCurrentUser).toBeCalledTimes(0);
             expect(UserService.updateUser).toBeCalledTimes(1);
-            expect(UserService.updateCurrentUser).toBeCalledTimes(1);
         });
 
         test("success, when current user is system user", ()=>{
@@ -65,45 +58,7 @@ describe("ProfileService", ()=>{
             let returnedUser = ProfileService.updateProfile(user);
             expect(returnedUser.uuid).toBe('uuid');
             expect(UserService.addUser).toBeCalledTimes(1);
-            expect(UserService.addCurrentUser).toBeCalledTimes(1);
             expect(UserService.updateUser).toBeCalledTimes(0);
-            expect(UserService.updateCurrentUser).toBeCalledTimes(0);
-        });
-        
-        test("throws error, when user is not whitelisted", ()=>{
-            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(false);
-            let user = User.of()
-                .withUUID('uuid')
-                .withFirstName('firstName')
-                .withLastName('lastName')
-                .withEmail('email');
-
-            expect(() => {
-                ProfileService.updateProfile(user);
-            })
-            .toThrowError(new ProfileError(ProfileErrorMessage.notAuthorized));
-            expect(UserService.addUser).toBeCalledTimes(0);
-            expect(UserService.addCurrentUser).toBeCalledTimes(0);
-            expect(UserService.updateUser).toBeCalledTimes(0);
-            expect(UserService.updateCurrentUser).toBeCalledTimes(0);
-        });
-
-        test("throws error, when email is registered with another user", ()=>{
-            UserService.doesUserExist = jest.fn().mockReturnValue(true);
-            let user = User.of()
-                .withUUID('uuid')
-                .withFirstName('firstName')
-                .withLastName('lastName')
-                .withEmail('email');
-
-            expect(() => {
-                ProfileService.updateProfile(user);
-            })
-            .toThrowError(new ProfileError(ProfileErrorMessage.emailExists));
-            expect(UserService.addUser).toBeCalledTimes(0);
-            expect(UserService.addCurrentUser).toBeCalledTimes(0);
-            expect(UserService.updateUser).toBeCalledTimes(0);
-            expect(UserService.updateCurrentUser).toBeCalledTimes(0);
         });
     });
 
@@ -114,50 +69,26 @@ describe("ProfileService", ()=>{
                 .withFirstName('firstName')
                 .withLastName('lastName')
                 .withEmail('email');
-            UserService.doesCurrentUserExist = jest.fn().mockReturnValue(true);
-            UserService.getCurrentUser = jest.fn().mockReturnValue(user);
-            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(true);
-            UserService.isAdminUser = jest.fn().mockReturnValue(true);
+            UserService.doesUserExist = jest.fn().mockReturnValue(true);
+            UserService.getUser = jest.fn().mockReturnValue(user);
         });
 
         test("success", ()=>{
             ProfileService.validateProfile();
-            expect(UserService.getCurrentUser).toBeCalledTimes(1);
-            expect(UserService.doesAuthorizeUser).toBeCalledTimes(1);
+            expect(UserService.doesUserExist).toBeCalledTimes(1);
         });
 
         test("success, when user is admin", ()=>{
-            UserService.doesAuthorizeUser = jest.fn().mockReturnValue(false);
-            UserService.isAdminUser = jest.fn().mockReturnValue(true);
             ProfileService.validateProfile();
-            expect(UserService.getCurrentUser).toBeCalledTimes(1);
-            expect(UserService.doesAuthorizeUser).toBeCalledTimes(1);
+            expect(UserService.doesUserExist).toBeCalledTimes(1);
         });
 
         test("throw error, when user not exists", ()=>{
-            UserService.doesCurrentUserExist = jest.fn().mockReturnValue(false);
+            UserService.doesUserExist = jest.fn().mockReturnValue(false);
             expect(() => {
                 ProfileService.validateProfile();
             })
             .toThrowError(new ProfileError(ProfileErrorMessage.profileNotFound));
-        });
-
-        test("throw error, when user is not whitelisted", ()=>{
-            UserService.getCurrentUser = jest.fn().mockImplementation(()=>{
-                throw new ProfileError(ProfileErrorMessage.notAuthorized);
-            });
-            expect(() => {
-                ProfileService.validateProfile();
-            })
-            .toThrowError(new ProfileError(ProfileErrorMessage.notAuthorized));
-        });
-
-        test("throw error, when user is not admin", ()=>{
-            UserService.isAdminUser = jest.fn().mockReturnValue(false);
-            expect(() => {
-                ProfileService.validateProfile(true);
-            })
-            .toThrowError(new ProfileError(ProfileErrorMessage.adminProfileRequired));
         });
     });
 
@@ -168,19 +99,16 @@ describe("ProfileService", ()=>{
                 .withFirstName('firstName')
                 .withLastName('lastName')
                 .withEmail('email');
-            UserService.getCurrentUser = jest.fn().mockReturnValue(user);
+            UserService.getUser = jest.fn().mockReturnValue(user);
             UserService.getSystemUserEmail = jest.fn().mockReturnValue("admin");
             UserService.deleteUser = jest.fn();
-            UserService.deleteCurrentUser = jest.fn();
         });
 
         test("success", ()=>{
             ProfileService.deleteProfile();
-            expect(UserService.getCurrentUser).toBeCalledTimes(1);
+            expect(UserService.getUser).toBeCalledTimes(1);
             expect(UserService.getSystemUserEmail).toBeCalledTimes(1);
             expect(UserService.deleteUser).toBeCalledTimes(1);
-            expect(UserService.deleteUser).toBeCalledWith("email");
-            expect(UserService.deleteCurrentUser).toBeCalledTimes(1);
         });
 
         test("throw error, when user is admin", ()=>{
@@ -189,10 +117,9 @@ describe("ProfileService", ()=>{
                 ProfileService.deleteProfile();
             })
             .toThrowError(new ProfileError(ProfileErrorMessage.systemUserProfile));
-            expect(UserService.getCurrentUser).toBeCalledTimes(1);
+            expect(UserService.getUser).toBeCalledTimes(1);
             expect(UserService.getSystemUserEmail).toBeCalledTimes(1);
             expect(UserService.deleteUser).toBeCalledTimes(0);
-            expect(UserService.deleteCurrentUser).toBeCalledTimes(0);
         });
     });
 });
