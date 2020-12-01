@@ -128,6 +128,7 @@
   <table id="data-table" class="table table-bordered table-hover">
     <thead>
       <tr class="table-success text-nowrap">
+        <th scope="col"></th>
         <th scope="col">S/N</th>
         <th scope="col">ID</th>
         <th scope="col">Invoice</th>
@@ -142,7 +143,6 @@
         <th scope="col">Description</th>
         <th scope="col">File</th>
         <th scope="col">Update Time</th>
-        <th scope="col"></th>
       </tr>
     </thead>
     <tbody id="payment-list-table"></tbody>
@@ -152,21 +152,7 @@
 
 <template id="payment-list-row-template">
    <tr class="text-nowrap">
-      <th class="serialNumber" scope="row"></th>
-      <td class="paymentId"></th>
-      <td class="paymentInvoice"></td>
-      <td class="paymentInvoiceName"></td>
-      <td class="paymentSupplier"></td>
-      <td class="paymentSupplierName"></td>
-      <td class="paymentMethod"></td>
-      <td class="paymentAmount text-right"></td>
-      <td class="paymentStatus"></td>
-      <td class="paymentDueDate"></td>
-      <td class="paymentDate"></td>
-      <td class="paymentDescription"></td>
-      <td class="paymentFile"></td>
-      <td class="latestUpdateTime"></td>
-      <td>
+      <td scope="row">
         <div class="btn-group btn-block" role="group">
           <button type="button" class="btn btn-outline-primary btn-sm payment-edit-button" tabindex="0" data-toggle="tooltip" data-placement="right"  title="Edit Payment">
             <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -182,6 +168,20 @@
           </button>
         </div>
       </td>
+      <th class="serialNumber"></th>
+      <td class="paymentId"></th>
+      <td class="paymentInvoice"></td>
+      <td class="paymentInvoiceName"></td>
+      <td class="paymentSupplier"></td>
+      <td class="paymentSupplierName"></td>
+      <td class="paymentMethod"></td>
+      <td class="paymentAmount text-right"></td>
+      <td class="paymentStatus"></td>
+      <td class="paymentDueDate"></td>
+      <td class="paymentDate"></td>
+      <td class="paymentDescription"></td>
+      <td class="paymentFile"></td>
+      <td class="latestUpdateTime"></td>
     </tr>
 </template>
 

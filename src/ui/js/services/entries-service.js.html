@@ -43,7 +43,7 @@
         }
 
         static search() {
-            let results = BaseService.search(EntriesService.#filteredList, "entryId", "entryItem", "Entries");
+            let results = BaseService.search(EntriesService.#filteredList, "entryId", "entryId", "Entries");
             EntriesService.updateSummary(results);
         }
 
