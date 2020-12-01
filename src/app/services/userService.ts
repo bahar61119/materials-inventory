@@ -3,6 +3,7 @@ import { DB } from "../db/db";
 import { UserError } from '../errors/userError';
 import { User } from '../models/userModel';
 import { DBKeys } from '../constants/dbKeys';
+import { SettingsService } from './settingsService';
 export class UserService {
     static addUser(user: User): User {
         UserService.validateUser(user, true);
@@ -77,6 +78,12 @@ export class UserService {
         }
         if(!user.email) {
             errors.push(UserErrorMessage.validationError("Email"));
+        }
+        if(user.currency) {
+            let currencies = new Set<string>(SettingsService.getList(DBKeys.CURRENCIES));
+            if(!currencies.has(user.currency)) {
+                errors.push(`Invalid currency ${user.currency}. Please select valid currency.`)
+            }
         }
 
         if(errors.length > 0) {

@@ -4,12 +4,14 @@
         firstName;
         lastName;
         email;
+        currency;
 
         constructor() {
             this.uuid = '';
             this.firstName = '';
             this.lastName = '';
             this.email = '';
+            this.currency = '';
         }
 
         static of() {
@@ -37,6 +39,11 @@
 
         withEmail(email) {
             this.email = email;
+            return this;
+        }
+
+        withCurrency(currency) {
+            this.currency = currency;
             return this;
         }
     }
