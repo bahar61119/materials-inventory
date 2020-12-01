@@ -30,6 +30,7 @@ export class PaymentService extends EntityService {
                 ...payment,
                 paymentSupplierName: supplier? supplier.supplierName: '',
                 paymentInvoiceName: invoice? invoice.invoiceName: '',
+                paymentInvoiceAmount: invoice? invoice.invoiceAmount: 0,
                 paymentFileName
             }
         });
