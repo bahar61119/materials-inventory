@@ -50,20 +50,26 @@
         static updateSummary(entryList) {
             let totalDeliveries = entryList.length;
             let totalInvoicesAmount = 0;
+            let invoices = new Set();
             let totalDeliveriesAmount = 0;
             let entriesByStatus = {}
             entryList.forEach(entry => {
-                totalInvoicesAmount += entry.entryInvoiceAmount;
                 totalDeliveriesAmount += entry.entryAmount;
                 if (!entriesByStatus[entry.entryStatus]) {
                     entriesByStatus[entry.entryStatus] = 0;
                 }
                 entriesByStatus[entry.entryStatus] += 1;
+                
+                if (!invoices.has(entry.entryInvoice)) {
+                    totalInvoicesAmount += entry.entryInvoiceAmount;
+                }
+                invoices.add(entry.entryInvoice);
             });
             
             let table = document.getElementById(ElementId.Entries.SUMMARY_TABLE);
             table.querySelector(`.totalDeliveries`).textContent = totalDeliveries.toString();
             table.querySelector(`.totalInvoicesAmount`).textContent = totalInvoicesAmount.toString();
+            table.querySelector(`.totalNumberOfInvoices`).textContent = invoices.size.toString();
             table.querySelector(`.totalDeliveriesAmount`).textContent = totalDeliveriesAmount.toString();
 
             if (EntriesService.summaryChart) {

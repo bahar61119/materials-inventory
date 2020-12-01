@@ -52,17 +52,23 @@
             let totalAmount = 0;
             let amountByStatus = {}
             let invoices = new Set();
+            let totalInvoicesAmount = 0;
             paymentList.forEach(payment => {
                 totalAmount += payment.paymentAmount;
                 if (!amountByStatus[payment.paymentStatus]) {
                     amountByStatus[payment.paymentStatus] = 0;
                 }
                 amountByStatus[payment.paymentStatus] += payment.paymentAmount;
+
+                if (!invoices.has(payment.paymentInvoice)) {
+                    totalInvoicesAmount += payment.paymentInvoiceAmount;
+                }
                 invoices.add(payment.paymentInvoice);
             });
             let table = document.getElementById(ElementId.Payments.SUMMARY_TABLE);
             table.querySelector(`.totalNumberOfPayments`).textContent = totalPayments.toString();
             table.querySelector(`.totalNumberOfInvoices`).textContent = invoices.size.toString();
+            table.querySelector(`.totalInvoicesAmount`).textContent = totalInvoicesAmount.toString();
             table.querySelector(`.totalAmount`).textContent = totalAmount.toString();
             if (PaymentsService.#summaryChart) {
                 PaymentsService.#summaryChart.destroy();
