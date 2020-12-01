@@ -3,12 +3,14 @@ export class User implements UserInterface {
     firstName: string;
     lastName: string;
     email: string;
+    currency: string;
 
     constructor() {
         this.uuid = '';
         this.firstName = '';
         this.lastName = '';
         this.email = '';
+        this.currency = ''
     }
 
     static of() {
@@ -36,6 +38,11 @@ export class User implements UserInterface {
 
     withEmail(email: string) {
         this.email = email;
+        return this;
+    }
+
+    withCurrency(currency: string) {
+        this.currency = currency;
         return this;
     }
 }

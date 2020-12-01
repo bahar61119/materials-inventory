@@ -24,12 +24,14 @@
                 let userFirstName = $(`#${ElementId.Profile.USER_FIRST_NAME}`).val();
                 let userLastName = $(`#${ElementId.Profile.USER_LAST_NAME}`).val();
                 let userEmail = $(`#${ElementId.Profile.USER_EMAIL}`).val();
+                let userCurrency = $(`#${ElementId.Profile.USER_CURRENCY}`).val();
                 let userUUID = profileUpdateButton.dataset.userUuid;
                 let user = User.of()
                             .withUUID(userUUID)
                             .withFirstName(userFirstName)
                             .withLastName(userLastName)
                             .withEmail(userEmail)
+                            .withCurrency(userCurrency);
 
                 let options = ConfirmationModalOptions.of()
                                     .withTitle("Profile Update")
